@@ -39,6 +39,7 @@ class ComputerStrategy:
         hand: List[Card],
         top_discard: Optional[Card],
         knock_allowed: bool,
+        debug: bool = False,
     ) -> str:
         """
         Decide action for this turn.
@@ -83,6 +84,7 @@ class RandomStrategy(ComputerStrategy):
         hand: List[Card],
         top_discard: Optional[Card],
         knock_allowed: bool,
+        debug: bool = False,
     ) -> str:
         # Equally random between all three actions
         actions = ["knock", "draw_deck", "draw_discard"]
@@ -106,6 +108,7 @@ class RandomStrategyWithKnockScore(ComputerStrategy):
         hand: List[Card],
         top_discard: Optional[Card],
         knock_allowed: bool,
+        debug: bool = False,
     ) -> str:
         if knock_allowed and score_hand(hand) >= self.KNOCK_SCORE:
             return "knock"
@@ -129,6 +132,7 @@ class DiscardIncreaseStrategy(ComputerStrategy):
         hand: List[Card],
         top_discard: Optional[Card],
         knock_allowed: bool,
+        debug: bool = False,
     ) -> str:
         if knock_allowed and score_hand(hand) >= self.KNOCK_SCORE:
             return "knock"
@@ -235,6 +239,7 @@ class CurrentTurnExpectedValueStrategy(ComputerStrategy):
         hand: List[Card],
         top_discard: Optional[Card],
         knock_allowed: bool,
+        debug: bool = False,
     ) -> str:
         if knock_allowed and score_hand(hand) >= self.KNOCK_SCORE:
             return "knock"
