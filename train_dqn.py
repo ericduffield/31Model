@@ -117,11 +117,11 @@ def main() -> None:
     os.makedirs(CHECKPOINT_DIR, exist_ok=True)
 
     train_opponents: List[OpponentClass] = [
-        #RandomStrategy,
-        #RandomStrategyWithKnockScore,
+        RandomStrategy,
+        RandomStrategyWithKnockScore,
         DiscardIncreaseStrategy,
-        #CurrentTurnExpectedValueStrategy,
-        #ConservativeExpectedValueStrategy,
+        CurrentTurnExpectedValueStrategy,
+        ConservativeExpectedValueStrategy,
     ]
 
     probe_env = ThirtyOneEnv(opponent_factory=RandomStrategy, seed=args.seed)
