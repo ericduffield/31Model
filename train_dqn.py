@@ -78,6 +78,12 @@ def evaluate_agent(
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Train DQN for 31.")
+    parser.add_argument(
+        "--run-name",
+        type=str,
+        default="default",
+        help="Name for this training run; checkpoints are saved under checkpoints/<run-name>/.",
+    )
     parser.add_argument("--episodes", type=int, required=True)
     parser.add_argument("--eval-every", type=int, required=True)
     parser.add_argument("--eval-games", type=int, required=True)
@@ -111,17 +117,21 @@ def epsilon_by_episode(
 def main() -> None:
     args = parse_args()
     set_global_seed(args.seed)
-    # Start each run from a clean checkpoint directory.
-    if os.path.exists(CHECKPOINT_DIR):
-        shutil.rmtree(CHECKPOINT_DIR)
-    os.makedirs(CHECKPOINT_DIR, exist_ok=True)
+
+    run_checkpoint_dir = os.path.join(CHECKPOINT_DIR, args.run_name)
+    # Start this run from a clean run-specific checkpoint directory.
+    if os.path.exists(run_checkpoint_dir):
+        shutil.rmtree(run_checkpoint_dir)
+    os.makedirs(run_checkpoint_dir, exist_ok=True)
+    print(f"Run name: {args.run_name}", flush=True)
+    print(f"Checkpoint directory: {run_checkpoint_dir}", flush=True)
 
     train_opponents: List[OpponentClass] = [
-        RandomStrategy,
-        RandomStrategyWithKnockScore,
+        # RandomStrategy,
+        # RandomStrategyWithKnockScore,
         DiscardIncreaseStrategy,
-        CurrentTurnExpectedValueStrategy,
-        ConservativeExpectedValueStrategy,
+        # CurrentTurnExpectedValueStrategy,
+        # ConservativeExpectedValueStrategy,
     ]
 
     probe_env = ThirtyOneEnv(opponent_factory=RandomStrategy, seed=args.seed)
@@ -139,6 +149,8 @@ def main() -> None:
 
     global_step = 0
     best_eval_wr = -1.0
+    best_eval_episode = 0
+    best_eval_by_opp: List[Tuple[str, float]] = []
     moving_rewards: List[float] = []
     moving_losses: List[float] = []
 
@@ -232,16 +244,27 @@ def main() -> None:
             for name, wr in by_opp:
                 print(f"  vs {name:<35} {wr:>6.2f}%", flush=True)
 
-            latest_path = os.path.join(CHECKPOINT_DIR, "dqn_latest.pt")
+            latest_path = os.path.join(run_checkpoint_dir, "dqn_latest.pt")
             agent.save(latest_path)
 
             if avg_wr > best_eval_wr:
                 best_eval_wr = avg_wr
-                best_path = os.path.join(CHECKPOINT_DIR, "dqn_best.pt")
+                best_eval_episode = episode
+                best_eval_by_opp = by_opp.copy()
+                best_path = os.path.join(run_checkpoint_dir, "dqn_best.pt")
                 agent.save(best_path)
                 print(f"  New best aggregate win rate: {best_eval_wr:.2f}% -> saved {best_path}", flush=True)
 
     print("Training complete.")
+    if best_eval_episode > 0:
+        print(
+            f"Best eval average win rate: {best_eval_wr:.2f}% at episode {best_eval_episode}",
+            flush=True,
+        )
+        for name, wr in best_eval_by_opp:
+            print(f"  best vs {name:<35} {wr:>6.2f}%", flush=True)
+    else:
+        print("No evaluation was run, so no best eval win rate is available.", flush=True)
 
 
 if __name__ == "__main__":
