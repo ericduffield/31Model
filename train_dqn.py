@@ -148,6 +148,11 @@ def epsilon_by_episode(
     Returns:
         float: Epsilon value for this episode.
     """
+    if eps_decay_episodes <= 0:
+        return eps_end
+
+    progress = min(1.0, episode / float(eps_decay_episodes))
+    return eps_start + progress * (eps_end - eps_start)
 
 
 def main() -> None:
