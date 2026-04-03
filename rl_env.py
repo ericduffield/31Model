@@ -27,6 +27,25 @@ CARD_TO_INDEX = {
 NUM_ACTIONS = 9
 
 
+def _card_value(card: Card) -> float:
+    """
+    Return face value of a card (used for score estimation).
+    
+    Args:
+        card: Tuple of (rank, suit)
+        
+    Returns:
+        Float value: Ace=11, Face cards=10, Numbers=face value
+    """
+    rank = card[0]
+    if rank == "A":
+        return 11.0
+    elif rank in ["J", "Q", "K"]:
+        return 10.0
+    else:
+        return float(int(rank))
+
+
 class RLControlledStrategy(ComputerStrategy):
     """Placeholder strategy object used as the learning agent player."""
 
@@ -77,11 +96,13 @@ class ThirtyOneEnv:
         self.turn_count: int = 0
         self.truncated_by_limit: bool = False
         self.seen_cards: set[Card] = set()
+        self.opponent_known_cards: set[Card] = set()  # Cards we know opponent has
 
     @property
     def obs_dim(self) -> int:
-        # hand one-hot (52) + top discard one-hot (52) + seen cards binary (52) + scalars (9)
-        return 165
+        # hand one-hot (52) + top discard one-hot (52) + seen cards binary (52)
+        # + scalars (9) + opponent scores (3: min, max, expected)
+        return 168
 
     def reset(
         self, start_player: Optional[int] = None
@@ -99,6 +120,8 @@ class ThirtyOneEnv:
                 self.seen_cards.add(card)
         if self.game.discard_pile:
             self.seen_cards.add(self.game.discard_pile[0])
+
+        self.opponent_known_cards.clear()  # Reset opponent tracking
 
         self.current_index = (
             self.rng.randint(0, 1) if start_player is None else int(start_player)
@@ -197,6 +220,9 @@ class ThirtyOneEnv:
         card = None
         if action == "draw_discard" and top_discard:
             card = self.game.discard_pile.pop()
+            # Track that opponent took this card
+            if strategy == self.opponent:
+                self.opponent_known_cards.add(card)
         else:
             card = self.game.deck.draw_card()
             if card:
@@ -204,6 +230,9 @@ class ThirtyOneEnv:
                 self.seen_cards.add(card)
             if not card and top_discard:
                 card = self.game.discard_pile.pop()
+                # Track that opponent took this card (fallback to discard)
+                if strategy == self.opponent:
+                    self.opponent_known_cards.add(card)
 
         if not card:
             return
@@ -212,6 +241,9 @@ class ThirtyOneEnv:
         discard_index = strategy.choose_discard_index(hand)
         discarded = self.game._discard_card(strategy, discard_index)
         self.seen_cards.add(discarded)
+        # Remove discarded card from opponent known cards
+        if strategy == self.opponent:
+            self.opponent_known_cards.discard(discarded)
 
     def _execute_agent_action(self, strategy: ComputerStrategy, action: int) -> None:
         hand = self.game.hands[strategy]
@@ -291,6 +323,9 @@ class ThirtyOneEnv:
             self.game.knock_remaining if self.game.knock_remaining is not None else 0
         )
 
+        # Calculate opponent score estimates
+        opp_min, opp_max, opp_expected = self._estimate_opponent_score()
+
         # Game state scalars
         context = np.array(
             [
@@ -306,8 +341,63 @@ class ThirtyOneEnv:
             ],
             dtype=np.float32,
         )
+        
+        # Opponent score estimates (normalized to 0-1 scale)
+        opponent_scores = np.array(
+            [
+                float(opp_min / 31.0),
+                float(opp_max / 31.0),
+                float(opp_expected / 31.0),
+            ],
+            dtype=np.float32,
+        )
 
-        return np.concatenate([hand_vec, top_vec, seen_vec, context], dtype=np.float32)
+        return np.concatenate([hand_vec, top_vec, seen_vec, context, opponent_scores], dtype=np.float32)
+    
+    def _estimate_opponent_score(self) -> Tuple[float, float, float]:
+        """
+        Estimate opponent's hand score using known and unknown cards.
+        
+        Returns:
+            Tuple of (min_score, max_score, expected_score), or (0, 0, 0) if no opponent.
+        """
+        if self.opponent is None:
+            return 0.0, 0.0, 0.0
+        
+        # Cards we know opponent has
+        known = list(self.opponent_known_cards)
+        known_score = score_hand(known) if known else 0.0
+        
+        # Cards we don't know about (unseen from agent perspective)
+        all_cards = set((r, s) for r in RANKS for s in SUITS)
+        known_cards = set(known) | self.seen_cards
+        unknown_cards = list(all_cards - known_cards)
+        
+        # Opponent needs 3 cards total; calculate min/max from unknown cards
+        needs_count = max(0, 3 - len(known))
+        
+        if needs_count == 0:
+            # We know all opponent cards
+            min_score = max_score = expected_score = known_score
+        elif needs_count > 0 and unknown_cards:
+            # Best possible: add best unknown cards
+            sorted_unknown = sorted(unknown_cards, key=lambda c: _card_value(c), reverse=True)
+            best_unknown = sorted_unknown[:needs_count]
+            max_score = score_hand(known + best_unknown)
+            
+            # Worst possible: add worst unknown cards
+            worst_unknown = sorted_unknown[-needs_count:]
+            min_score = score_hand(known + worst_unknown)
+            
+            # Expected: average of all possible cards
+            avg_card_value = sum(_card_value(c) for c in unknown_cards) / len(unknown_cards)
+            expected_addition = avg_card_value * needs_count
+            expected_score = known_score + expected_addition
+        else:
+            # No unknown cards available (shouldn't happen in normal play)
+            min_score = max_score = expected_score = known_score
+        
+        return min_score, max_score, expected_score
 
     def _terminal_reward(self) -> float:
         scores: Dict[ComputerStrategy, float] = {}
