@@ -95,3 +95,4 @@ class Deck:
             >>> len(deck)
             51
         """
+        return len(self._cards)
