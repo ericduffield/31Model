@@ -138,11 +138,7 @@ class QNetwork(nn.Module):
         obs_dim -> hidden_size -> hidden_size -> num_actions
     """
 
-    def __init__(
-            self,
-            obs_dim: int,
-            num_actions: int,
-            hidden_size: int = 128) -> None:
+    def __init__(self, obs_dim: int, num_actions: int, hidden_size: int = 128) -> None:
         """
         Initialize the Q-value network.
 
@@ -250,33 +246,30 @@ class DQNAgent:
         self.obs_dim = obs_dim
         self.num_actions = num_actions
         self.gamma = gamma
-        self.device = torch.device(device or (
-            "cuda" if torch.cuda.is_available() else "cpu"))
+        self.device = torch.device(
+            device or ("cuda" if torch.cuda.is_available() else "cpu")
+        )
 
-        self.online_q = QNetwork(
-            obs_dim,
-            num_actions,
-            hidden_size=hidden_size).to(
-            self.device)
-        self.target_q = QNetwork(
-            obs_dim,
-            num_actions,
-            hidden_size=hidden_size).to(
-            self.device)
+        self.online_q = QNetwork(obs_dim, num_actions, hidden_size=hidden_size).to(
+            self.device
+        )
+        self.target_q = QNetwork(obs_dim, num_actions, hidden_size=hidden_size).to(
+            self.device
+        )
         self.target_q.load_state_dict(self.online_q.state_dict())
         self.target_q.eval()
 
-        self.optimizer = torch.optim.Adam(
-            self.online_q.parameters(), lr=learning_rate)
+        self.optimizer = torch.optim.Adam(self.online_q.parameters(), lr=learning_rate)
         self.loss_fn = nn.SmoothL1Loss()
         self.replay = ReplayBuffer(capacity=buffer_capacity, seed=seed)
 
     def select_action(
-            self,
-            obs: np.ndarray,
-            action_mask: np.ndarray,
-            epsilon: float,
-            debug: bool = False) -> int:
+        self,
+        obs: np.ndarray,
+        action_mask: np.ndarray,
+        epsilon: float,
+        debug: bool = False,
+    ) -> int:
         """
         Select an action using epsilon-greedy exploration with action masking.
 
@@ -314,7 +307,8 @@ class DQNAgent:
 
         with torch.no_grad():
             obs_tensor = torch.as_tensor(
-                obs, dtype=torch.float32, device=self.device).unsqueeze(0)
+                obs, dtype=torch.float32, device=self.device
+            ).unsqueeze(0)
             q_values = self.online_q(obs_tensor).squeeze(0).cpu().numpy()
 
         masked_q = np.full_like(q_values, -1e9)
@@ -396,18 +390,30 @@ class DQNAgent:
         batch = self.replay.sample(batch_size)
 
         obs = torch.as_tensor(
-            np.stack([t.obs for t in batch]), dtype=torch.float32, device=self.device)
+            np.stack([t.obs for t in batch]),
+            dtype=torch.float32,
+            device=self.device,
+        )
         actions = torch.as_tensor(
-            [t.action for t in batch], dtype=torch.int64, device=self.device).unsqueeze(1)
+            [t.action for t in batch], dtype=torch.int64, device=self.device
+        ).unsqueeze(1)
         rewards = torch.as_tensor(
-            [t.reward for t in batch], dtype=torch.float32, device=self.device)
+            [t.reward for t in batch], dtype=torch.float32, device=self.device
+        )
         next_obs = torch.as_tensor(
-            np.stack([t.next_obs for t in batch]), dtype=torch.float32, device=self.device)
-        dones = torch.as_tensor([t.done for t in batch],
-                                dtype=torch.float32, device=self.device)
+            np.stack([t.next_obs for t in batch]),
+            dtype=torch.float32,
+            device=self.device,
+        )
+        dones = torch.as_tensor(
+            [t.done for t in batch], dtype=torch.float32, device=self.device
+        )
 
-        next_masks = torch.as_tensor(np.stack(
-            [t.next_action_mask for t in batch]), dtype=torch.bool, device=self.device)
+        next_masks = torch.as_tensor(
+            np.stack([t.next_action_mask for t in batch]),
+            dtype=torch.bool,
+            device=self.device,
+        )
 
         # Current Q-values
         q_values = self.online_q(obs).gather(1, actions).squeeze(1)
@@ -423,8 +429,7 @@ class DQNAgent:
             )
             max_raw = masked_next_q.max(dim=1).values
             # If no legal next actions, max_next_q = 0; else use max Q
-            max_next_q = torch.where(
-                has_legal, max_raw, torch.zeros_like(max_raw))
+            max_next_q = torch.where(has_legal, max_raw, torch.zeros_like(max_raw))
 
             # Bellman target: r + γ * (1 - done) * max Q'(s', a')
             target = rewards + self.gamma * (1.0 - dones) * max_next_q
@@ -432,8 +437,7 @@ class DQNAgent:
         loss = self.loss_fn(q_values, target)
         self.optimizer.zero_grad()
         loss.backward()
-        torch.nn.utils.clip_grad_norm_(
-            self.online_q.parameters(), max_norm=5.0)
+        torch.nn.utils.clip_grad_norm_(self.online_q.parameters(), max_norm=5.0)
         self.optimizer.step()
         return float(loss.item())
 
@@ -451,8 +455,7 @@ class DQNAgent:
         """
         self.target_q.load_state_dict(self.online_q.state_dict())
 
-    def q_diagnostics(
-            self, sample_size: int = 256) -> Optional[Tuple[float, float]]:
+    def q_diagnostics(self, sample_size: int = 256) -> Optional[Tuple[float, float]]:
         """
         Compute diagnostic statistics over Q-values.
 
@@ -483,7 +486,9 @@ class DQNAgent:
         size = min(sample_size, len(self.replay))
         batch = self.replay.sample(size)
         obs = torch.as_tensor(
-            np.stack([t.obs for t in batch]), dtype=torch.float32, device=self.device
+            np.stack([t.obs for t in batch]),
+            dtype=torch.float32,
+            device=self.device,
         )
 
         with torch.no_grad():

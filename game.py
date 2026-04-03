@@ -1,7 +1,7 @@
 from typing import Dict, List, Optional
 
 from deck import Deck
-from computer import ComputerStrategy, RandomStrategy, ConservativeExpectedValueStrategy, DiscardIncreaseStrategy, CurrentTurnExpectedValueStrategy
+from computer import ComputerStrategy, ConservativeExpectedValueStrategy
 from rules import HAND_SIZE, Card, card_label, score_hand
 
 
@@ -15,7 +15,9 @@ class Game:
     ) -> None:
         self.strategies: List[ComputerStrategy] = strategies
         self.deck = Deck()
-        self.hands: Dict[ComputerStrategy, List[Card]] = {strategy: [] for strategy in self.strategies}
+        self.hands: Dict[ComputerStrategy, List[Card]] = {
+            strategy: [] for strategy in self.strategies
+        }
         self.discard_pile: List[Card] = []
         self.knocked_by: Optional[ComputerStrategy] = None
         self.knock_remaining: Optional[int] = None
@@ -27,11 +29,11 @@ class Game:
 
         while True:
             strategy = self.strategies[current]
-            
+
             if self.debug:
                 self._display_state()
                 input("Press Enter to continue...")
-            
+
             self._strategy_turn(strategy)
 
             if self.knock_remaining is not None and strategy != self.knocked_by:
@@ -66,10 +68,15 @@ class Game:
 
         if self.debug:
             print(f"\n>>> {strategy.name}'s turn")
-            print(f"{strategy.name}'s hand: {', '.join(card_label(c) for c in hand)} (score {current_score})")
+            print(
+                f"{strategy.name}'s hand: {', '.join(card_label(c) for c in hand)} (score {current_score})"
+            )
 
         action = strategy.choose_action(
-            hand, top_discard, knock_allowed=self.knocked_by is None, debug=self.debug
+            hand,
+            top_discard,
+            knock_allowed=self.knocked_by is None,
+            debug=self.debug,
         )
 
         if self.debug:
@@ -111,21 +118,25 @@ class Game:
             best_score = -1.0
             best_combo = []
             for idx in range(len(hand)):
-                candidate = hand[:idx] + hand[idx + 1:]
+                candidate = hand[:idx] + hand[idx + 1 :]
                 candidate_score = score_hand(candidate)
                 if candidate_score > best_score:
                     best_score = candidate_score
                     best_combo = candidate
-            combo_str = ', '.join(card_label(c) for c in best_combo)
-            print(f"Hand with draw: {', '.join(card_label(c) for c in hand)} (best: {combo_str} = {best_score})")
-        
+            combo_str = ", ".join(card_label(c) for c in best_combo)
+            print(
+                f"Hand with draw: {', '.join(card_label(c) for c in hand)} (best: {combo_str} = {best_score})"
+            )
+
         discard_index = strategy.choose_discard_index(hand)
         discarded = self._discard_card(strategy, discard_index)
         if self.debug:
             print(f"Discarded {card_label(discarded)}")
             # Show updated hand
             new_score = score_hand(hand)
-            print(f"Hand after turn: {', '.join(card_label(c) for c in hand)} (score {new_score})")
+            print(
+                f"Hand after turn: {', '.join(card_label(c) for c in hand)} (score {new_score})"
+            )
 
     def _discard_card(self, strategy: ComputerStrategy, index: int) -> Card:
         hand = self.hands[strategy]
@@ -146,14 +157,16 @@ class Game:
             score = score_hand(hand)
             labels = ", ".join(card_label(c) for c in hand)
             print(f"{strategy.name}: {labels} (score {score})")
-        
+
         if self.discard_pile:
             print(f"Top discard: {card_label(self.discard_pile[-1])}")
         else:
             print("Discard pile: empty")
-        
+
         if self.knocked_by:
-            print(f"Knocked by: {self.knocked_by.name} ({self.knock_remaining} turns left)")
+            print(
+                f"Knocked by: {self.knocked_by.name} ({self.knock_remaining} turns left)"
+            )
         print("=" * 60)
 
     def _end_round(self) -> None:

@@ -20,7 +20,6 @@ from dqn_agent import DQNAgent
 from rl_env import NUM_ACTIONS, ThirtyOneEnv
 from rules import score_hand
 
-
 OpponentClass = Type[ComputerStrategy]
 """Type alias for ComputerStrategy subclasses."""
 
@@ -82,8 +81,7 @@ def evaluate(
             done = False
 
             while not done:
-                action = agent.select_action(
-                    obs, info["action_mask"], epsilon=0.0)
+                action = agent.select_action(obs, info["action_mask"], epsilon=0.0)
                 result = env.step(action)
                 obs = result.observation
                 info = result.info
@@ -108,20 +106,20 @@ def evaluate(
 
         total = wins + losses + draws
         win_rate = (wins / total * 100.0) if total > 0 else 0.0
-        avg_score = (
-            total_score /
-            total) if include_extra_stats and total > 0 else 0.0
+        avg_score = (total_score / total) if include_extra_stats and total > 0 else 0.0
         knock_rate = (
-            knock_count /
-            total *
-            100.0) if include_extra_stats and total > 0 else 0.0
+            (knock_count / total * 100.0) if include_extra_stats and total > 0 else 0.0
+        )
         avg_knock_score = (
-            total_knock_score /
-            knock_count) if include_extra_stats and knock_count > 0 else 0.0
+            (total_knock_score / knock_count)
+            if include_extra_stats and knock_count > 0
+            else 0.0
+        )
         knock_win_rate = (
-            knock_win_count /
-            knock_count *
-            100.0) if include_extra_stats and knock_count > 0 else 0.0
+            (knock_win_count / knock_count * 100.0)
+            if include_extra_stats and knock_count > 0
+            else 0.0
+        )
 
         rows.append(
             {
@@ -156,10 +154,7 @@ def parse_args() -> argparse.Namespace:
         'checkpoints/dqn_best.pt'
     """
     parser = argparse.ArgumentParser(description="Evaluate DQN for 31.")
-    parser.add_argument(
-        "--model-path",
-        type=str,
-        default="checkpoints/dqn_best.pt")
+    parser.add_argument("--model-path", type=str, default="checkpoints/dqn_best.pt")
     parser.add_argument("--games", type=int, default=5_000)
     parser.add_argument("--seed", type=int, default=1234)
     parser.add_argument(
@@ -206,8 +201,7 @@ def main() -> None:
     )
 
     if args.include_extra_stats:
-        header = (
-            f"| {
+        header = f"| {
                 'Opponent':<34} | {
                 'Wins':>6} | {
                 'Losses':>7} | {
@@ -216,15 +210,14 @@ def main() -> None:
                             'Avg Score':>9} | {
                                 'Knock %':>7} | {
                                     'Avg Knock Score':>15} | {
-                                        'Knock Win %':>10} |")
+                                        'Knock Win %':>10} |"
     else:
-        header = (
-            f"| {
+        header = f"| {
                 'Opponent':<34} | {
                 'Wins':>6} | {
                 'Losses':>7} | {
                     'Draws':>5} | {
-                        'Win Rate %':>10} |")
+                        'Win Rate %':>10} |"
 
     rule = "-" * len(header)
     border = "=" * len(header)
@@ -266,8 +259,7 @@ def main() -> None:
         average_knock_win_pct = total_knock_win_rate / count
 
         print(rule)
-        print(
-            f"| {
+        print(f"| {
                 'Average Win %':<34} | {
                 '':>6} | {
                 '':>7} | {
@@ -279,8 +271,7 @@ def main() -> None:
                                         average_knock_win_pct:>10.2f} |")
     else:
         print(rule)
-        print(
-            f"| {
+        print(f"| {
                 'Average Win %':<34} | {
                 '':>6} | {
                 '':>7} | {

@@ -12,7 +12,6 @@ from computer import ComputerStrategy
 from game import Game
 from rules import Card, score_hand
 
-
 RANKS = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
 SUITS = ["hearts", "diamonds", "clubs", "spades"]
 CARD_TO_INDEX = {
@@ -38,10 +37,14 @@ class RLControlledStrategy(ComputerStrategy):
         knock_allowed: bool,
         debug: bool = False,
     ) -> str:
-        raise RuntimeError("RLControlledStrategy is controlled externally by ThirtyOneEnv.")
+        raise RuntimeError(
+            "RLControlledStrategy is controlled externally by ThirtyOneEnv."
+        )
 
     def choose_discard_index(self, hand: List[Card]) -> int:
-        raise RuntimeError("RLControlledStrategy is controlled externally by ThirtyOneEnv.")
+        raise RuntimeError(
+            "RLControlledStrategy is controlled externally by ThirtyOneEnv."
+        )
 
 
 @dataclass
@@ -80,7 +83,9 @@ class ThirtyOneEnv:
         # hand one-hot (52) + top discard one-hot (52) + seen cards binary (52) + scalars (9)
         return 165
 
-    def reset(self, start_player: Optional[int] = None) -> Tuple[np.ndarray, Dict[str, object]]:
+    def reset(
+        self, start_player: Optional[int] = None
+    ) -> Tuple[np.ndarray, Dict[str, object]]:
         """Reset the environment and return initial observation/info."""
         self.agent = RLControlledStrategy()
         self.opponent = self.opponent_factory()
@@ -95,7 +100,9 @@ class ThirtyOneEnv:
         if self.game.discard_pile:
             self.seen_cards.add(self.game.discard_pile[0])
 
-        self.current_index = self.rng.randint(0, 1) if start_player is None else int(start_player)
+        self.current_index = (
+            self.rng.randint(0, 1) if start_player is None else int(start_player)
+        )
         self.done = False
         self.turn_count = 0
         self.truncated_by_limit = False
@@ -110,7 +117,9 @@ class ThirtyOneEnv:
     def step(self, action: int) -> StepResult:
         """Advance one RL decision step."""
         if self.done:
-            raise RuntimeError("Cannot call step() after termination. Call reset() first.")
+            raise RuntimeError(
+                "Cannot call step() after termination. Call reset() first."
+            )
         if self.current_index != 0:
             raise RuntimeError("step() called when it is not the RL agent turn.")
 
@@ -278,7 +287,9 @@ class ThirtyOneEnv:
             seen_vec[CARD_TO_INDEX[card]] = 1.0
 
         max_knock_count = max(1, len(self.game.strategies) - 1)
-        knock_remaining = self.game.knock_remaining if self.game.knock_remaining is not None else 0
+        knock_remaining = (
+            self.game.knock_remaining if self.game.knock_remaining is not None else 0
+        )
 
         # Game state scalars
         context = np.array(

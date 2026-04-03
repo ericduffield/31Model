@@ -4,14 +4,13 @@ Runs head-to-head games between strategies, collects win/loss statistics,
 knock frequencies, and generates comparison tables. Useful for empirically
 evaluating baseline strength before training RL agents.
 """
+
 from collections import defaultdict
 from typing import Dict, List, Tuple, Optional
 
 from game import Game
 from computer import (
     ComputerStrategy,
-    RandomStrategy,
-    RandomStrategyWithKnockScore,
     DiscardIncreaseStrategy,
     CurrentTurnExpectedValueStrategy,
     ConservativeExpectedValueStrategy,
@@ -38,20 +37,24 @@ class Simulation:
             >>> sim.results
             {}
         """
-        self.results: Dict[str,
-                           Dict[str,
-                                int]] = defaultdict(lambda: {"wins": 0,
-                                                             "losses": 0,
-                                                             "draws": 0,
-                                                             "total_score": 0,
-                                                             "games": 0,
-                                                             "total_knock_score": 0,
-                                                             "knock_count": 0,
-                                                             "knock_losses": 0})
+        self.results: Dict[str, Dict[str, int]] = defaultdict(
+            lambda: {
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "total_score": 0,
+                "games": 0,
+                "total_knock_score": 0,
+                "knock_count": 0,
+                "knock_losses": 0,
+            }
+        )
         # Track head-to-head results: matchup_results[strategy1][strategy2] =
         # {wins, losses, draws}
         self.matchup_results: Dict[str, Dict[str, Dict[str, int]]] = defaultdict(
-            lambda: defaultdict(lambda: {"wins": 0, "losses": 0, "draws": 0, "knocks": 0})
+            lambda: defaultdict(
+                lambda: {"wins": 0, "losses": 0, "draws": 0, "knocks": 0}
+            )
         )
         self.debug = debug
 
@@ -100,14 +103,16 @@ class Simulation:
             # Run game silently and get results
             # Map strategies back to names for result tracking
             name_map = {strat1: strat1.name, strat2: strat2.name}
-            winner_strategies, strategy_scores, knocked_by_strat, knock_score = self._run_game(
-                game)
+            (
+                winner_strategies,
+                strategy_scores,
+                knocked_by_strat,
+                knock_score,
+            ) = self._run_game(game)
 
             # Convert to names for tracking
             winner = [name_map[s] for s in winner_strategies]
-            scores = {
-                name_map[s]: score for s,
-                score in strategy_scores.items()}
+            scores = {name_map[s]: score for s, score in strategy_scores.items()}
             knocked_by = name_map[knocked_by_strat] if knocked_by_strat else None
 
             # Record results
@@ -148,12 +153,12 @@ class Simulation:
 
         print(f"Completed matchup: {strat1.name} vs {strat2.name}")
 
-    def _run_game(self,
-                  game: Game) -> Tuple[List[ComputerStrategy],
-                                       Dict[ComputerStrategy,
-                                            float],
-                                       Optional[ComputerStrategy],
-                                       float]:
+    def _run_game(self, game: Game) -> Tuple[
+        List[ComputerStrategy],
+        Dict[ComputerStrategy, float],
+        Optional[ComputerStrategy],
+        float,
+    ]:
         """Run a single game and return winner(s), scores, who knocked, and knock score.
 
         Args:
@@ -166,6 +171,8 @@ class Simulation:
                 - knocked_by (Optional[ComputerStrategy]): Who knocked, or None
                 - knock_score (float): Score of knocking player (0 if no knock)
         """
+        from rules import score_hand
+
         current = 0
         knock_score = 0.0
 
@@ -177,7 +184,6 @@ class Simulation:
             self._execute_strategy_turn(game, strategy)
             if game.knocked_by and not knocked_before:
                 # Record knock score
-                from rules import score_hand
                 knock_score = score_hand(game.hands[strategy])
 
             if game.knock_remaining is not None and strategy != game.knocked_by:
@@ -191,8 +197,6 @@ class Simulation:
         # Calculate final scores
         scores = {}
         for strategy in game.strategies:
-            from rules import score_hand
-
             scores[strategy] = score_hand(game.hands[strategy])
 
         # Determine winner(s)
@@ -201,9 +205,7 @@ class Simulation:
 
         return winners, scores, game.knocked_by, knock_score
 
-    def _execute_strategy_turn(
-        self, game: Game, strategy: ComputerStrategy
-    ) -> None:
+    def _execute_strategy_turn(self, game: Game, strategy: ComputerStrategy) -> None:
         """Execute one turn for a strategy without printing.
 
         Args:
@@ -239,8 +241,7 @@ class Simulation:
         discard_index = strategy.choose_discard_index(hand)
         game._discard_card(strategy, discard_index)
 
-    def print_head_to_head(
-            self, only_strategies: Optional[List[str]] = None) -> None:
+    def print_head_to_head(self, only_strategies: Optional[List[str]] = None) -> None:
         """Print head-to-head win percentages in a readable table format.
 
         Shows vs-all win% (excluding draws), draw%, and overall knock%.
@@ -270,9 +271,8 @@ class Simulation:
             games_total = overall_stats.get("games", 0)
             knocks_total = overall_stats.get("knock_count", 0)
             overall_knock_pct = (
-                knocks_total /
-                games_total *
-                100) if games_total > 0 else 0
+                (knocks_total / games_total * 100) if games_total > 0 else 0
+            )
             print(f"Overall knock %: {overall_knock_pct:>.1f}%")
             print("-" * 50)
 
@@ -288,11 +288,11 @@ class Simulation:
 
                 if total_games > 0:
                     win_pct_excl_draws = (
-                        wins / non_draw_games * 100) if non_draw_games > 0 else 0
+                        (wins / non_draw_games * 100) if non_draw_games > 0 else 0
+                    )
                     draw_pct = (draws / total_games) * 100
                     knock_pct = (knocks / total_games) * 100
-                    print(
-                        f"  vs {
+                    print(f"  vs {
                             opponent:<35} Win(ex Draws) {
                             win_pct_excl_draws:>5.1f}% | Draw {
                             draw_pct:>5.1f}% | Knock {
@@ -301,8 +301,7 @@ class Simulation:
         print("\n" + "=" * 70)
 
     def reset(self) -> None:
-        """Clear all results and ready for new simulations.
-        """
+        """Clear all results and ready for new simulations."""
         self.matchup_results.clear()
 
 
@@ -341,8 +340,7 @@ def main():
     print("\n" + "=" * 120)
     print("AVERAGE RESULTS")
     print("=" * 120)
-    print(
-        f"{
+    print(f"{
             'Strategy':<35} {
             'Win% ex Draws':>15} {
                 'Draw %':>10} {
@@ -357,22 +355,15 @@ def main():
         draws = stats["draws"]
         games = stats["games"]
         non_draw_games = wins + losses
-        avg_win_pct = (
-            wins /
-            non_draw_games *
-            100) if non_draw_games > 0 else 0
+        avg_win_pct = (wins / non_draw_games * 100) if non_draw_games > 0 else 0
         draw_pct = (draws / games * 100) if games > 0 else 0
         avg_score = (stats["total_score"] / games) if games > 0 else 0
         knock_count = stats["knock_count"]
-        avg_knock = (
-            stats["total_knock_score"] /
-            knock_count) if knock_count > 0 else 0
+        avg_knock = (stats["total_knock_score"] / knock_count) if knock_count > 0 else 0
         knock_loss_pct = (
-            stats["knock_losses"] /
-            knock_count *
-            100) if knock_count > 0 else 0
-        print(
-            f"{
+            (stats["knock_losses"] / knock_count * 100) if knock_count > 0 else 0
+        )
+        print(f"{
                 strategy_name:<35} {
                 avg_win_pct:>15.2f} {
                 draw_pct:>10.2f} {

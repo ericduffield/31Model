@@ -12,21 +12,17 @@ import argparse
 import os
 import random
 import shutil
-from typing import Callable, List, Sequence, Tuple, Type
+from typing import List, Sequence, Tuple, Type
 
 import numpy as np
 
 from computer import (
     ComputerStrategy,
-    ConservativeExpectedValueStrategy,
-    CurrentTurnExpectedValueStrategy,
     DiscardIncreaseStrategy,
     RandomStrategy,
-    RandomStrategyWithKnockScore,
 )
 from dqn_agent import DQNAgent
 from rl_env import NUM_ACTIONS, ThirtyOneEnv
-
 
 OpponentClass = Type[ComputerStrategy]
 CHECKPOINT_DIR = "checkpoints"
@@ -77,8 +73,7 @@ def evaluate_agent(
             done = False
 
             while not done:
-                action = agent.select_action(
-                    obs, info["action_mask"], epsilon=0.0)
+                action = agent.select_action(obs, info["action_mask"], epsilon=0.0)
                 result = env.step(action)
                 obs = result.observation
                 info = result.info
@@ -249,8 +244,11 @@ def main() -> None:
 
         if episode % args.log_every == 0:
             avg_reward = sum(moving_rewards) / len(moving_rewards)
-            avg_loss = (sum(moving_losses) / len(moving_losses)
-                        ) if moving_losses else float("nan")
+            avg_loss = (
+                (sum(moving_losses) / len(moving_losses))
+                if moving_losses
+                else float("nan")
+            )
             q_diag = agent.q_diagnostics(sample_size=128)
             if q_diag is None:
                 mean_max_q = float("nan")
@@ -298,10 +296,8 @@ def main() -> None:
                 best_eval_by_opp = by_opp.copy()
                 best_path = os.path.join(run_checkpoint_dir, "dqn_best.pt")
                 agent.save(best_path)
-                print(
-                    f"  New best aggregate win rate: {
-                        best_eval_wr:.2f}% -> saved {best_path}",
-                    flush=True)
+                print(f"  New best aggregate win rate: {
+                        best_eval_wr:.2f}% -> saved {best_path}", flush=True)
 
     print("Training complete.")
     if best_eval_episode > 0:
@@ -315,7 +311,8 @@ def main() -> None:
     else:
         print(
             "No evaluation was run, so no best eval win rate is available.",
-            flush=True)
+            flush=True,
+        )
 
 
 if __name__ == "__main__":

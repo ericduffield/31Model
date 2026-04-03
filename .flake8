@@ -1,0 +1,10 @@
+[flake8]
+# Ignore Black-related formatting issues
+# E203: whitespace before ':' (Black intentional)
+# E501: line too long (docstrings commonly exceed line length)
+# E126: continuation line over-indented (Black style)
+# W503: line break before binary operator (PEP8 recommended style)
+ignore = E203, E501, E126, W503
+# Match Black's default line length
+max-line-length = 88
+

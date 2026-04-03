@@ -6,7 +6,7 @@ Strategies range from purely random to sophisticated expected-value-based
 decision-making. All strategies inherit from ComputerStrategy base class.
 """
 
-from typing import Dict, List, Optional, Set, Tuple
+from typing import List, Optional, Set
 import sys
 from secrets import SystemRandom
 
@@ -40,7 +40,8 @@ class ComputerStrategy:
         "10",
         "J",
         "Q",
-        "K"]
+        "K",
+    ]
     ALL_SUITS = ["hearts", "diamonds", "clubs", "spades"]
 
     @property
@@ -181,10 +182,7 @@ class ComputerStrategy:
         """
         raise NotImplementedError
 
-    def _best_score_with_added_card(
-            self,
-            hand: List[Card],
-            card: Card) -> float:
+    def _best_score_with_added_card(self, hand: List[Card], card: Card) -> float:
         """
         Compute the best hand score if we add a card and discard optimally.
 
@@ -208,7 +206,7 @@ class ComputerStrategy:
         temp_hand = hand + [card]
         best_score = -1.0
         for idx in range(len(temp_hand)):
-            candidate = temp_hand[:idx] + temp_hand[idx + 1:]
+            candidate = temp_hand[:idx] + temp_hand[idx + 1 :]
             best_score = max(best_score, score_hand(candidate))
         return best_score
 
@@ -232,8 +230,7 @@ class ComputerStrategy:
             >>> len(unseen)
             50
         """
-        all_cards = [(rank, suit)
-                     for suit in self.ALL_SUITS for rank in self.ALL_RANKS]
+        all_cards = [(rank, suit) for suit in self.ALL_SUITS for rank in self.ALL_RANKS]
         return [card for card in all_cards if card not in seen_cards]
 
     def _calculate_expected_value(self, hand: List[Card]) -> float:
@@ -261,8 +258,9 @@ class ComputerStrategy:
         unseen_cards = self._get_unseen_cards(self.seen_cards)
         if not unseen_cards:
             sys.exit("No unseen cards to calculate expected value.")
-        total = sum(self._best_score_with_added_card(hand, card)
-                    for card in unseen_cards)
+        total = sum(
+            self._best_score_with_added_card(hand, card) for card in unseen_cards
+        )
         return total / len(unseen_cards)
 
 
@@ -454,7 +452,7 @@ class DiscardIncreaseStrategy(ComputerStrategy):
         best_score = -1.0
         best_idx = 0
         for idx in range(len(hand)):
-            candidate = hand[:idx] + hand[idx + 1:]
+            candidate = hand[:idx] + hand[idx + 1 :]
             score = score_hand(candidate)
             if score > best_score:
                 best_score = score
@@ -492,7 +490,8 @@ class ConservativeExpectedValueStrategy(ComputerStrategy):
         "10",
         "J",
         "Q",
-        "K"]
+        "K",
+    ]
     ALL_SUITS = ["hearts", "diamonds", "clubs", "spades"]
 
     def __init__(self) -> None:
@@ -548,8 +547,7 @@ class ConservativeExpectedValueStrategy(ComputerStrategy):
         deck_improvement = deck_ev - current_score
 
         if debug:
-            print(
-                f"Observed Cards: {
+            print(f"Observed Cards: {
                     ', '.join(
                         card_label(card) for card in sorted(
                             self.seen_cards))}")
@@ -576,7 +574,7 @@ class ConservativeExpectedValueStrategy(ComputerStrategy):
         best_score = -1.0
         best_idx = 0
         for idx in range(len(hand)):
-            candidate = hand[:idx] + hand[idx + 1:]
+            candidate = hand[:idx] + hand[idx + 1 :]
             score = score_hand(candidate)
             if score > best_score:
                 best_score = score
@@ -613,7 +611,8 @@ class CurrentTurnExpectedValueStrategy(ComputerStrategy):
         "10",
         "J",
         "Q",
-        "K"]
+        "K",
+    ]
     ALL_SUITS = ["hearts", "diamonds", "clubs", "spades"]
 
     def __init__(self) -> None:
@@ -696,7 +695,7 @@ class CurrentTurnExpectedValueStrategy(ComputerStrategy):
         best_score = -1.0
         best_idx = 0
         for idx in range(len(hand)):
-            candidate = hand[:idx] + hand[idx + 1:]
+            candidate = hand[:idx] + hand[idx + 1 :]
             score = score_hand(candidate)
             if score > best_score:
                 best_score = score
