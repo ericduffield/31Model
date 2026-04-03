@@ -1,4 +1,5 @@
 from typing import Dict, List, Optional
+import random
 
 from deck import Deck
 from computer import ComputerStrategy, ConservativeExpectedValueStrategy
@@ -12,9 +13,10 @@ class Game:
         self,
         strategies: List[ComputerStrategy],
         debug: bool = False,
+        rng: Optional[random.Random] = None,
     ) -> None:
         self.strategies: List[ComputerStrategy] = strategies
-        self.deck = Deck()
+        self.deck = Deck(rng=rng)
         self.hands: Dict[ComputerStrategy, List[Card]] = {
             strategy: [] for strategy in self.strategies
         }

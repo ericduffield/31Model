@@ -38,13 +38,17 @@ class Deck:
     ]
     _SUITS: List[str] = ["hearts", "diamonds", "clubs", "spades"]
 
-    def __init__(self) -> None:
+    def __init__(self, rng: Optional[random.Random] = None) -> None:
         """
         Initialize a standard 52-card deck and shuffle it.
 
         Creates an internal list of all 52 cards (13 ranks × 4 suits) and
         shuffles them using random.shuffle(). The deck is ready to draw from
         immediately after construction.
+
+        Args:
+            rng (Optional[random.Random]): Random number generator instance for
+                shuffling. If None, uses the global random module.
 
         Example:
             >>> deck = Deck()
@@ -54,7 +58,10 @@ class Deck:
         self._cards: List[Tuple[str, str]] = [
             (rank, suit) for suit in self._SUITS for rank in self._RANKS
         ]
-        random.shuffle(self._cards)
+        if rng is None:
+            random.shuffle(self._cards)
+        else:
+            rng.shuffle(self._cards)
 
     def draw_card(self) -> Optional[Tuple[str, str]]:
         """

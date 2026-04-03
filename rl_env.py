@@ -89,7 +89,7 @@ class ThirtyOneEnv:
         """Reset the environment and return initial observation/info."""
         self.agent = RLControlledStrategy()
         self.opponent = self.opponent_factory()
-        self.game = Game(strategies=[self.agent, self.opponent], debug=False)
+        self.game = Game(strategies=[self.agent, self.opponent], debug=False, rng=self.rng)
         self.game._deal_initial()
 
         self.seen_cards.clear()

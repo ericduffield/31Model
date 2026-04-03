@@ -8,7 +8,7 @@ decision-making. All strategies inherit from ComputerStrategy base class.
 
 from typing import List, Optional, Set
 import sys
-from secrets import SystemRandom
+import random
 
 from rules import Card, score_hand, card_label
 
@@ -271,14 +271,7 @@ class RandomStrategy(ComputerStrategy):
     Equally likely to knock (if allowed), draw from the discard pile, or draw
     from the deck. Dismisses the card and discard cards are also random. Serves
     as a weak baseline for evaluating more sophisticated strategies.
-
-    Attributes:
-        rng (SystemRandom): A cryptographically secure random number generator.
     """
-
-    def __init__(self) -> None:
-        """Initialize the random strategy with a cryptographically secure RNG."""
-        self.rng = SystemRandom()
 
     def choose_action(
         self,
@@ -302,7 +295,7 @@ class RandomStrategy(ComputerStrategy):
             str: One of "knock", "draw_deck", "draw_discard" with equal probability.
         """
         actions = ["knock", "draw_deck", "draw_discard"]
-        return self.rng.choice(actions)
+        return random.choice(actions)
 
     def choose_discard_index(self, hand: List[Card]) -> int:
         """
@@ -314,7 +307,7 @@ class RandomStrategy(ComputerStrategy):
         Returns:
             int: A random index from 0 to len(hand)-1.
         """
-        return self.rng.randint(0, len(hand) - 1)
+        return random.randint(0, len(hand) - 1)
 
 
 class RandomStrategyWithKnockScore(ComputerStrategy):
@@ -327,14 +320,9 @@ class RandomStrategyWithKnockScore(ComputerStrategy):
 
     Attributes:
         KNOCK_SCORE (int): Minimum score required to knock (27).
-        rng (SystemRandom): Cryptographically secure random number generator.
     """
 
     KNOCK_SCORE = 27
-
-    def __init__(self) -> None:
-        """Initialize with a cryptographically secure RNG."""
-        self.rng = SystemRandom()
 
     def choose_action(
         self,
@@ -359,7 +347,7 @@ class RandomStrategyWithKnockScore(ComputerStrategy):
             return "knock"
 
         # Randomly choose between drawing from deck or picking up discard
-        if self.rng.choice([True, False]):
+        if random.choice([True, False]):
             return "draw_discard"
         return "draw_deck"
 
@@ -373,7 +361,7 @@ class RandomStrategyWithKnockScore(ComputerStrategy):
         Returns:
             int: A random index from 0 to len(hand)-1.
         """
-        return self.rng.randint(0, len(hand) - 1)
+        return random.randint(0, len(hand) - 1)
 
 
 class DiscardIncreaseStrategy(ComputerStrategy):
