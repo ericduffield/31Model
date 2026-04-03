@@ -9,10 +9,11 @@ Supports run naming, checkpointing, and detailed logging for monitoring.
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import random
 import shutil
-from typing import List, Sequence, Tuple, Type
+from typing import Dict, List, Sequence, Tuple, Type
 
 import numpy as np
 import torch
@@ -197,6 +198,7 @@ def main() -> None:
     best_eval_by_opp: List[Tuple[str, float]] = []
     moving_rewards: List[float] = []
     moving_losses: List[float] = []
+    logs: List[Dict] = []  # Accumulate logs for JSON export
 
     for episode in range(1, args.episodes + 1):
         opp_cls = random.choice(train_opponents)
@@ -263,6 +265,18 @@ def main() -> None:
                 mean_abs_q = float("nan")
             else:
                 mean_max_q, mean_abs_q = q_diag
+            
+            log_entry = {
+                "episode": episode,
+                "epsilon": epsilon,
+                "avg_reward": avg_reward,
+                "avg_loss": avg_loss,
+                "mean_max_q": mean_max_q,
+                "mean_abs_q": mean_abs_q,
+                "replay_size": len(agent.replay),
+            }
+            logs.append(log_entry)
+            
             print(
                 f"Episode {episode:>6}/{args.episodes} | epsilon={epsilon:.3f} | "
                 f"avg_reward(200)={avg_reward:.3f} | avg_loss(500)={avg_loss:.4f} | "
@@ -295,6 +309,17 @@ def main() -> None:
             for name, wr in by_opp:
                 print(f"  vs {name:<35} {wr:>6.2f}%", flush=True)
 
+            # Log evaluation results
+            eval_log = {
+                "episode": episode,
+                "eval_win_rate": avg_wr,
+                "eval_by_opponent": [{"opponent": name, "win_rate": wr} for name, wr in by_opp],
+            }
+            if logs and logs[-1]["episode"] == episode:
+                logs[-1].update(eval_log)
+            else:
+                logs.append(eval_log)
+
             latest_path = os.path.join(run_checkpoint_dir, "dqn_latest.pt")
             agent.save(latest_path)
 
@@ -321,6 +346,12 @@ def main() -> None:
             "No evaluation was run, so no best eval win rate is available.",
             flush=True,
         )
+    
+    # Save logs to JSON file
+    log_path = os.path.join(run_checkpoint_dir, "training_logs.json")
+    with open(log_path, "w") as f:
+        json.dump(logs, f, indent=2)
+    print(f"Training logs saved to {log_path}", flush=True)
 
 
 if __name__ == "__main__":
