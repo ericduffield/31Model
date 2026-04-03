@@ -6,6 +6,10 @@ knock frequencies, and knock-win percentages.
 """
 
 import argparse
+import random
+
+import numpy as np
+import torch
 from typing import Dict, List, Sequence, Type
 
 from computer import (
@@ -179,6 +183,11 @@ def main() -> None:
         >>> # Prints: | RandomStrategy | 1234 | 765 | ... | 61.72 | ...
     """
     args = parse_args()
+
+    # Set global seeds for reproducibility
+    random.seed(args.seed)
+    np.random.seed(args.seed)
+    torch.manual_seed(args.seed)
 
     opponents: List[OpponentClass] = [
         RandomStrategy,

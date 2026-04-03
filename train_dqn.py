@@ -15,6 +15,7 @@ import shutil
 from typing import List, Sequence, Tuple, Type
 
 import numpy as np
+import torch
 
 from computer import (
     ComputerStrategy,
@@ -32,6 +33,8 @@ def set_global_seed(seed: int) -> None:
     """Set the seed for random number generators across libraries."""
     random.seed(seed)
     np.random.seed(seed)
+    torch.manual_seed(seed)
+
 
 
 def evaluate_agent(
