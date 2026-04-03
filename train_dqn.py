@@ -1,4 +1,10 @@
-"""Train a DQN agent for 31 with win-rate-first evaluation."""
+"""
+Training script for a DQN agent on the card game 31.
+
+Orchestrates the training loop: episode generation, replay buffer management,
+network updates, and periodic evaluation against baseline strategies.
+Supports run naming, checkpointing, and detailed logging for monitoring.
+"""
 
 from __future__ import annotations
 
@@ -27,6 +33,7 @@ CHECKPOINT_DIR = "checkpoints"
 
 
 def set_global_seed(seed: int) -> None:
+    """Set the seed for random number generators across libraries."""
     random.seed(seed)
     np.random.seed(seed)
 
@@ -37,7 +44,22 @@ def evaluate_agent(
     games_per_opponent: int,
     seed: int,
 ) -> Tuple[float, List[Tuple[str, float]]]:
-    """Evaluate policy with epsilon=0 and return aggregate/per-opponent win rates."""
+    """
+    Evaluate the agent against multiple baseline strategies.
+
+    Runs the agent in greedy mode (epsilon=0) against each opponent and
+    computes per-opponent and aggregate win rates.
+
+    Args:
+        agent (DQNAgent): The trained agent to evaluate.
+        opponents (Sequence[OpponentClass]): Strategy classes to play against.
+        games_per_opponent (int): Number of test games per opponent.
+        seed (int): Random seed for reproducibility.
+
+    Returns:
+        Tuple[float, List[Tuple[str, float]]]: Aggregate win rate (%) and
+            list of (opponent_name, win_rate_%) tuples.
+    """
     per_opponent: List[Tuple[str, float]] = []
 
     for idx, opp_cls in enumerate(opponents):
@@ -55,7 +77,8 @@ def evaluate_agent(
             done = False
 
             while not done:
-                action = agent.select_action(obs, info["action_mask"], epsilon=0.0)
+                action = agent.select_action(
+                    obs, info["action_mask"], epsilon=0.0)
                 result = env.step(action)
                 obs = result.observation
                 info = result.info
@@ -77,6 +100,13 @@ def evaluate_agent(
 
 
 def parse_args() -> argparse.Namespace:
+    """
+    Parse command-line arguments for training.
+
+    Returns:
+        argparse.Namespace: Parsed arguments with all hyperparameters
+            and configuration options.
+    """
     parser = argparse.ArgumentParser(description="Train DQN for 31.")
     parser.add_argument(
         "--run-name",
@@ -108,10 +138,21 @@ def epsilon_by_episode(
     eps_end: float,
     eps_decay_episodes: int,
 ) -> float:
-    if episode >= eps_decay_episodes:
-        return eps_end
-    frac = episode / max(1, eps_decay_episodes)
-    return eps_start + frac * (eps_end - eps_start)
+    """
+    Compute the epsilon (exploration rate) for a given training episode.
+
+    Linear decay from eps_start to eps_end over eps_decay_episodes.
+    After decay period, epsilon remains at eps_end.
+
+    Args:
+        episode (int): Current episode number (1-indexed).
+        eps_start (float): Initial exploration rate.
+        eps_end (float): Final exploration rate.
+        eps_decay_episodes (int): Number of episodes over which to decay.
+
+    Returns:
+        float: Epsilon value for this episode.
+    """
 
 
 def main() -> None:
@@ -208,7 +249,8 @@ def main() -> None:
 
         if episode % args.log_every == 0:
             avg_reward = sum(moving_rewards) / len(moving_rewards)
-            avg_loss = (sum(moving_losses) / len(moving_losses)) if moving_losses else float("nan")
+            avg_loss = (sum(moving_losses) / len(moving_losses)
+                        ) if moving_losses else float("nan")
             q_diag = agent.q_diagnostics(sample_size=128)
             if q_diag is None:
                 mean_max_q = float("nan")
@@ -237,8 +279,11 @@ def main() -> None:
             )
             avg_reward = sum(moving_rewards) / len(moving_rewards)
             print(
-                f"Episode {episode:>6} | epsilon={epsilon:.3f} | avg_reward(200)={avg_reward:.3f} "
-                f"| eval_win_rate={avg_wr:.2f}%",
+                f"Episode {
+                    episode:>6} | epsilon={
+                    epsilon:.3f} | avg_reward(200)={
+                    avg_reward:.3f} " f"| eval_win_rate={
+                    avg_wr:.2f}%",
                 flush=True,
             )
             for name, wr in by_opp:
@@ -253,18 +298,24 @@ def main() -> None:
                 best_eval_by_opp = by_opp.copy()
                 best_path = os.path.join(run_checkpoint_dir, "dqn_best.pt")
                 agent.save(best_path)
-                print(f"  New best aggregate win rate: {best_eval_wr:.2f}% -> saved {best_path}", flush=True)
+                print(
+                    f"  New best aggregate win rate: {
+                        best_eval_wr:.2f}% -> saved {best_path}",
+                    flush=True)
 
     print("Training complete.")
     if best_eval_episode > 0:
         print(
-            f"Best eval average win rate: {best_eval_wr:.2f}% at episode {best_eval_episode}",
+            f"Best eval average win rate: {
+                best_eval_wr:.2f}% at episode {best_eval_episode}",
             flush=True,
         )
         for name, wr in best_eval_by_opp:
             print(f"  best vs {name:<35} {wr:>6.2f}%", flush=True)
     else:
-        print("No evaluation was run, so no best eval win rate is available.", flush=True)
+        print(
+            "No evaluation was run, so no best eval win rate is available.",
+            flush=True)
 
 
 if __name__ == "__main__":
