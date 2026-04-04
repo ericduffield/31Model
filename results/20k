@@ -1,0 +1,101 @@
+20k vs just DiscardIncreaseStrategy 
+python3 -u train_dqn.py \
+  --episodes 20000 \
+  --eval-every 1000 \
+  --eval-games 2000 \
+  --batch-size 64 \
+  --buffer-capacity 100000 \
+  --learning-rate 1e-4 \
+  --gamma 0.95 \
+  --hidden-size 128 \
+  --epsilon-start 1.0 \
+  --epsilon-end 0.05 \
+  --epsilon-decay-episodes 12000 \
+  --target-update-steps 500 \
+  --warmup-steps 100 \
+  --log-every 100 \
+  --seed 1 \
+  --run-name vs_discard_increase_20k_longer
+
+best vs DiscardIncreaseStrategy              16.55%
+best vs ConservativeExpectedValueStrategy    16.00%  (outdated)
+best vs CurrentTurnExpectedValueStrategy     18.00%  (outdated)
+
+
+python3 evaluate_dqn.py --model-path checkpoints/vs_discard_increase_20k_longer/dqn_best.pt --games 10000 --seed 2
+
+Results:
+==============================================================================
+| Opponent                           |   Wins |  Losses | Draws | Win Rate % |
+------------------------------------------------------------------------------
+| RandomStrategy                     |   5175 |    3875 |   950 |      51.75 |
+| RandomStrategyWithKnockScore       |   5262 |    4311 |   427 |      52.62 |
+| DiscardIncreaseStrategy            |   1483 |    8312 |   205 |      14.83 |
+| CurrentTurnExpectedValueStrategy   |   1406 |    8410 |   184 |      14.06 |
+| ConservativeExpectedValueStrategy  |   1433 |    8364 |   203 |      14.33 |
+------------------------------------------------------------------------------
+| Average Win %                      |        |         |       |      29.52 |
+==============================================================================
+
+
+
+python3 evaluate_dqn.py --model-path checkpoints/vs_current_turn_ev_20k/dqn_best.pt --games 5000 --seed 2
+========================================================================
+| Opponent                           |   Wins |  Losses | Draws | Win Rate % |
+------------------------------------------------------------------------------
+| RandomStrategy                     |   2601 |    1927 |   472 |      52.02 |
+| RandomStrategyWithKnockScore       |   2644 |    2142 |   214 |      52.88 |
+| DiscardIncreaseStrategy            |    768 |    4150 |    82 |      15.36 |
+| CurrentTurnExpectedValueStrategy   |    757 |    4144 |    99 |      15.14 |
+| ConservativeExpectedValueStrategy  |    730 |    4164 |   106 |      14.60 |
+------------------------------------------------------------------------------
+| Average Win %                      |        |         |       |      30.00 |  (outdated)
+========================================================================
+
+python3 evaluate_dqn.py --model-path checkpoints/vs_conservative_increase_20k/dqn_best.pt --games 5000 --seed 2
+========================================================================
+| Opponent                           |   Wins |  Losses | Draws | Win Rate % |
+------------------------------------------------------------------------------
+| RandomStrategy                     |   2569 |    1958 |   473 |      51.38 |
+| RandomStrategyWithKnockScore       |   2499 |    2195 |   306 |      49.98 |
+| DiscardIncreaseStrategy            |    705 |    4209 |    86 |      14.10 |
+| CurrentTurnExpectedValueStrategy   |    723 |    4187 |    90 |      14.46 |
+| ConservativeExpectedValueStrategy  |    664 |    4256 |    80 |      13.28 |
+------------------------------------------------------------------------------
+| Average Win %                      |        |         |       |      28.64 |  (outdated)
+========================================================================
+
+
+20k vs all strategies
+python3 -u train_dqn.py \
+  --episodes 20000 \
+  --eval-every 1000 \
+  --eval-games 500 \
+  --batch-size 64 \
+  --buffer-capacity 100000 \
+  --learning-rate 1e-4 \
+  --gamma 0.95 \
+  --hidden-size 128 \
+  --epsilon-start 1.0 \
+  --epsilon-end 0.05 \
+  --epsilon-decay-episodes 12000 \
+  --target-update-steps 500 \
+  --warmup-steps 100 \
+  --log-every 100 \
+  --seed 1
+
+Final best aggregate eval win rate: 35.24%  (outdated)
+
+python3 evaluate_dqn.py --model-path checkpoints/dqn_best.pt --games 5000 --seed 2
+
+========================================================================
+| Opponent                           |   Wins |  Losses | Draws | Win Rate % |
+------------------------------------------------------------------------------
+| RandomStrategy                     |   2863 |    1714 |   423 |      57.26 |
+| RandomStrategyWithKnockScore       |   3625 |    1189 |   186 |      72.50 |
+| DiscardIncreaseStrategy            |    633 |    4279 |    88 |      12.66 |
+| CurrentTurnExpectedValueStrategy   |    633 |    4261 |   106 |      12.66 |
+| ConservativeExpectedValueStrategy  |    632 |    4260 |   108 |      12.64 |
+------------------------------------------------------------------------------
+| Average Win %                      |        |         |       |      33.54 | (outdated)
+========================================================================

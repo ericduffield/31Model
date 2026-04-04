@@ -14,6 +14,7 @@ from computer import (
     DiscardIncreaseStrategy,
     CurrentTurnExpectedValueStrategy,
     ConservativeExpectedValueStrategy,
+    ScoreAdaptiveExpectedValueStrategy,
 )
 
 
@@ -99,6 +100,8 @@ class Simulation:
                 strategies=strategies,
                 debug=self.debug,
             )
+            # Deal initial cards and notify strategies
+            game._deal_initial()
 
             # Run game silently and get results
             # Map strategies back to names for result tracking
@@ -239,7 +242,11 @@ class Simulation:
 
         hand.append(card)
         discard_index = strategy.choose_discard_index(hand)
-        game._discard_card(strategy, discard_index)
+        discarded = hand.pop(discard_index)
+        game.discard_pile.append(discarded)
+        # Notify all strategies of the discard
+        for strat in game.strategies:
+            strat.on_card_discarded(discarded)
 
     def print_head_to_head(self, only_strategies: Optional[List[str]] = None) -> None:
         """Print head-to-head win percentages in a readable table format.
@@ -322,10 +329,14 @@ def main():
         ConservativeExpectedValueStrategy,  # 2
         CurrentTurnExpectedValueStrategy,  # 1
         DiscardIncreaseStrategy,  # 3
+        ScoreAdaptiveExpectedValueStrategy,  # Base: no negative, slope=0.08, cap=1.0
+        ScoreAdaptiveV2_SmallPositiveStart,  # V2: small positive start (0.02), slope=0.08, cap=1.0
+        ScoreAdaptiveV3_SteeperGrowth,  # V3: steeper slope (0.09), reaches cap at 11.1
+        ScoreAdaptiveV4_HigherCap,  # V4: higher cap (1.05), slope=0.08
     ]
 
     # Module constants
-    NUM_GAMES = 2000  # 10,000 seems to give most consistent results
+    NUM_GAMES = 20000  # 10,000 seems to give most consistent results
     SHOW_MATCHUP_TABLE = False  # Set to False to hide matchup table
 
     # All-vs-all matchups (no duplicates, no self-play)

@@ -13,6 +13,8 @@ import json
 import os
 import random
 import shutil
+import sys
+from datetime import datetime, timezone
 from typing import Dict, List, Sequence, Tuple, Type
 
 import numpy as np
@@ -20,14 +22,17 @@ import torch
 
 from computer import (
     ComputerStrategy,
+    ConservativeExpectedValueStrategy,
     DiscardIncreaseStrategy,
     RandomStrategy,
+    CurrentTurnExpectedValueStrategy
 )
 from dqn_agent import DQNAgent
 from rl_env import NUM_ACTIONS, ThirtyOneEnv
 
 OpponentClass = Type[ComputerStrategy]
 CHECKPOINT_DIR = "checkpoints"
+TOP_CHECKPOINT_FILENAMES = ["dqn_best.pt", "dqn_second_best.pt", "dqn_third_best.pt"]
 
 
 def set_global_seed(seed: int) -> None:
@@ -35,6 +40,13 @@ def set_global_seed(seed: int) -> None:
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+
+    # Force deterministic kernels where supported.
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+    torch.use_deterministic_algorithms(True, warn_only=True)
 
 
 
@@ -110,12 +122,17 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--run-name",
         type=str,
-        default="default",
+        required=True,
         help="Name for this training run; checkpoints are saved under checkpoints/<run-name>/.",
     )
     parser.add_argument("--episodes", type=int, required=True)
     parser.add_argument("--eval-every", type=int, required=True)
-    parser.add_argument("--eval-games", type=int, required=True)
+    parser.add_argument(
+        "--eval-games",
+        type=int,
+        default=2000,
+        help="Evaluation games per opponent (default: 2000).",
+    )
     parser.add_argument("--batch-size", type=int, required=True)
     parser.add_argument("--buffer-capacity", type=int, required=True)
     parser.add_argument("--learning-rate", type=float, required=True)
@@ -171,12 +188,32 @@ def main() -> None:
     print(f"Run name: {args.run_name}", flush=True)
     print(f"Checkpoint directory: {run_checkpoint_dir}", flush=True)
 
+    # Save run command + hyperparameters for reproducibility.
+    run_meta = {
+        "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+        "cwd": os.getcwd(),
+        "python_executable": sys.executable,
+        "command": " ".join([sys.executable, *sys.argv]),
+        "argv": sys.argv,
+        "hyperparameters": vars(args),
+        "determinism": {
+            "torch_use_deterministic_algorithms": True,
+            "cudnn_deterministic": True,
+            "cudnn_benchmark": False,
+        },
+    }
+    run_meta_path = os.path.join(run_checkpoint_dir, "run_metadata.json")
+    with open(run_meta_path, "w", encoding="utf-8") as f:
+        json.dump(run_meta, f, indent=2)
+    print(f"Run metadata saved to {run_meta_path}", flush=True)
+
     train_opponents: List[OpponentClass] = [
         # RandomStrategy,
         # RandomStrategyWithKnockScore,
-        DiscardIncreaseStrategy,
-        # CurrentTurnExpectedValueStrategy,
         # ConservativeExpectedValueStrategy,
+        # CurrentTurnExpectedValueStrategy,
+        DiscardIncreaseStrategy,
+        # CurrentTurnExpectedValueStrategy
     ]
 
     probe_env = ThirtyOneEnv(opponent_factory=RandomStrategy, seed=args.seed)
@@ -196,6 +233,7 @@ def main() -> None:
     best_eval_wr = -1.0
     best_eval_episode = 0
     best_eval_by_opp: List[Tuple[str, float]] = []
+    top_checkpoints: List[Dict[str, object]] = []
     moving_rewards: List[float] = []
     moving_losses: List[float] = []
     logs: List[Dict] = []  # Accumulate logs for JSON export
@@ -323,14 +361,57 @@ def main() -> None:
             latest_path = os.path.join(run_checkpoint_dir, "dqn_latest.pt")
             agent.save(latest_path)
 
-            if avg_wr > best_eval_wr:
-                best_eval_wr = avg_wr
-                best_eval_episode = episode
-                best_eval_by_opp = by_opp.copy()
-                best_path = os.path.join(run_checkpoint_dir, "dqn_best.pt")
-                agent.save(best_path)
-                print(f"  New best aggregate win rate: {
-                        best_eval_wr:.2f}% -> saved {best_path}", flush=True)
+            should_track = (len(top_checkpoints) < 3) or (
+                avg_wr > float(top_checkpoints[-1]["win_rate"])
+            )
+            if should_track:
+                insert_idx = len(top_checkpoints)
+                for i, ckpt in enumerate(top_checkpoints):
+                    if avg_wr > float(ckpt["win_rate"]):
+                        insert_idx = i
+                        break
+
+                if insert_idx < 3:
+                    temp_path = os.path.join(run_checkpoint_dir, "_dqn_candidate.pt")
+                    agent.save(temp_path)
+
+                    for rank in range(min(len(top_checkpoints), 2), insert_idx - 1, -1):
+                        if rank >= 2:
+                            continue
+                        src_name = TOP_CHECKPOINT_FILENAMES[rank]
+                        dst_name = TOP_CHECKPOINT_FILENAMES[rank + 1]
+                        src_path = os.path.join(run_checkpoint_dir, src_name)
+                        dst_path = os.path.join(run_checkpoint_dir, dst_name)
+                        if os.path.exists(src_path):
+                            shutil.copy2(src_path, dst_path)
+
+                    target_name = TOP_CHECKPOINT_FILENAMES[insert_idx]
+                    target_path = os.path.join(run_checkpoint_dir, target_name)
+                    shutil.copy2(temp_path, target_path)
+                    os.remove(temp_path)
+
+                    top_checkpoints.insert(
+                        insert_idx,
+                        {
+                            "episode": episode,
+                            "win_rate": avg_wr,
+                            "by_opp": by_opp.copy(),
+                            "path": target_path,
+                        },
+                    )
+                    if len(top_checkpoints) > 3:
+                        top_checkpoints.pop()
+
+                    previous_best_episode = best_eval_episode
+                    best_eval_wr = float(top_checkpoints[0]["win_rate"])
+                    best_eval_episode = int(top_checkpoints[0]["episode"])
+                    best_eval_by_opp = list(top_checkpoints[0]["by_opp"])
+                    if best_eval_episode != previous_best_episode:
+                        best_path = os.path.join(run_checkpoint_dir, TOP_CHECKPOINT_FILENAMES[0])
+                        print(
+                            f"  New best aggregate win rate: {best_eval_wr:.2f}% -> saved {best_path}",
+                            flush=True,
+                        )
 
     print("Training complete.")
     if best_eval_episode > 0:
@@ -341,6 +422,12 @@ def main() -> None:
         )
         for name, wr in best_eval_by_opp:
             print(f"  best vs {name:<35} {wr:>6.2f}%", flush=True)
+        print("Top checkpoints:", flush=True)
+        for rank, ckpt in enumerate(top_checkpoints, start=1):
+            print(
+                f"  #{rank}: episode {int(ckpt['episode'])} | win_rate={float(ckpt['win_rate']):.2f}% | {ckpt['path']}",
+                flush=True,
+            )
     else:
         print(
             "No evaluation was run, so no best eval win rate is available.",

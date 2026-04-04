@@ -46,6 +46,12 @@ def _card_value(card: Card) -> float:
         return float(int(rank))
 
 
+def _card_sort_key(card: Card) -> Tuple[int, int]:
+    """Deterministic rank/suit ordering key for cards."""
+    rank, suit = card
+    return (RANKS.index(rank), SUITS.index(suit))
+
+
 class RLControlledStrategy(ComputerStrategy):
     """Placeholder strategy object used as the learning agent player."""
 
@@ -365,13 +371,13 @@ class ThirtyOneEnv:
             return 0.0, 0.0, 0.0
         
         # Cards we know opponent has
-        known = list(self.opponent_known_cards)
+        known = sorted(self.opponent_known_cards, key=_card_sort_key)
         known_score = score_hand(known) if known else 0.0
         
         # Cards we don't know about (unseen from agent perspective)
         all_cards = set((r, s) for r in RANKS for s in SUITS)
         known_cards = set(known) | self.seen_cards
-        unknown_cards = list(all_cards - known_cards)
+        unknown_cards = sorted(all_cards - known_cards, key=_card_sort_key)
         
         # Opponent needs 3 cards total; calculate min/max from unknown cards
         needs_count = max(0, 3 - len(known))
@@ -381,7 +387,11 @@ class ThirtyOneEnv:
             min_score = max_score = expected_score = known_score
         elif needs_count > 0 and unknown_cards:
             # Best possible: add best unknown cards
-            sorted_unknown = sorted(unknown_cards, key=lambda c: _card_value(c), reverse=True)
+            sorted_unknown = sorted(
+                unknown_cards,
+                key=lambda c: (_card_value(c), RANKS.index(c[0]), SUITS.index(c[1])),
+                reverse=True,
+            )
             best_unknown = sorted_unknown[:needs_count]
             max_score = score_hand(known + best_unknown)
             

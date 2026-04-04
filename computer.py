@@ -570,6 +570,138 @@ class ConservativeExpectedValueStrategy(ComputerStrategy):
         return best_idx
 
 
+class ScoreAdaptiveExpectedValueStrategy(ComputerStrategy):
+    """
+    Expected-value strategy with a score-dependent safety margin.
+
+    Behaves like ConservativeExpectedValueStrategy, but the deck-vs-discard
+    margin changes with the current hand score. Lower-scoring hands use a
+    smaller margin so the strategy is more aggressive, while higher-scoring
+    hands use a larger margin so the strategy becomes more conservative.
+
+    Attributes:
+        KNOCK_SCORE (int): Minimum score to knock (27).
+        seen_cards (Set[Card]): Tracks all observed cards.
+    """
+
+    KNOCK_SCORE = 27
+    ALL_RANKS = [
+        "A",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "J",
+        "Q",
+        "K",
+    ]
+    ALL_SUITS = ["hearts", "diamonds", "clubs", "spades"]
+
+    def __init__(self) -> None:
+        """Initialize with an empty seen_cards set."""
+        self.seen_cards: Set[Card] = set()
+
+    def observe_card(self, card: Card) -> None:
+        """
+        Track a newly observed card.
+
+        Args:
+            card (Card): The (rank, suit) card to record as seen.
+        """
+        self.seen_cards.add(card)
+
+    def _margin_for_score(self, current_score: float) -> float:
+        """
+        Return a deterministic margin based on the current hand score.
+
+        Conservative strategy with no negative margins. Removes aggressive play
+        at low scores. Reaches cap at score 12.5.
+
+        Score points:
+        - 0: margin = 0.0 (neutral start)
+        - 6: margin = 0.48 (balanced)
+        - 12.5: margin = 1.0 (capped)
+
+        Args:
+            current_score (float): Current 3-card hand score.
+
+        Returns:
+            float: Score-dependent EV margin, bounded in [-0.1, 1.0].
+        """
+        raw_margin = 0.0 + 0.08 * current_score
+        return max(0.0, min(1.0, raw_margin))
+
+    def choose_action(
+        self,
+        hand: List[Card],
+        top_discard: Optional[Card],
+        knock_allowed: bool,
+        debug: bool = False,
+    ) -> str:
+        """
+        Knock if eligible; otherwise compare discard vs. score-dependent deck EV.
+
+        Args:
+            hand (List[Card]): The current 3-card hand.
+            top_discard (Optional[Card]): The visible discard card.
+            knock_allowed (bool): If True and score >= 27, may knock.
+            debug (bool): If True, print decision details.
+
+        Returns:
+            str: "knock", "draw_discard", or "draw_deck".
+        """
+        current_score = score_hand(hand)
+        if knock_allowed and current_score >= self.KNOCK_SCORE:
+            return "knock"
+
+        discard_value = self._best_score_with_added_card(hand, top_discard)
+        discard_improvement = discard_value - current_score
+
+        deck_ev = self._calculate_expected_value(hand)
+        deck_improvement = deck_ev - current_score
+        margin = self._margin_for_score(current_score)
+
+        if debug:
+            print(
+                f"Observed Cards: {', '.join(card_label(card) for card in sorted(self.seen_cards))}"
+            )
+            print(f"Score: {current_score:.2f} | Margin: {margin:.2f}")
+            print(f"Discard: +{discard_improvement:.2f}")
+            print(f"Deck: +{deck_improvement:.2f} (margin={margin:.2f})")
+
+        if discard_improvement <= 0:
+            return "draw_deck"
+
+        if deck_ev >= discard_value + margin:
+            return "draw_deck"
+        return "draw_discard"
+
+    def choose_discard_index(self, hand: List[Card]) -> int:
+        """
+        Choose the card to discard that maximizes the remaining 3-card score.
+
+        Args:
+            hand (List[Card]): The 4-card hand.
+
+        Returns:
+            int: Index of the card to remove for maximum remaining score.
+        """
+        best_score = -1.0
+        best_idx = 0
+        for idx in range(len(hand)):
+            candidate = hand[:idx] + hand[idx + 1 :]
+            score = score_hand(candidate)
+            if score > best_score:
+                best_score = score
+                best_idx = idx
+        return best_idx
+
+
 class CurrentTurnExpectedValueStrategy(ComputerStrategy):
     """
     Pure expected-value strategy using full card-tracking.

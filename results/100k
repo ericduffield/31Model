@@ -1,0 +1,86 @@
+100k
+python3 -u train_dqn.py \
+  --episodes 100000 \
+  --eval-every 5000 \
+  --eval-games 2000 \
+  --batch-size 64 \
+  --buffer-capacity 100000 \
+  --learning-rate 1e-4 \
+  --gamma 0.95 \
+  --hidden-size 128 \
+  --epsilon-start 1.0 \
+  --epsilon-end 0.05 \
+  --epsilon-decay-episodes 60000 \
+  --target-update-steps 1000 \
+  --warmup-steps 1000 \
+  --log-every 500 \
+  --seed 1 \
+  --run-name just_discard_increase_100k_longer
+
+best vs DiscardIncreaseStrategy              23.75%
+best vs CurrentTurnExpectedValueStrategy     22.40%
+
+python3 evaluate_dqn.py --model-path checkpoints/just_discard_increase_100k_longer/dqn_best.pt --games 10000 --seed 2
+
+========================================================================
+| Opponent                           |   Wins |  Losses | Draws | Win Rate % |
+------------------------------------------------------------------------------
+| RandomStrategy                     |   5483 |    3631 |   886 |      54.83 |
+| RandomStrategyWithKnockScore       |   7192 |    2501 |   307 |      71.92 |
+| DiscardIncreaseStrategy            |   2067 |    7714 |   219 |      20.67 |
+| CurrentTurnExpectedValueStrategy   |   2043 |    7718 |   239 |      20.43 |
+| ConservativeExpectedValueStrategy  |   1989 |    7774 |   237 |      19.89 |
+------------------------------------------------------------------------------
+| Average Win %                      |        |         |       |      37.55 |
+========================================================================
+
+
+
+python3 evaluate_dqn.py --model-path checkpoints/vs_current_turn_ev_100k/dqn_best.pt --games 10000 --seed 2
+========================================================================
+| Opponent                           |   Wins |  Losses | Draws | Win Rate % |
+------------------------------------------------------------------------------
+| RandomStrategy                     |   5556 |    3554 |   890 |      55.56 |
+| RandomStrategyWithKnockScore       |   7271 |    2352 |   377 |      72.71 |
+| DiscardIncreaseStrategy            |   2129 |    7660 |   211 |      21.29 |
+| CurrentTurnExpectedValueStrategy   |   1961 |    7767 |   272 |      19.61 |
+| ConservativeExpectedValueStrategy  |   2049 |    7696 |   255 |      20.49 |
+------------------------------------------------------------------------------
+| Average Win %                      |        |         |       |      37.93 |
+========================================================================
+
+python3 evaluate_dqn.py --model-path checkpoints/vs_conservative_increase_100k/dqn_best.pt --games 5000 --seed 2 
+========================================================================
+------------------------------------------------------------------------------
+| Average Win %                      |        |         |       |      33.80 |  (MAYBE, IDK IF FINISH/outdated
+========================================================================
+
+100k vs ALL
+python3 -u train_dqn.py \
+  --episodes 100000 \
+  --eval-every 5000 \
+  --eval-games 500 \
+  --batch-size 64 \
+  --buffer-capacity 100000 \
+  --learning-rate 1e-4 \
+  --gamma 0.95 \
+  --hidden-size 128 \
+  --epsilon-start 1.0 \
+  --epsilon-end 0.05 \
+  --epsilon-decay-episodes 60000 \
+  --target-update-steps 1000 \
+  --warmup-steps 1000 \
+  --log-every 500 \
+  --seed 1
+
+==============================================================================
+| Opponent                           |   Wins |  Losses | Draws | Win Rate % |
+------------------------------------------------------------------------------
+| RandomStrategy                     |   2861 |    1730 |   409 |      57.22 |
+| RandomStrategyWithKnockScore       |   3537 |    1259 |   204 |      70.74 |
+| DiscardIncreaseStrategy            |    681 |    4232 |    87 |      13.62 |
+| CurrentTurnExpectedValueStrategy   |    638 |    4267 |    95 |      12.76 |
+| ConservativeExpectedValueStrategy  |    640 |    4245 |   115 |      12.80 |
+------------------------------------------------------------------------------
+| Average Win %                      |        |         |       |      33.43 | (outdated)
+==============================================================================

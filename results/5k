@@ -1,0 +1,69 @@
+5k vs just DiscardIncreaseStrategy 
+python3 -u train_dqn.py \
+  --episodes 5000 \
+  --eval-every 250 \
+  --eval-games 2000 \
+  --batch-size 64 \
+  --buffer-capacity 100000 \
+  --learning-rate 1e-4 \
+  --gamma 0.95 \
+  --hidden-size 128 \
+  --epsilon-start 1.0 \
+  --epsilon-end 0.05 \
+  --epsilon-decay-episodes 3000 \
+  --target-update-steps 500 \
+  --warmup-steps 100 \
+  --log-every 100 \
+  --seed 1 \
+  --run-name just_discard_increase_5k_longer
+
+best vs DiscardIncreaseStrategy              17.50%
+best vs ConservativeExpectedValueStrategy    17.60% (outdated)
+best vs CurrentTurnExpectedValueStrategy     15.40% (outdated)
+
+python3 evaluate_dqn.py --model-path checkpoints/just_discard_increase_5k_longer/dqn_best.pt --games 10000 --seed 2
+========================================================================
+| Opponent                           |   Wins |  Losses | Draws | Win Rate % |
+------------------------------------------------------------------------------
+| RandomStrategy                     |   5475 |    3685 |   840 |      54.75 |
+| RandomStrategyWithKnockScore       |   6770 |    2844 |   386 |      67.70 |
+| DiscardIncreaseStrategy            |   1708 |    8064 |   228 |      17.08 |
+| CurrentTurnExpectedValueStrategy   |   1670 |    8087 |   243 |      16.70 |
+| ConservativeExpectedValueStrategy  |   1649 |    8106 |   245 |      16.49 |
+------------------------------------------------------------------------------
+| Average Win %                      |        |         |       |      34.54 | (best)
+========================================================================
+========================================================================
+| Average Win %                      |        |         |       |      33.53 | (second best)
+========================================================================
+
+
+python3 evaluate_dqn.py --model-path checkpoints/vs_current_turn_ev_5k/dqn_best.pt --games 10000 --seed 2
+========================================================================
+| Opponent                           |   Wins |  Losses | Draws | Win Rate % |
+------------------------------------------------------------------------------
+| RandomStrategy                     |   2604 |    1939 |   457 |      52.08 |
+| RandomStrategyWithKnockScore       |   2816 |    1936 |   248 |      56.32 |
+| DiscardIncreaseStrategy            |    779 |    4116 |   105 |      15.58 |
+| CurrentTurnExpectedValueStrategy   |    797 |    4120 |    83 |      15.94 |
+| ConservativeExpectedValueStrategy  |    786 |    4127 |    87 |      15.72 |
+------------------------------------------------------------------------------
+| Average Win %                      |        |         |       |      31.13 | (outdated)
+========================================================================
+
+
+
+python3 evaluate_dqn.py --model-path checkpoints/vs_conservative_increase_5k/dqn_best.pt --games 10000 --seed 2
+
+Results:
+========================================================================
+| Opponent                           |   Wins |  Losses | Draws | Win Rate % |
+------------------------------------------------------------------------------
+| RandomStrategy                     |   2691 |    1856 |   453 |      53.82 |
+| RandomStrategyWithKnockScore       |   3025 |    1740 |   235 |      60.50 |
+| DiscardIncreaseStrategy            |    890 |    4001 |   109 |      17.80 |
+| CurrentTurnExpectedValueStrategy   |    838 |    4037 |   125 |      16.76 |
+| ConservativeExpectedValueStrategy  |    836 |    4059 |   105 |      16.72 |
+------------------------------------------------------------------------------
+| Average Win %                      |        |         |       |      33.12 | (outdated)
+========================================================================
