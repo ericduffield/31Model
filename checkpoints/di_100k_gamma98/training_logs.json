@@ -1,0 +1,2544 @@
+[
+  {
+    "episode": 500,
+    "epsilon": 0.9902,
+    "avg_reward": -0.865,
+    "avg_loss": 0.027777645939961074,
+    "mean_max_q": -0.02232896164059639,
+    "mean_abs_q": 0.2874191105365753,
+    "replay_size": 2632,
+    "eval_win_rate": 2.26,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 2.26
+      }
+    ]
+  },
+  {
+    "episode": 1000,
+    "epsilon": 0.9804,
+    "avg_reward": -0.83,
+    "avg_loss": 0.01786172273475677,
+    "mean_max_q": -0.08600854128599167,
+    "mean_abs_q": 0.39612877368927,
+    "replay_size": 5391,
+    "eval_win_rate": 6.959999999999999,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 6.959999999999999
+      }
+    ]
+  },
+  {
+    "episode": 1500,
+    "epsilon": 0.9706,
+    "avg_reward": -0.875,
+    "avg_loss": 0.0183204013844952,
+    "mean_max_q": 0.012157008051872253,
+    "mean_abs_q": 0.41635382175445557,
+    "replay_size": 8081
+  },
+  {
+    "episode": 2000,
+    "epsilon": 0.9608,
+    "avg_reward": -0.835,
+    "avg_loss": 0.01867880157008767,
+    "mean_max_q": -0.09524635970592499,
+    "mean_abs_q": 0.4349280893802643,
+    "replay_size": 10747,
+    "eval_win_rate": 9.44,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 9.44
+      }
+    ]
+  },
+  {
+    "episode": 2500,
+    "epsilon": 0.951,
+    "avg_reward": -0.885,
+    "avg_loss": 0.019776557838544248,
+    "mean_max_q": -0.08248042315244675,
+    "mean_abs_q": 0.4825562834739685,
+    "replay_size": 13276
+  },
+  {
+    "episode": 3000,
+    "epsilon": 0.9412,
+    "avg_reward": -0.86,
+    "avg_loss": 0.021037578506395222,
+    "mean_max_q": -0.17303046584129333,
+    "mean_abs_q": 0.5237066745758057,
+    "replay_size": 15888,
+    "eval_win_rate": 10.879999999999999,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 10.879999999999999
+      }
+    ]
+  },
+  {
+    "episode": 3500,
+    "epsilon": 0.9314,
+    "avg_reward": -0.9,
+    "avg_loss": 0.019001422460190952,
+    "mean_max_q": -0.22230835258960724,
+    "mean_abs_q": 0.483322411775589,
+    "replay_size": 18593
+  },
+  {
+    "episode": 4000,
+    "epsilon": 0.9216,
+    "avg_reward": -0.895,
+    "avg_loss": 0.018272150272503496,
+    "mean_max_q": -0.20901478826999664,
+    "mean_abs_q": 0.5001235604286194,
+    "replay_size": 21370,
+    "eval_win_rate": 12.920000000000002,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 12.920000000000002
+      }
+    ]
+  },
+  {
+    "episode": 4500,
+    "epsilon": 0.9117999999999999,
+    "avg_reward": -0.835,
+    "avg_loss": 0.017549068639054893,
+    "mean_max_q": -0.2995742857456207,
+    "mean_abs_q": 0.5218142867088318,
+    "replay_size": 24146
+  },
+  {
+    "episode": 5000,
+    "epsilon": 0.902,
+    "avg_reward": -0.885,
+    "avg_loss": 0.019071805842220783,
+    "mean_max_q": -0.21320484578609467,
+    "mean_abs_q": 0.4585437774658203,
+    "replay_size": 26774,
+    "eval_win_rate": 13.28,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 13.28
+      }
+    ]
+  },
+  {
+    "episode": 5500,
+    "epsilon": 0.8922,
+    "avg_reward": -0.9,
+    "avg_loss": 0.01797817881591618,
+    "mean_max_q": -0.27434834837913513,
+    "mean_abs_q": 0.5051359534263611,
+    "replay_size": 29505
+  },
+  {
+    "episode": 6000,
+    "epsilon": 0.8824,
+    "avg_reward": -0.885,
+    "avg_loss": 0.01835854410380125,
+    "mean_max_q": -0.2945365905761719,
+    "mean_abs_q": 0.5012633204460144,
+    "replay_size": 32248,
+    "eval_win_rate": 14.56,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 14.56
+      }
+    ]
+  },
+  {
+    "episode": 6500,
+    "epsilon": 0.8726,
+    "avg_reward": -0.855,
+    "avg_loss": 0.018822846233844757,
+    "mean_max_q": -0.33683857321739197,
+    "mean_abs_q": 0.5495877265930176,
+    "replay_size": 34951
+  },
+  {
+    "episode": 7000,
+    "epsilon": 0.8628,
+    "avg_reward": -0.835,
+    "avg_loss": 0.018044586753472685,
+    "mean_max_q": -0.33688193559646606,
+    "mean_abs_q": 0.5356095433235168,
+    "replay_size": 37437,
+    "eval_win_rate": 15.939999999999998,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 15.939999999999998
+      }
+    ]
+  },
+  {
+    "episode": 7500,
+    "epsilon": 0.853,
+    "avg_reward": -0.81,
+    "avg_loss": 0.019615510683506726,
+    "mean_max_q": -0.25881829857826233,
+    "mean_abs_q": 0.5090503692626953,
+    "replay_size": 40106,
+    "eval_win_rate": 13.320000000000002,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 13.320000000000002
+      }
+    ]
+  },
+  {
+    "episode": 8000,
+    "epsilon": 0.8432,
+    "avg_reward": -0.925,
+    "avg_loss": 0.018474172863177957,
+    "mean_max_q": -0.320878267288208,
+    "mean_abs_q": 0.5431056618690491,
+    "replay_size": 42915,
+    "eval_win_rate": 13.139999999999999,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 13.139999999999999
+      }
+    ]
+  },
+  {
+    "episode": 8500,
+    "epsilon": 0.8334,
+    "avg_reward": -0.875,
+    "avg_loss": 0.01825538997910917,
+    "mean_max_q": -0.34095582365989685,
+    "mean_abs_q": 0.5482921600341797,
+    "replay_size": 45586
+  },
+  {
+    "episode": 9000,
+    "epsilon": 0.8236,
+    "avg_reward": -0.87,
+    "avg_loss": 0.019263862391933798,
+    "mean_max_q": -0.3292359709739685,
+    "mean_abs_q": 0.5417119860649109,
+    "replay_size": 48244,
+    "eval_win_rate": 12.920000000000002,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 12.920000000000002
+      }
+    ]
+  },
+  {
+    "episode": 9500,
+    "epsilon": 0.8138,
+    "avg_reward": -0.825,
+    "avg_loss": 0.01740855804271996,
+    "mean_max_q": -0.3757140636444092,
+    "mean_abs_q": 0.5653574466705322,
+    "replay_size": 51141
+  },
+  {
+    "episode": 10000,
+    "epsilon": 0.804,
+    "avg_reward": -0.89,
+    "avg_loss": 0.018900712735019625,
+    "mean_max_q": -0.43773382902145386,
+    "mean_abs_q": 0.591038703918457,
+    "replay_size": 53886,
+    "eval_win_rate": 14.399999999999999,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 14.399999999999999
+      }
+    ]
+  },
+  {
+    "episode": 10500,
+    "epsilon": 0.7942,
+    "avg_reward": -0.87,
+    "avg_loss": 0.01840133185032755,
+    "mean_max_q": -0.4005710184574127,
+    "mean_abs_q": 0.606865644454956,
+    "replay_size": 56755
+  },
+  {
+    "episode": 11000,
+    "epsilon": 0.7844,
+    "avg_reward": -0.845,
+    "avg_loss": 0.0182997413771227,
+    "mean_max_q": -0.35037147998809814,
+    "mean_abs_q": 0.5875944495201111,
+    "replay_size": 59633,
+    "eval_win_rate": 15.1,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 15.1
+      }
+    ]
+  },
+  {
+    "episode": 11500,
+    "epsilon": 0.7746,
+    "avg_reward": -0.865,
+    "avg_loss": 0.019108687966130675,
+    "mean_max_q": -0.34362611174583435,
+    "mean_abs_q": 0.626933753490448,
+    "replay_size": 62296
+  },
+  {
+    "episode": 12000,
+    "epsilon": 0.7648,
+    "avg_reward": -0.81,
+    "avg_loss": 0.018639655099250377,
+    "mean_max_q": -0.3918890357017517,
+    "mean_abs_q": 0.6008298397064209,
+    "replay_size": 65062,
+    "eval_win_rate": 13.94,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 13.94
+      }
+    ]
+  },
+  {
+    "episode": 12500,
+    "epsilon": 0.755,
+    "avg_reward": -0.885,
+    "avg_loss": 0.016186261762864886,
+    "mean_max_q": -0.5027427077293396,
+    "mean_abs_q": 0.6509975790977478,
+    "replay_size": 67951
+  },
+  {
+    "episode": 13000,
+    "epsilon": 0.7452,
+    "avg_reward": -0.845,
+    "avg_loss": 0.019851027307100595,
+    "mean_max_q": -0.35167235136032104,
+    "mean_abs_q": 0.6002227663993835,
+    "replay_size": 70735,
+    "eval_win_rate": 14.799999999999999,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 14.799999999999999
+      }
+    ]
+  },
+  {
+    "episode": 13500,
+    "epsilon": 0.7354,
+    "avg_reward": -0.84,
+    "avg_loss": 0.017259699635207654,
+    "mean_max_q": -0.5050086975097656,
+    "mean_abs_q": 0.6430075764656067,
+    "replay_size": 73545
+  },
+  {
+    "episode": 14000,
+    "epsilon": 0.7256,
+    "avg_reward": -0.83,
+    "avg_loss": 0.020766044582240285,
+    "mean_max_q": -0.500941276550293,
+    "mean_abs_q": 0.6629462242126465,
+    "replay_size": 76463,
+    "eval_win_rate": 13.239999999999998,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 13.239999999999998
+      }
+    ]
+  },
+  {
+    "episode": 14500,
+    "epsilon": 0.7158,
+    "avg_reward": -0.83,
+    "avg_loss": 0.01911169116012752,
+    "mean_max_q": -0.4699747562408447,
+    "mean_abs_q": 0.6353365182876587,
+    "replay_size": 79258
+  },
+  {
+    "episode": 15000,
+    "epsilon": 0.706,
+    "avg_reward": -0.825,
+    "avg_loss": 0.01712304438650608,
+    "mean_max_q": -0.40019166469573975,
+    "mean_abs_q": 0.6069937348365784,
+    "replay_size": 82098,
+    "eval_win_rate": 14.42,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 14.42
+      }
+    ]
+  },
+  {
+    "episode": 15500,
+    "epsilon": 0.6961999999999999,
+    "avg_reward": -0.83,
+    "avg_loss": 0.019727379841264336,
+    "mean_max_q": -0.41923874616622925,
+    "mean_abs_q": 0.6462938189506531,
+    "replay_size": 85027
+  },
+  {
+    "episode": 16000,
+    "epsilon": 0.6864,
+    "avg_reward": -0.775,
+    "avg_loss": 0.019429291372187435,
+    "mean_max_q": -0.44300293922424316,
+    "mean_abs_q": 0.6484506130218506,
+    "replay_size": 87778,
+    "eval_win_rate": 14.940000000000001,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 14.940000000000001
+      }
+    ]
+  },
+  {
+    "episode": 16500,
+    "epsilon": 0.6766,
+    "avg_reward": -0.75,
+    "avg_loss": 0.01813289008103311,
+    "mean_max_q": -0.5065871477127075,
+    "mean_abs_q": 0.6324959993362427,
+    "replay_size": 90760,
+    "eval_win_rate": 14.82,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 14.82
+      }
+    ]
+  },
+  {
+    "episode": 17000,
+    "epsilon": 0.6668000000000001,
+    "avg_reward": -0.785,
+    "avg_loss": 0.021749068873003125,
+    "mean_max_q": -0.4480639100074768,
+    "mean_abs_q": 0.6535016298294067,
+    "replay_size": 93630,
+    "eval_win_rate": 16.82,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 16.82
+      }
+    ]
+  },
+  {
+    "episode": 17500,
+    "epsilon": 0.657,
+    "avg_reward": -0.805,
+    "avg_loss": 0.017088819683063774,
+    "mean_max_q": -0.5049026012420654,
+    "mean_abs_q": 0.6472043991088867,
+    "replay_size": 96353
+  },
+  {
+    "episode": 18000,
+    "epsilon": 0.6472,
+    "avg_reward": -0.67,
+    "avg_loss": 0.020199787179008125,
+    "mean_max_q": -0.5080356001853943,
+    "mean_abs_q": 0.6713590621948242,
+    "replay_size": 99167,
+    "eval_win_rate": 14.64,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 14.64
+      }
+    ]
+  },
+  {
+    "episode": 18500,
+    "epsilon": 0.6374,
+    "avg_reward": -0.8,
+    "avg_loss": 0.019189570180140437,
+    "mean_max_q": -0.4942479729652405,
+    "mean_abs_q": 0.7063139081001282,
+    "replay_size": 100000
+  },
+  {
+    "episode": 19000,
+    "epsilon": 0.6275999999999999,
+    "avg_reward": -0.8,
+    "avg_loss": 0.019011386667378248,
+    "mean_max_q": -0.5518231391906738,
+    "mean_abs_q": 0.7043285369873047,
+    "replay_size": 100000,
+    "eval_win_rate": 16.08,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 16.08
+      }
+    ]
+  },
+  {
+    "episode": 19500,
+    "epsilon": 0.6178,
+    "avg_reward": -0.765,
+    "avg_loss": 0.018401709924452007,
+    "mean_max_q": -0.5236037969589233,
+    "mean_abs_q": 0.6851305365562439,
+    "replay_size": 100000
+  },
+  {
+    "episode": 20000,
+    "epsilon": 0.608,
+    "avg_reward": -0.765,
+    "avg_loss": 0.020077843330800534,
+    "mean_max_q": -0.5195202827453613,
+    "mean_abs_q": 0.6454112529754639,
+    "replay_size": 100000,
+    "eval_win_rate": 16.8,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 16.8
+      }
+    ]
+  },
+  {
+    "episode": 20500,
+    "epsilon": 0.5982000000000001,
+    "avg_reward": -0.785,
+    "avg_loss": 0.019994534060359,
+    "mean_max_q": -0.5350691080093384,
+    "mean_abs_q": 0.690468966960907,
+    "replay_size": 100000
+  },
+  {
+    "episode": 21000,
+    "epsilon": 0.5884,
+    "avg_reward": -0.77,
+    "avg_loss": 0.0222239234209992,
+    "mean_max_q": -0.5731154680252075,
+    "mean_abs_q": 0.6743474006652832,
+    "replay_size": 100000,
+    "eval_win_rate": 15.459999999999999,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 15.459999999999999
+      }
+    ]
+  },
+  {
+    "episode": 21500,
+    "epsilon": 0.5786,
+    "avg_reward": -0.74,
+    "avg_loss": 0.01928571977838874,
+    "mean_max_q": -0.41840413212776184,
+    "mean_abs_q": 0.6719176769256592,
+    "replay_size": 100000
+  },
+  {
+    "episode": 22000,
+    "epsilon": 0.5688,
+    "avg_reward": -0.755,
+    "avg_loss": 0.021324452445842326,
+    "mean_max_q": -0.5433641672134399,
+    "mean_abs_q": 0.6644784212112427,
+    "replay_size": 100000,
+    "eval_win_rate": 14.56,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 14.56
+      }
+    ]
+  },
+  {
+    "episode": 22500,
+    "epsilon": 0.5589999999999999,
+    "avg_reward": -0.8,
+    "avg_loss": 0.020899901864118876,
+    "mean_max_q": -0.5793966054916382,
+    "mean_abs_q": 0.7351415157318115,
+    "replay_size": 100000
+  },
+  {
+    "episode": 23000,
+    "epsilon": 0.5491999999999999,
+    "avg_reward": -0.675,
+    "avg_loss": 0.02058892491227016,
+    "mean_max_q": -0.5753837823867798,
+    "mean_abs_q": 0.7015773057937622,
+    "replay_size": 100000,
+    "eval_win_rate": 14.760000000000002,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 14.760000000000002
+      }
+    ]
+  },
+  {
+    "episode": 23500,
+    "epsilon": 0.5394000000000001,
+    "avg_reward": -0.795,
+    "avg_loss": 0.01890057354513556,
+    "mean_max_q": -0.5873292684555054,
+    "mean_abs_q": 0.7120559215545654,
+    "replay_size": 100000
+  },
+  {
+    "episode": 24000,
+    "epsilon": 0.5296000000000001,
+    "avg_reward": -0.73,
+    "avg_loss": 0.02054908173903823,
+    "mean_max_q": -0.573239803314209,
+    "mean_abs_q": 0.7304429411888123,
+    "replay_size": 100000,
+    "eval_win_rate": 15.0,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 15.0
+      }
+    ]
+  },
+  {
+    "episode": 24500,
+    "epsilon": 0.5198,
+    "avg_reward": -0.735,
+    "avg_loss": 0.019404582534916698,
+    "mean_max_q": -0.5523326396942139,
+    "mean_abs_q": 0.7042348384857178,
+    "replay_size": 100000
+  },
+  {
+    "episode": 25000,
+    "epsilon": 0.51,
+    "avg_reward": -0.835,
+    "avg_loss": 0.02113515142351389,
+    "mean_max_q": -0.5246956944465637,
+    "mean_abs_q": 0.6948118209838867,
+    "replay_size": 100000,
+    "eval_win_rate": 16.1,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 16.1
+      }
+    ]
+  },
+  {
+    "episode": 25500,
+    "epsilon": 0.5002,
+    "avg_reward": -0.75,
+    "avg_loss": 0.02204745372850448,
+    "mean_max_q": -0.557449221611023,
+    "mean_abs_q": 0.6619492173194885,
+    "replay_size": 100000
+  },
+  {
+    "episode": 26000,
+    "epsilon": 0.49039999999999995,
+    "avg_reward": -0.825,
+    "avg_loss": 0.02192705898405984,
+    "mean_max_q": -0.593509316444397,
+    "mean_abs_q": 0.7356835007667542,
+    "replay_size": 100000,
+    "eval_win_rate": 18.78,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 18.78
+      }
+    ]
+  },
+  {
+    "episode": 26500,
+    "epsilon": 0.4806,
+    "avg_reward": -0.81,
+    "avg_loss": 0.020036405828781426,
+    "mean_max_q": -0.558605432510376,
+    "mean_abs_q": 0.7221030592918396,
+    "replay_size": 100000
+  },
+  {
+    "episode": 27000,
+    "epsilon": 0.4708,
+    "avg_reward": -0.735,
+    "avg_loss": 0.024850784055888652,
+    "mean_max_q": -0.5650052428245544,
+    "mean_abs_q": 0.6869396567344666,
+    "replay_size": 100000,
+    "eval_win_rate": 15.959999999999999,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 15.959999999999999
+      }
+    ]
+  },
+  {
+    "episode": 27500,
+    "epsilon": 0.46099999999999997,
+    "avg_reward": -0.7,
+    "avg_loss": 0.022868483821861445,
+    "mean_max_q": -0.5635044574737549,
+    "mean_abs_q": 0.7118038535118103,
+    "replay_size": 100000
+  },
+  {
+    "episode": 28000,
+    "epsilon": 0.45119999999999993,
+    "avg_reward": -0.71,
+    "avg_loss": 0.02258629320329055,
+    "mean_max_q": -0.6322121620178223,
+    "mean_abs_q": 0.7294740080833435,
+    "replay_size": 100000,
+    "eval_win_rate": 17.36,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 17.36
+      }
+    ]
+  },
+  {
+    "episode": 28500,
+    "epsilon": 0.4414,
+    "avg_reward": -0.725,
+    "avg_loss": 0.01952974871126935,
+    "mean_max_q": -0.5333557724952698,
+    "mean_abs_q": 0.7257868051528931,
+    "replay_size": 100000
+  },
+  {
+    "episode": 29000,
+    "epsilon": 0.4316000000000001,
+    "avg_reward": -0.67,
+    "avg_loss": 0.025105269669555126,
+    "mean_max_q": -0.49046868085861206,
+    "mean_abs_q": 0.7246729731559753,
+    "replay_size": 100000,
+    "eval_win_rate": 16.14,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 16.14
+      }
+    ]
+  },
+  {
+    "episode": 29500,
+    "epsilon": 0.42180000000000006,
+    "avg_reward": -0.805,
+    "avg_loss": 0.020879952988121658,
+    "mean_max_q": -0.5610289573669434,
+    "mean_abs_q": 0.705486536026001,
+    "replay_size": 100000
+  },
+  {
+    "episode": 30000,
+    "epsilon": 0.41200000000000003,
+    "avg_reward": -0.795,
+    "avg_loss": 0.019252858634106813,
+    "mean_max_q": -0.5761847496032715,
+    "mean_abs_q": 0.7332371473312378,
+    "replay_size": 100000,
+    "eval_win_rate": 18.04,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 18.04
+      }
+    ]
+  },
+  {
+    "episode": 30500,
+    "epsilon": 0.4022,
+    "avg_reward": -0.75,
+    "avg_loss": 0.018439028597902505,
+    "mean_max_q": -0.6025748252868652,
+    "mean_abs_q": 0.7648546695709229,
+    "replay_size": 100000
+  },
+  {
+    "episode": 31000,
+    "epsilon": 0.39239999999999997,
+    "avg_reward": -0.695,
+    "avg_loss": 0.0188849901300855,
+    "mean_max_q": -0.56683349609375,
+    "mean_abs_q": 0.7373436689376831,
+    "replay_size": 100000,
+    "eval_win_rate": 20.18,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 20.18
+      }
+    ]
+  },
+  {
+    "episode": 31500,
+    "epsilon": 0.38260000000000005,
+    "avg_reward": -0.795,
+    "avg_loss": 0.01940318822581321,
+    "mean_max_q": -0.6395190954208374,
+    "mean_abs_q": 0.7523671388626099,
+    "replay_size": 100000
+  },
+  {
+    "episode": 32000,
+    "epsilon": 0.3728,
+    "avg_reward": -0.735,
+    "avg_loss": 0.022635476275347174,
+    "mean_max_q": -0.5800668597221375,
+    "mean_abs_q": 0.724684476852417,
+    "replay_size": 100000,
+    "eval_win_rate": 15.939999999999998,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 15.939999999999998
+      }
+    ]
+  },
+  {
+    "episode": 32500,
+    "epsilon": 0.363,
+    "avg_reward": -0.79,
+    "avg_loss": 0.020735726314131172,
+    "mean_max_q": -0.5446075201034546,
+    "mean_abs_q": 0.6802400350570679,
+    "replay_size": 100000
+  },
+  {
+    "episode": 33000,
+    "epsilon": 0.35319999999999996,
+    "avg_reward": -0.665,
+    "avg_loss": 0.021622656309511514,
+    "mean_max_q": -0.5049102306365967,
+    "mean_abs_q": 0.668360710144043,
+    "replay_size": 100000,
+    "eval_win_rate": 17.299999999999997,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 17.299999999999997
+      }
+    ]
+  },
+  {
+    "episode": 33500,
+    "epsilon": 0.3433999999999999,
+    "avg_reward": -0.745,
+    "avg_loss": 0.019434909080620854,
+    "mean_max_q": -0.5697963237762451,
+    "mean_abs_q": 0.7434902787208557,
+    "replay_size": 100000
+  },
+  {
+    "episode": 34000,
+    "epsilon": 0.3336,
+    "avg_reward": -0.755,
+    "avg_loss": 0.020493491585366428,
+    "mean_max_q": -0.5928440690040588,
+    "mean_abs_q": 0.7206733822822571,
+    "replay_size": 100000,
+    "eval_win_rate": 18.82,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 18.82
+      }
+    ]
+  },
+  {
+    "episode": 34500,
+    "epsilon": 0.3238000000000001,
+    "avg_reward": -0.73,
+    "avg_loss": 0.021376346154138446,
+    "mean_max_q": -0.5792996883392334,
+    "mean_abs_q": 0.7151270508766174,
+    "replay_size": 100000
+  },
+  {
+    "episode": 35000,
+    "epsilon": 0.31400000000000006,
+    "avg_reward": -0.615,
+    "avg_loss": 0.021168812070041895,
+    "mean_max_q": -0.6010900735855103,
+    "mean_abs_q": 0.7435322403907776,
+    "replay_size": 100000,
+    "eval_win_rate": 18.060000000000002,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 18.060000000000002
+      }
+    ]
+  },
+  {
+    "episode": 35500,
+    "epsilon": 0.3042,
+    "avg_reward": -0.71,
+    "avg_loss": 0.02285883686784655,
+    "mean_max_q": -0.5114050507545471,
+    "mean_abs_q": 0.6928365230560303,
+    "replay_size": 100000
+  },
+  {
+    "episode": 36000,
+    "epsilon": 0.2944,
+    "avg_reward": -0.685,
+    "avg_loss": 0.020785648692864925,
+    "mean_max_q": -0.48121729493141174,
+    "mean_abs_q": 0.7244018316268921,
+    "replay_size": 100000,
+    "eval_win_rate": 19.34,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 19.34
+      }
+    ]
+  },
+  {
+    "episode": 36500,
+    "epsilon": 0.2846000000000001,
+    "avg_reward": -0.76,
+    "avg_loss": 0.02069613428087905,
+    "mean_max_q": -0.574225127696991,
+    "mean_abs_q": 0.7298843860626221,
+    "replay_size": 100000
+  },
+  {
+    "episode": 37000,
+    "epsilon": 0.27480000000000004,
+    "avg_reward": -0.7,
+    "avg_loss": 0.020665344939101486,
+    "mean_max_q": -0.5939596891403198,
+    "mean_abs_q": 0.7418875098228455,
+    "replay_size": 100000,
+    "eval_win_rate": 17.36,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 17.36
+      }
+    ]
+  },
+  {
+    "episode": 37500,
+    "epsilon": 0.265,
+    "avg_reward": -0.73,
+    "avg_loss": 0.018733450156636536,
+    "mean_max_q": -0.6220715045928955,
+    "mean_abs_q": 0.7420366406440735,
+    "replay_size": 100000
+  },
+  {
+    "episode": 38000,
+    "epsilon": 0.2552,
+    "avg_reward": -0.615,
+    "avg_loss": 0.020278983359225095,
+    "mean_max_q": -0.5641254186630249,
+    "mean_abs_q": 0.7183024287223816,
+    "replay_size": 100000,
+    "eval_win_rate": 18.099999999999998,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 18.099999999999998
+      }
+    ]
+  },
+  {
+    "episode": 38500,
+    "epsilon": 0.24539999999999995,
+    "avg_reward": -0.64,
+    "avg_loss": 0.02163793418603018,
+    "mean_max_q": -0.5286733508110046,
+    "mean_abs_q": 0.7087886333465576,
+    "replay_size": 100000
+  },
+  {
+    "episode": 39000,
+    "epsilon": 0.23560000000000003,
+    "avg_reward": -0.72,
+    "avg_loss": 0.023075678331311793,
+    "mean_max_q": -0.5905503034591675,
+    "mean_abs_q": 0.7158034443855286,
+    "replay_size": 100000,
+    "eval_win_rate": 17.24,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 17.24
+      }
+    ]
+  },
+  {
+    "episode": 39500,
+    "epsilon": 0.2258,
+    "avg_reward": -0.65,
+    "avg_loss": 0.0220055980309844,
+    "mean_max_q": -0.6359947919845581,
+    "mean_abs_q": 0.7516889572143555,
+    "replay_size": 100000
+  },
+  {
+    "episode": 40000,
+    "epsilon": 0.21599999999999997,
+    "avg_reward": -0.735,
+    "avg_loss": 0.019928987177088856,
+    "mean_max_q": -0.588708758354187,
+    "mean_abs_q": 0.7413982152938843,
+    "replay_size": 100000,
+    "eval_win_rate": 20.8,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 20.8
+      }
+    ]
+  },
+  {
+    "episode": 40500,
+    "epsilon": 0.20619999999999994,
+    "avg_reward": -0.66,
+    "avg_loss": 0.019040573704522102,
+    "mean_max_q": -0.6037610173225403,
+    "mean_abs_q": 0.743793785572052,
+    "replay_size": 100000
+  },
+  {
+    "episode": 41000,
+    "epsilon": 0.19640000000000002,
+    "avg_reward": -0.66,
+    "avg_loss": 0.020584599210880697,
+    "mean_max_q": -0.5219852924346924,
+    "mean_abs_q": 0.7257506847381592,
+    "replay_size": 100000,
+    "eval_win_rate": 18.84,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 18.84
+      }
+    ]
+  },
+  {
+    "episode": 41500,
+    "epsilon": 0.1866000000000001,
+    "avg_reward": -0.65,
+    "avg_loss": 0.018688259935937823,
+    "mean_max_q": -0.6057137846946716,
+    "mean_abs_q": 0.7348988652229309,
+    "replay_size": 100000
+  },
+  {
+    "episode": 42000,
+    "epsilon": 0.17680000000000007,
+    "avg_reward": -0.62,
+    "avg_loss": 0.02079767484916374,
+    "mean_max_q": -0.6290510296821594,
+    "mean_abs_q": 0.7408377528190613,
+    "replay_size": 100000,
+    "eval_win_rate": 17.62,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 17.62
+      }
+    ]
+  },
+  {
+    "episode": 42500,
+    "epsilon": 0.16700000000000004,
+    "avg_reward": -0.54,
+    "avg_loss": 0.02064888051850721,
+    "mean_max_q": -0.6356415152549744,
+    "mean_abs_q": 0.7699025869369507,
+    "replay_size": 100000,
+    "eval_win_rate": 18.459999999999997,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 18.459999999999997
+      }
+    ]
+  },
+  {
+    "episode": 43000,
+    "epsilon": 0.1572,
+    "avg_reward": -0.695,
+    "avg_loss": 0.021013823661953212,
+    "mean_max_q": -0.5888034701347351,
+    "mean_abs_q": 0.7295671105384827,
+    "replay_size": 100000,
+    "eval_win_rate": 18.0,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 18.0
+      }
+    ]
+  },
+  {
+    "episode": 43500,
+    "epsilon": 0.14739999999999998,
+    "avg_reward": -0.58,
+    "avg_loss": 0.020846013312228025,
+    "mean_max_q": -0.5774261355400085,
+    "mean_abs_q": 0.7383090257644653,
+    "replay_size": 100000
+  },
+  {
+    "episode": 44000,
+    "epsilon": 0.13760000000000006,
+    "avg_reward": -0.72,
+    "avg_loss": 0.020897745504043996,
+    "mean_max_q": -0.5917425155639648,
+    "mean_abs_q": 0.7392929792404175,
+    "replay_size": 100000,
+    "eval_win_rate": 17.419999999999998,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 17.419999999999998
+      }
+    ]
+  },
+  {
+    "episode": 44500,
+    "epsilon": 0.12780000000000002,
+    "avg_reward": -0.64,
+    "avg_loss": 0.02012183979805559,
+    "mean_max_q": -0.6724352240562439,
+    "mean_abs_q": 0.7592300772666931,
+    "replay_size": 100000
+  },
+  {
+    "episode": 45000,
+    "epsilon": 0.118,
+    "avg_reward": -0.66,
+    "avg_loss": 0.019331419565249235,
+    "mean_max_q": -0.6808918118476868,
+    "mean_abs_q": 0.7650959491729736,
+    "replay_size": 100000,
+    "eval_win_rate": 18.360000000000003,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 18.360000000000003
+      }
+    ]
+  },
+  {
+    "episode": 45500,
+    "epsilon": 0.10819999999999996,
+    "avg_reward": -0.715,
+    "avg_loss": 0.021404794364236295,
+    "mean_max_q": -0.53924560546875,
+    "mean_abs_q": 0.7506069540977478,
+    "replay_size": 100000
+  },
+  {
+    "episode": 46000,
+    "epsilon": 0.09839999999999993,
+    "avg_reward": -0.705,
+    "avg_loss": 0.021722843083553017,
+    "mean_max_q": -0.5891006588935852,
+    "mean_abs_q": 0.7519938945770264,
+    "replay_size": 100000,
+    "eval_win_rate": 17.740000000000002,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 17.740000000000002
+      }
+    ]
+  },
+  {
+    "episode": 46500,
+    "epsilon": 0.08860000000000001,
+    "avg_reward": -0.625,
+    "avg_loss": 0.02025019151577726,
+    "mean_max_q": -0.639573335647583,
+    "mean_abs_q": 0.7532873153686523,
+    "replay_size": 100000
+  },
+  {
+    "episode": 47000,
+    "epsilon": 0.07880000000000009,
+    "avg_reward": -0.59,
+    "avg_loss": 0.01967609696323052,
+    "mean_max_q": -0.6532636880874634,
+    "mean_abs_q": 0.7697973251342773,
+    "replay_size": 100000,
+    "eval_win_rate": 20.0,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 20.0
+      }
+    ]
+  },
+  {
+    "episode": 47500,
+    "epsilon": 0.06900000000000006,
+    "avg_reward": -0.66,
+    "avg_loss": 0.01924191446695477,
+    "mean_max_q": -0.584093451499939,
+    "mean_abs_q": 0.7358077764511108,
+    "replay_size": 100000
+  },
+  {
+    "episode": 48000,
+    "epsilon": 0.05920000000000003,
+    "avg_reward": -0.665,
+    "avg_loss": 0.020624242808669806,
+    "mean_max_q": -0.5820433497428894,
+    "mean_abs_q": 0.7402210235595703,
+    "replay_size": 100000,
+    "eval_win_rate": 18.099999999999998,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 18.099999999999998
+      }
+    ]
+  },
+  {
+    "episode": 48500,
+    "epsilon": 0.0494,
+    "avg_reward": -0.71,
+    "avg_loss": 0.01946475091204047,
+    "mean_max_q": -0.5668963193893433,
+    "mean_abs_q": 0.7302788496017456,
+    "replay_size": 100000
+  },
+  {
+    "episode": 49000,
+    "epsilon": 0.03960000000000008,
+    "avg_reward": -0.585,
+    "avg_loss": 0.021654532345943153,
+    "mean_max_q": -0.6027019619941711,
+    "mean_abs_q": 0.7498756051063538,
+    "replay_size": 100000,
+    "eval_win_rate": 18.2,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 18.2
+      }
+    ]
+  },
+  {
+    "episode": 49500,
+    "epsilon": 0.02980000000000005,
+    "avg_reward": -0.585,
+    "avg_loss": 0.01870054830564186,
+    "mean_max_q": -0.6333498954772949,
+    "mean_abs_q": 0.7672445774078369,
+    "replay_size": 100000
+  },
+  {
+    "episode": 50000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.65,
+    "avg_loss": 0.019555434777401386,
+    "mean_max_q": -0.6091615557670593,
+    "mean_abs_q": 0.74586421251297,
+    "replay_size": 100000,
+    "eval_win_rate": 19.82,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 19.82
+      }
+    ]
+  },
+  {
+    "episode": 50500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.68,
+    "avg_loss": 0.019430300547741353,
+    "mean_max_q": -0.6340673565864563,
+    "mean_abs_q": 0.7787671685218811,
+    "replay_size": 100000
+  },
+  {
+    "episode": 51000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.455,
+    "avg_loss": 0.020603402617853137,
+    "mean_max_q": -0.5534276962280273,
+    "mean_abs_q": 0.7684512734413147,
+    "replay_size": 100000,
+    "eval_win_rate": 19.42,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 19.42
+      }
+    ]
+  },
+  {
+    "episode": 51500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.52,
+    "avg_loss": 0.01889642511913553,
+    "mean_max_q": -0.5664608478546143,
+    "mean_abs_q": 0.7215315699577332,
+    "replay_size": 100000
+  },
+  {
+    "episode": 52000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.62,
+    "avg_loss": 0.02083989066677168,
+    "mean_max_q": -0.6297996640205383,
+    "mean_abs_q": 0.7651408314704895,
+    "replay_size": 100000,
+    "eval_win_rate": 20.16,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 20.16
+      }
+    ]
+  },
+  {
+    "episode": 52500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.555,
+    "avg_loss": 0.01875478093698621,
+    "mean_max_q": -0.5937619209289551,
+    "mean_abs_q": 0.7408907413482666,
+    "replay_size": 100000
+  },
+  {
+    "episode": 53000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.63,
+    "avg_loss": 0.020304828321561216,
+    "mean_max_q": -0.6460670232772827,
+    "mean_abs_q": 0.7653085589408875,
+    "replay_size": 100000,
+    "eval_win_rate": 21.32,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 21.32
+      }
+    ]
+  },
+  {
+    "episode": 53500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.555,
+    "avg_loss": 0.01947052049264312,
+    "mean_max_q": -0.5479918718338013,
+    "mean_abs_q": 0.7506492137908936,
+    "replay_size": 100000
+  },
+  {
+    "episode": 54000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.565,
+    "avg_loss": 0.021021106225904078,
+    "mean_max_q": -0.5974007844924927,
+    "mean_abs_q": 0.7410417795181274,
+    "replay_size": 100000,
+    "eval_win_rate": 17.86,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 17.86
+      }
+    ]
+  },
+  {
+    "episode": 54500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.615,
+    "avg_loss": 0.021352466879412533,
+    "mean_max_q": -0.6436669230461121,
+    "mean_abs_q": 0.7587849497795105,
+    "replay_size": 100000
+  },
+  {
+    "episode": 55000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.545,
+    "avg_loss": 0.022535790766123682,
+    "mean_max_q": -0.6057235598564148,
+    "mean_abs_q": 0.760726809501648,
+    "replay_size": 100000,
+    "eval_win_rate": 18.26,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 18.26
+      }
+    ]
+  },
+  {
+    "episode": 55500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.59,
+    "avg_loss": 0.020510275765322147,
+    "mean_max_q": -0.6239361763000488,
+    "mean_abs_q": 0.7572535872459412,
+    "replay_size": 100000
+  },
+  {
+    "episode": 56000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.655,
+    "avg_loss": 0.02013223930634558,
+    "mean_max_q": -0.6119775772094727,
+    "mean_abs_q": 0.758904218673706,
+    "replay_size": 100000,
+    "eval_win_rate": 20.36,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 20.36
+      }
+    ]
+  },
+  {
+    "episode": 56500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.645,
+    "avg_loss": 0.019560903426259758,
+    "mean_max_q": -0.6175098419189453,
+    "mean_abs_q": 0.7796030044555664,
+    "replay_size": 100000
+  },
+  {
+    "episode": 57000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.66,
+    "avg_loss": 0.020281232351437212,
+    "mean_max_q": -0.6027024984359741,
+    "mean_abs_q": 0.7383337616920471,
+    "replay_size": 100000,
+    "eval_win_rate": 20.32,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 20.32
+      }
+    ]
+  },
+  {
+    "episode": 57500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.63,
+    "avg_loss": 0.021145751208998264,
+    "mean_max_q": -0.6307823657989502,
+    "mean_abs_q": 0.7557579278945923,
+    "replay_size": 100000
+  },
+  {
+    "episode": 58000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.565,
+    "avg_loss": 0.020968219037167727,
+    "mean_max_q": -0.5241762399673462,
+    "mean_abs_q": 0.7574455738067627,
+    "replay_size": 100000,
+    "eval_win_rate": 21.82,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 21.82
+      }
+    ]
+  },
+  {
+    "episode": 58500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.58,
+    "avg_loss": 0.02351651014108211,
+    "mean_max_q": -0.5802105665206909,
+    "mean_abs_q": 0.7749351263046265,
+    "replay_size": 100000
+  },
+  {
+    "episode": 59000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.52,
+    "avg_loss": 0.021558007347397507,
+    "mean_max_q": -0.6118390560150146,
+    "mean_abs_q": 0.7651237845420837,
+    "replay_size": 100000,
+    "eval_win_rate": 21.46,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 21.46
+      }
+    ]
+  },
+  {
+    "episode": 59500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.635,
+    "avg_loss": 0.01994498954433948,
+    "mean_max_q": -0.5816273093223572,
+    "mean_abs_q": 0.7421368360519409,
+    "replay_size": 100000
+  },
+  {
+    "episode": 60000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.555,
+    "avg_loss": 0.021940960532985627,
+    "mean_max_q": -0.5853238701820374,
+    "mean_abs_q": 0.790802001953125,
+    "replay_size": 100000,
+    "eval_win_rate": 22.02,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 22.02
+      }
+    ]
+  },
+  {
+    "episode": 60500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.535,
+    "avg_loss": 0.021255935322493313,
+    "mean_max_q": -0.6319288015365601,
+    "mean_abs_q": 0.7814692854881287,
+    "replay_size": 100000
+  },
+  {
+    "episode": 61000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.64,
+    "avg_loss": 0.0203106585200876,
+    "mean_max_q": -0.6204538345336914,
+    "mean_abs_q": 0.769524872303009,
+    "replay_size": 100000,
+    "eval_win_rate": 20.7,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 20.7
+      }
+    ]
+  },
+  {
+    "episode": 61500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.695,
+    "avg_loss": 0.021421738831326365,
+    "mean_max_q": -0.6375560760498047,
+    "mean_abs_q": 0.7768781185150146,
+    "replay_size": 100000
+  },
+  {
+    "episode": 62000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.54,
+    "avg_loss": 0.021334439647383987,
+    "mean_max_q": -0.5897157788276672,
+    "mean_abs_q": 0.7675229907035828,
+    "replay_size": 100000,
+    "eval_win_rate": 21.58,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 21.58
+      }
+    ]
+  },
+  {
+    "episode": 62500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.645,
+    "avg_loss": 0.02176270970888436,
+    "mean_max_q": -0.5723146200180054,
+    "mean_abs_q": 0.7639560699462891,
+    "replay_size": 100000
+  },
+  {
+    "episode": 63000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.545,
+    "avg_loss": 0.021730255039408803,
+    "mean_max_q": -0.6077643632888794,
+    "mean_abs_q": 0.7601911425590515,
+    "replay_size": 100000,
+    "eval_win_rate": 22.38,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 22.38
+      }
+    ]
+  },
+  {
+    "episode": 63500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.635,
+    "avg_loss": 0.022401881443802268,
+    "mean_max_q": -0.5936957001686096,
+    "mean_abs_q": 0.778351902961731,
+    "replay_size": 100000
+  },
+  {
+    "episode": 64000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.485,
+    "avg_loss": 0.0181585038905032,
+    "mean_max_q": -0.6189320683479309,
+    "mean_abs_q": 0.795012891292572,
+    "replay_size": 100000,
+    "eval_win_rate": 22.64,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 22.64
+      }
+    ]
+  },
+  {
+    "episode": 64500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.585,
+    "avg_loss": 0.02286071900650859,
+    "mean_max_q": -0.6337265968322754,
+    "mean_abs_q": 0.765336275100708,
+    "replay_size": 100000
+  },
+  {
+    "episode": 65000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.575,
+    "avg_loss": 0.021191838897764683,
+    "mean_max_q": -0.5386994481086731,
+    "mean_abs_q": 0.7549250721931458,
+    "replay_size": 100000,
+    "eval_win_rate": 22.96,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 22.96
+      }
+    ]
+  },
+  {
+    "episode": 65500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.66,
+    "avg_loss": 0.02172959985025227,
+    "mean_max_q": -0.5725728869438171,
+    "mean_abs_q": 0.7602038383483887,
+    "replay_size": 100000
+  },
+  {
+    "episode": 66000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.525,
+    "avg_loss": 0.02143462797626853,
+    "mean_max_q": -0.5535264611244202,
+    "mean_abs_q": 0.734516978263855,
+    "replay_size": 100000,
+    "eval_win_rate": 22.32,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 22.32
+      }
+    ]
+  },
+  {
+    "episode": 66500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.57,
+    "avg_loss": 0.02085742160398513,
+    "mean_max_q": -0.6646054983139038,
+    "mean_abs_q": 0.786354124546051,
+    "replay_size": 100000
+  },
+  {
+    "episode": 67000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.57,
+    "avg_loss": 0.022107462082989512,
+    "mean_max_q": -0.6417803168296814,
+    "mean_abs_q": 0.8116026520729065,
+    "replay_size": 100000,
+    "eval_win_rate": 21.86,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 21.86
+      }
+    ]
+  },
+  {
+    "episode": 67500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.545,
+    "avg_loss": 0.021979670675471425,
+    "mean_max_q": -0.5846937298774719,
+    "mean_abs_q": 0.7675669193267822,
+    "replay_size": 100000
+  },
+  {
+    "episode": 68000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.595,
+    "avg_loss": 0.022208268551155926,
+    "mean_max_q": -0.6390892267227173,
+    "mean_abs_q": 0.7745010256767273,
+    "replay_size": 100000,
+    "eval_win_rate": 20.72,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 20.72
+      }
+    ]
+  },
+  {
+    "episode": 68500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.49,
+    "avg_loss": 0.0229489839784801,
+    "mean_max_q": -0.5193063020706177,
+    "mean_abs_q": 0.7475466728210449,
+    "replay_size": 100000
+  },
+  {
+    "episode": 69000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.65,
+    "avg_loss": 0.020570126803591847,
+    "mean_max_q": -0.49841922521591187,
+    "mean_abs_q": 0.7477282881736755,
+    "replay_size": 100000,
+    "eval_win_rate": 22.28,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 22.28
+      }
+    ]
+  },
+  {
+    "episode": 69500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.64,
+    "avg_loss": 0.023015989953652026,
+    "mean_max_q": -0.604607105255127,
+    "mean_abs_q": 0.7873084545135498,
+    "replay_size": 100000
+  },
+  {
+    "episode": 70000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.605,
+    "avg_loss": 0.02459811506792903,
+    "mean_max_q": -0.6433892250061035,
+    "mean_abs_q": 0.7808163166046143,
+    "replay_size": 100000,
+    "eval_win_rate": 21.64,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 21.64
+      }
+    ]
+  },
+  {
+    "episode": 70500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.605,
+    "avg_loss": 0.022888412307947872,
+    "mean_max_q": -0.5632482171058655,
+    "mean_abs_q": 0.7684410214424133,
+    "replay_size": 100000
+  },
+  {
+    "episode": 71000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.56,
+    "avg_loss": 0.022721111848950384,
+    "mean_max_q": -0.5883550643920898,
+    "mean_abs_q": 0.759324312210083,
+    "replay_size": 100000,
+    "eval_win_rate": 22.84,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 22.84
+      }
+    ]
+  },
+  {
+    "episode": 71500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.51,
+    "avg_loss": 0.021608803190290928,
+    "mean_max_q": -0.6119080781936646,
+    "mean_abs_q": 0.7758114337921143,
+    "replay_size": 100000
+  },
+  {
+    "episode": 72000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.615,
+    "avg_loss": 0.02111016102414578,
+    "mean_max_q": -0.5943387746810913,
+    "mean_abs_q": 0.7988183498382568,
+    "replay_size": 100000,
+    "eval_win_rate": 22.64,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 22.64
+      }
+    ]
+  },
+  {
+    "episode": 72500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.435,
+    "avg_loss": 0.022778903366997838,
+    "mean_max_q": -0.6096457242965698,
+    "mean_abs_q": 0.7764458060264587,
+    "replay_size": 100000,
+    "eval_win_rate": 22.36,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 22.36
+      }
+    ]
+  },
+  {
+    "episode": 73000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.47,
+    "avg_loss": 0.022024781422689557,
+    "mean_max_q": -0.5734837055206299,
+    "mean_abs_q": 0.7493503093719482,
+    "replay_size": 100000,
+    "eval_win_rate": 23.16,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 23.16
+      }
+    ]
+  },
+  {
+    "episode": 73500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.565,
+    "avg_loss": 0.02207112899981439,
+    "mean_max_q": -0.5867053866386414,
+    "mean_abs_q": 0.7771145105361938,
+    "replay_size": 100000
+  },
+  {
+    "episode": 74000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.595,
+    "avg_loss": 0.021374312605708837,
+    "mean_max_q": -0.6033427715301514,
+    "mean_abs_q": 0.7863272428512573,
+    "replay_size": 100000,
+    "eval_win_rate": 22.7,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 22.7
+      }
+    ]
+  },
+  {
+    "episode": 74500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.595,
+    "avg_loss": 0.022415049837902188,
+    "mean_max_q": -0.564942479133606,
+    "mean_abs_q": 0.7702504396438599,
+    "replay_size": 100000
+  },
+  {
+    "episode": 75000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.42,
+    "avg_loss": 0.02254142105486244,
+    "mean_max_q": -0.5538368225097656,
+    "mean_abs_q": 0.7924085855484009,
+    "replay_size": 100000,
+    "eval_win_rate": 22.56,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 22.56
+      }
+    ]
+  },
+  {
+    "episode": 75500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.52,
+    "avg_loss": 0.021942304519936444,
+    "mean_max_q": -0.5393598079681396,
+    "mean_abs_q": 0.7737147212028503,
+    "replay_size": 100000
+  },
+  {
+    "episode": 76000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.505,
+    "avg_loss": 0.023583214225247503,
+    "mean_max_q": -0.565971851348877,
+    "mean_abs_q": 0.7660655379295349,
+    "replay_size": 100000,
+    "eval_win_rate": 22.1,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 22.1
+      }
+    ]
+  },
+  {
+    "episode": 76500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.53,
+    "avg_loss": 0.02339662508200854,
+    "mean_max_q": -0.5906317234039307,
+    "mean_abs_q": 0.7678011655807495,
+    "replay_size": 100000
+  },
+  {
+    "episode": 77000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.56,
+    "avg_loss": 0.023694457694888114,
+    "mean_max_q": -0.5584434270858765,
+    "mean_abs_q": 0.7471707463264465,
+    "replay_size": 100000,
+    "eval_win_rate": 24.099999999999998,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 24.099999999999998
+      }
+    ]
+  },
+  {
+    "episode": 77500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.635,
+    "avg_loss": 0.023202808609232305,
+    "mean_max_q": -0.49949806928634644,
+    "mean_abs_q": 0.7680220007896423,
+    "replay_size": 100000
+  },
+  {
+    "episode": 78000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.49,
+    "avg_loss": 0.023576669932343065,
+    "mean_max_q": -0.5893356204032898,
+    "mean_abs_q": 0.785691499710083,
+    "replay_size": 100000,
+    "eval_win_rate": 22.3,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 22.3
+      }
+    ]
+  },
+  {
+    "episode": 78500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.5,
+    "avg_loss": 0.0237158022262156,
+    "mean_max_q": -0.5481677651405334,
+    "mean_abs_q": 0.7645187973976135,
+    "replay_size": 100000
+  },
+  {
+    "episode": 79000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.455,
+    "avg_loss": 0.02343272221367806,
+    "mean_max_q": -0.5852749347686768,
+    "mean_abs_q": 0.7892284989356995,
+    "replay_size": 100000,
+    "eval_win_rate": 22.06,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 22.06
+      }
+    ]
+  },
+  {
+    "episode": 79500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.495,
+    "avg_loss": 0.024320396840572356,
+    "mean_max_q": -0.5076090693473816,
+    "mean_abs_q": 0.7454602122306824,
+    "replay_size": 100000
+  },
+  {
+    "episode": 80000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.67,
+    "avg_loss": 0.024609802050516008,
+    "mean_max_q": -0.656622588634491,
+    "mean_abs_q": 0.7939406633377075,
+    "replay_size": 100000,
+    "eval_win_rate": 22.34,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 22.34
+      }
+    ]
+  },
+  {
+    "episode": 80500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.475,
+    "avg_loss": 0.024493522485718133,
+    "mean_max_q": -0.5751367211341858,
+    "mean_abs_q": 0.7852159142494202,
+    "replay_size": 100000
+  },
+  {
+    "episode": 81000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.54,
+    "avg_loss": 0.02390633651893586,
+    "mean_max_q": -0.5631847381591797,
+    "mean_abs_q": 0.7884646654129028,
+    "replay_size": 100000,
+    "eval_win_rate": 23.86,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 23.86
+      }
+    ]
+  },
+  {
+    "episode": 81500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.47,
+    "avg_loss": 0.025276480320841073,
+    "mean_max_q": -0.625332236289978,
+    "mean_abs_q": 0.793402373790741,
+    "replay_size": 100000
+  },
+  {
+    "episode": 82000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.465,
+    "avg_loss": 0.02477795542217791,
+    "mean_max_q": -0.5443549156188965,
+    "mean_abs_q": 0.7669883966445923,
+    "replay_size": 100000,
+    "eval_win_rate": 24.22,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 24.22
+      }
+    ]
+  },
+  {
+    "episode": 82500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.455,
+    "avg_loss": 0.025131588301621377,
+    "mean_max_q": -0.5211790204048157,
+    "mean_abs_q": 0.7894781231880188,
+    "replay_size": 100000
+  },
+  {
+    "episode": 83000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.515,
+    "avg_loss": 0.024562435527332126,
+    "mean_max_q": -0.5593143105506897,
+    "mean_abs_q": 0.7871956825256348,
+    "replay_size": 100000,
+    "eval_win_rate": 22.5,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 22.5
+      }
+    ]
+  },
+  {
+    "episode": 83500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.55,
+    "avg_loss": 0.023936967831104994,
+    "mean_max_q": -0.5689279437065125,
+    "mean_abs_q": 0.7859743237495422,
+    "replay_size": 100000
+  },
+  {
+    "episode": 84000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.63,
+    "avg_loss": 0.023211380487307906,
+    "mean_max_q": -0.5810375213623047,
+    "mean_abs_q": 0.7630639672279358,
+    "replay_size": 100000,
+    "eval_win_rate": 23.3,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 23.3
+      }
+    ]
+  },
+  {
+    "episode": 84500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.625,
+    "avg_loss": 0.02372565076779574,
+    "mean_max_q": -0.470734179019928,
+    "mean_abs_q": 0.7425757646560669,
+    "replay_size": 100000
+  },
+  {
+    "episode": 85000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.54,
+    "avg_loss": 0.023478208743967117,
+    "mean_max_q": -0.5099471807479858,
+    "mean_abs_q": 0.7786632180213928,
+    "replay_size": 100000,
+    "eval_win_rate": 23.24,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 23.24
+      }
+    ]
+  },
+  {
+    "episode": 85500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.37,
+    "avg_loss": 0.027079394814558327,
+    "mean_max_q": -0.5175812244415283,
+    "mean_abs_q": 0.7559350728988647,
+    "replay_size": 100000,
+    "eval_win_rate": 21.759999999999998,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 21.759999999999998
+      }
+    ]
+  },
+  {
+    "episode": 86000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.55,
+    "avg_loss": 0.024829062434844673,
+    "mean_max_q": -0.5457383990287781,
+    "mean_abs_q": 0.7725489139556885,
+    "replay_size": 100000,
+    "eval_win_rate": 22.38,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 22.38
+      }
+    ]
+  },
+  {
+    "episode": 86500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.495,
+    "avg_loss": 0.02570138475857675,
+    "mean_max_q": -0.5854018330574036,
+    "mean_abs_q": 0.8067362308502197,
+    "replay_size": 100000
+  },
+  {
+    "episode": 87000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.535,
+    "avg_loss": 0.023514138858299703,
+    "mean_max_q": -0.5341861844062805,
+    "mean_abs_q": 0.7747495174407959,
+    "replay_size": 100000,
+    "eval_win_rate": 23.34,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 23.34
+      }
+    ]
+  },
+  {
+    "episode": 87500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.53,
+    "avg_loss": 0.02446090359147638,
+    "mean_max_q": -0.6047995686531067,
+    "mean_abs_q": 0.7740721702575684,
+    "replay_size": 100000
+  },
+  {
+    "episode": 88000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.635,
+    "avg_loss": 0.024624615581706165,
+    "mean_max_q": -0.5644566416740417,
+    "mean_abs_q": 0.7632192969322205,
+    "replay_size": 100000,
+    "eval_win_rate": 21.759999999999998,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 21.759999999999998
+      }
+    ]
+  },
+  {
+    "episode": 88500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.545,
+    "avg_loss": 0.024013405305333437,
+    "mean_max_q": -0.5688890218734741,
+    "mean_abs_q": 0.78745037317276,
+    "replay_size": 100000
+  },
+  {
+    "episode": 89000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.53,
+    "avg_loss": 0.0249223809549585,
+    "mean_max_q": -0.5712559223175049,
+    "mean_abs_q": 0.7849810123443604,
+    "replay_size": 100000,
+    "eval_win_rate": 22.2,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 22.2
+      }
+    ]
+  },
+  {
+    "episode": 89500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.55,
+    "avg_loss": 0.024007100665010512,
+    "mean_max_q": -0.5892400145530701,
+    "mean_abs_q": 0.7954677939414978,
+    "replay_size": 100000
+  },
+  {
+    "episode": 90000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.56,
+    "avg_loss": 0.02572367294318974,
+    "mean_max_q": -0.5833126902580261,
+    "mean_abs_q": 0.7996600270271301,
+    "replay_size": 100000,
+    "eval_win_rate": 23.3,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 23.3
+      }
+    ]
+  },
+  {
+    "episode": 90500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.58,
+    "avg_loss": 0.026451444253325462,
+    "mean_max_q": -0.49392175674438477,
+    "mean_abs_q": 0.7279646992683411,
+    "replay_size": 100000
+  },
+  {
+    "episode": 91000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.495,
+    "avg_loss": 0.026330841205082833,
+    "mean_max_q": -0.4992104470729828,
+    "mean_abs_q": 0.7678530216217041,
+    "replay_size": 100000,
+    "eval_win_rate": 23.080000000000002,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 23.080000000000002
+      }
+    ]
+  },
+  {
+    "episode": 91500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.575,
+    "avg_loss": 0.02651618512161076,
+    "mean_max_q": -0.5351415872573853,
+    "mean_abs_q": 0.7593271732330322,
+    "replay_size": 100000
+  },
+  {
+    "episode": 92000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.5,
+    "avg_loss": 0.025659318251535296,
+    "mean_max_q": -0.564103364944458,
+    "mean_abs_q": 0.7771589756011963,
+    "replay_size": 100000,
+    "eval_win_rate": 21.7,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 21.7
+      }
+    ]
+  },
+  {
+    "episode": 92500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.535,
+    "avg_loss": 0.02445652781892568,
+    "mean_max_q": -0.6028509140014648,
+    "mean_abs_q": 0.8021916151046753,
+    "replay_size": 100000
+  },
+  {
+    "episode": 93000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.415,
+    "avg_loss": 0.025791733290068806,
+    "mean_max_q": -0.5530243515968323,
+    "mean_abs_q": 0.7717106938362122,
+    "replay_size": 100000,
+    "eval_win_rate": 22.759999999999998,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 22.759999999999998
+      }
+    ]
+  },
+  {
+    "episode": 93500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.45,
+    "avg_loss": 0.0262107662120834,
+    "mean_max_q": -0.5050989389419556,
+    "mean_abs_q": 0.732423722743988,
+    "replay_size": 100000
+  },
+  {
+    "episode": 94000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.465,
+    "avg_loss": 0.023296755634248257,
+    "mean_max_q": -0.5345457792282104,
+    "mean_abs_q": 0.7626898288726807,
+    "replay_size": 100000,
+    "eval_win_rate": 24.240000000000002,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 24.240000000000002
+      }
+    ]
+  },
+  {
+    "episode": 94500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.53,
+    "avg_loss": 0.025032753446139394,
+    "mean_max_q": -0.5579033493995667,
+    "mean_abs_q": 0.7808899283409119,
+    "replay_size": 100000
+  },
+  {
+    "episode": 95000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.49,
+    "avg_loss": 0.025134463131427764,
+    "mean_max_q": -0.5426790714263916,
+    "mean_abs_q": 0.7608011364936829,
+    "replay_size": 100000,
+    "eval_win_rate": 21.88,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 21.88
+      }
+    ]
+  },
+  {
+    "episode": 95500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.49,
+    "avg_loss": 0.024761901409365236,
+    "mean_max_q": -0.49912944436073303,
+    "mean_abs_q": 0.7734017968177795,
+    "replay_size": 100000
+  },
+  {
+    "episode": 96000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.475,
+    "avg_loss": 0.02609122350625694,
+    "mean_max_q": -0.5793014168739319,
+    "mean_abs_q": 0.8116327524185181,
+    "replay_size": 100000,
+    "eval_win_rate": 23.26,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 23.26
+      }
+    ]
+  },
+  {
+    "episode": 96500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.525,
+    "avg_loss": 0.024769057541154323,
+    "mean_max_q": -0.5068676471710205,
+    "mean_abs_q": 0.7863950133323669,
+    "replay_size": 100000
+  },
+  {
+    "episode": 97000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.59,
+    "avg_loss": 0.0247061974988319,
+    "mean_max_q": -0.5613638162612915,
+    "mean_abs_q": 0.7989820241928101,
+    "replay_size": 100000,
+    "eval_win_rate": 23.34,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 23.34
+      }
+    ]
+  },
+  {
+    "episode": 97500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.585,
+    "avg_loss": 0.02416374695394188,
+    "mean_max_q": -0.5707724690437317,
+    "mean_abs_q": 0.8074041604995728,
+    "replay_size": 100000
+  },
+  {
+    "episode": 98000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.495,
+    "avg_loss": 0.024978738653473557,
+    "mean_max_q": -0.559556245803833,
+    "mean_abs_q": 0.7776418924331665,
+    "replay_size": 100000,
+    "eval_win_rate": 23.880000000000003,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 23.880000000000003
+      }
+    ]
+  },
+  {
+    "episode": 98500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.59,
+    "avg_loss": 0.02650994195230305,
+    "mean_max_q": -0.5384337306022644,
+    "mean_abs_q": 0.800679087638855,
+    "replay_size": 100000
+  },
+  {
+    "episode": 99000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.54,
+    "avg_loss": 0.025211938889697194,
+    "mean_max_q": -0.5535357594490051,
+    "mean_abs_q": 0.7974951267242432,
+    "replay_size": 100000,
+    "eval_win_rate": 22.439999999999998,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 22.439999999999998
+      }
+    ]
+  },
+  {
+    "episode": 99500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.485,
+    "avg_loss": 0.02678953862003982,
+    "mean_max_q": -0.5501164793968201,
+    "mean_abs_q": 0.7951864004135132,
+    "replay_size": 100000
+  },
+  {
+    "episode": 100000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.54,
+    "avg_loss": 0.025094845327548684,
+    "mean_max_q": -0.49916553497314453,
+    "mean_abs_q": 0.7825465798377991,
+    "replay_size": 100000,
+    "eval_win_rate": 22.34,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 22.34
+      }
+    ]
+  }
+]

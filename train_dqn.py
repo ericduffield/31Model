@@ -50,6 +50,16 @@ def set_global_seed(seed: int) -> None:
 
 
 
+def write_logs_to_file(logs: List[Dict], run_checkpoint_dir: str) -> None:
+    """Write current logs to JSON file for inspection during training."""
+    log_path = os.path.join(run_checkpoint_dir, "training_logs.json")
+    try:
+        with open(log_path, "w", encoding="utf-8") as f:
+            json.dump(logs, f, indent=2)
+    except Exception as e:
+        print(f"Warning: failed to write logs to {log_path}: {e}", flush=True)
+
+
 def evaluate_agent(
     agent: DQNAgent,
     opponents: Sequence[OpponentClass],
@@ -233,8 +243,10 @@ def main() -> None:
     best_eval_wr = -1.0
     best_eval_episode = 0
     best_eval_by_opp: List[Tuple[str, float]] = []
+    best_logged_avg_reward = float("-inf")
     top_checkpoints: List[Dict[str, object]] = []
     moving_rewards: List[float] = []
+    moving_outcomes: List[float] = []
     moving_losses: List[float] = []
     logs: List[Dict] = []  # Accumulate logs for JSON export
 
@@ -289,9 +301,22 @@ def main() -> None:
         moving_rewards.append(episode_reward)
         if len(moving_rewards) > 200:
             moving_rewards.pop(0)
+        moving_outcomes.append(episode_reward)
+        if len(moving_outcomes) > 200:
+            moving_outcomes.pop(0)
 
         if episode % args.log_every == 0:
             avg_reward = sum(moving_rewards) / len(moving_rewards)
+            wins_200 = sum(1 for outcome in moving_outcomes if outcome > 0)
+            losses_200 = sum(1 for outcome in moving_outcomes if outcome < 0)
+            draws_200 = sum(1 for outcome in moving_outcomes if outcome == 0)
+            total_200 = len(moving_outcomes)
+            avg_win_rate_200 = (wins_200 / total_200 * 100.0) if total_200 > 0 else 0.0
+            avg_draw_rate_200 = (draws_200 / total_200 * 100.0) if total_200 > 0 else 0.0
+            decisive_games_200 = wins_200 + losses_200
+            avg_decisive_win_rate_200 = (
+                wins_200 / decisive_games_200 * 100.0 if decisive_games_200 > 0 else 0.0
+            )
             avg_loss = (
                 (sum(moving_losses) / len(moving_losses))
                 if moving_losses
@@ -308,24 +333,45 @@ def main() -> None:
                 "episode": episode,
                 "epsilon": epsilon,
                 "avg_reward": avg_reward,
+                "avg_win_rate_200": avg_win_rate_200,
+                "avg_draw_rate_200": avg_draw_rate_200,
+                "avg_decisive_win_rate_200": avg_decisive_win_rate_200,
                 "avg_loss": avg_loss,
                 "mean_max_q": mean_max_q,
                 "mean_abs_q": mean_abs_q,
                 "replay_size": len(agent.replay),
             }
             logs.append(log_entry)
+            write_logs_to_file(logs, run_checkpoint_dir)
             
             print(
                 f"Episode {episode:>6}/{args.episodes} | epsilon={epsilon:.3f} | "
-                f"avg_reward(200)={avg_reward:.3f} | avg_loss(500)={avg_loss:.4f} | "
+                f"avg_reward(200)={avg_reward:.3f} | "
+                f"win%(200)={avg_win_rate_200:.2f} | draw%(200)={avg_draw_rate_200:.2f} | "
+                f"decisive_win%(200)={avg_decisive_win_rate_200:.2f} | "
+                f"avg_loss(500)={avg_loss:.4f} | "
                 f"mean_max_q={mean_max_q:.3f} | mean_abs_q={mean_abs_q:.3f} | "
                 f"replay={len(agent.replay)}",
                 flush=True,
             )
 
-        if episode % args.eval_every == 0:
+        reward_peak_eval = False
+        if logs and logs[-1]["episode"] == episode:
+            current_avg_reward = float(logs[-1]["avg_reward"])
+            if current_avg_reward > best_logged_avg_reward:
+                best_logged_avg_reward = current_avg_reward
+                reward_peak_eval = True
+
+        periodic_eval = (episode % args.eval_every == 0)
+        if periodic_eval or reward_peak_eval:
+            eval_reason: List[str] = []
+            if periodic_eval:
+                eval_reason.append("periodic")
+            if reward_peak_eval:
+                eval_reason.append("new best avg_reward")
             print(
                 f"Starting evaluation at episode {episode} "
+                f"[{', '.join(eval_reason)}] "
                 f"({len(train_opponents)} opponents x {args.eval_games} games)",
                 flush=True,
             )
@@ -357,6 +403,7 @@ def main() -> None:
                 logs[-1].update(eval_log)
             else:
                 logs.append(eval_log)
+            write_logs_to_file(logs, run_checkpoint_dir)
 
             latest_path = os.path.join(run_checkpoint_dir, "dqn_latest.pt")
             agent.save(latest_path)
@@ -434,11 +481,9 @@ def main() -> None:
             flush=True,
         )
     
-    # Save logs to JSON file
-    log_path = os.path.join(run_checkpoint_dir, "training_logs.json")
-    with open(log_path, "w") as f:
-        json.dump(logs, f, indent=2)
-    print(f"Training logs saved to {log_path}", flush=True)
+    # Save logs to JSON file (already written periodically, but ensure final save)
+    write_logs_to_file(logs, run_checkpoint_dir)
+    print("Training logs saved periodically to training_logs.json", flush=True)
 
 
 if __name__ == "__main__":

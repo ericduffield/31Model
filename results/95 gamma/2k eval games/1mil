@@ -1,0 +1,110 @@
+1 mil vs DiscardIncreaseStrategy 
+python3 -u train_dqn.py \
+  --episodes 1000000 \
+  --eval-every 50000 \
+  --eval-games 2000 \
+  --batch-size 64 \
+  --buffer-capacity 100000 \
+  --learning-rate 1e-4 \
+  --gamma 0.95 \
+  --hidden-size 128 \
+  --epsilon-start 1.0 \
+  --epsilon-end 0.05 \
+  --epsilon-decay-episodes 600000 \
+  --target-update-steps 1000 \
+  --warmup-steps 1000 \
+  --log-every 1000 \
+  --seed 1 \
+  --run-name just_discard_increase_1mil_v3
+
+==============================================================================
+| Opponent                           |   Wins |  Losses | Draws | Win Rate % |
+------------------------------------------------------------------------------
+| RandomStrategy                     |   2658 |    1893 |   449 |      53.16 |
+| RandomStrategyWithKnockScore       |   3622 |    1217 |   161 |      72.44 |
+| DiscardIncreaseStrategy            |    956 |    3945 |    99 |      19.12 |
+| CurrentTurnExpectedValueStrategy   |    848 |    4039 |   113 |      16.96 |
+| ConservativeExpectedValueStrategy  |    950 |    3911 |   139 |      19.00 |
+------------------------------------------------------------------------------
+| Average Win %                      |        |         |       |      36.14 | (outdated)
+==============================================================================
+
+
+1 mil vs DiscardIncreaseStrategy v2
+python3 -u train_dqn.py \
+  --episodes 1000000 \
+  --eval-every 50000 \
+  --eval-games 500 \
+  --batch-size 64 \
+  --buffer-capacity 100000 \
+  --learning-rate 1e-4 \
+  --gamma 0.95 \
+  --hidden-size 128 \
+  --epsilon-start 1.0 \
+  --epsilon-end 0.05 \
+  --epsilon-decay-episodes 600000 \
+  --target-update-steps 1000 \
+  --warmup-steps 1000 \
+  --log-every 1000 \
+  --seed 1 \
+  --run-name 1mil_just_discard_increase_v2
+
+python3 evaluate_dqn.py --model-path checkpoints/1mil_just_discard_increase_v2/dqn_best.pt --games 10000 --seed 2
+
+========================================================================
+| Opponent                           |   Wins |  Losses | Draws | Win Rate % |
+------------------------------------------------------------------------------
+| RandomStrategy                     |   2924 |    1678 |   398 |      58.48 |
+| RandomStrategyWithKnockScore       |   4024 |     863 |   113 |      80.48 |
+| DiscardIncreaseStrategy            |   1177 |    3665 |   158 |      23.54 |
+| CurrentTurnExpectedValueStrategy   |   1176 |    3678 |   146 |      23.52 |
+| ConservativeExpectedValueStrategy  |   1245 |    3586 |   169 |      24.90 |
+------------------------------------------------------------------------------
+| Average Win %                      |        |         |       |      42.18 |  (outdated)
+========================================================================
+
+python3 evaluate_dqn.py --model-path checkpoints/just_discard_increase_1mil_v3/dqn_best.pt --games 10000 --seed 2
+
+==============================================================================
+| Opponent                           |   Wins |  Losses | Draws | Win Rate % |
+------------------------------------------------------------------------------
+| RandomStrategy                     |   5736 |    3437 |   827 |      57.36 |
+| RandomStrategyWithKnockScore       |   8131 |    1657 |   212 |      81.31 |
+| DiscardIncreaseStrategy            |   2632 |    7073 |   295 |      26.32 |
+| CurrentTurnExpectedValueStrategy   |   2518 |    7159 |   323 |      25.18 |
+| ConservativeExpectedValueStrategy  |   2516 |    7168 |   316 |      25.16 |
+------------------------------------------------------------------------------
+| Average Win %                      |        |         |       |      43.07 |
+==============================================================================
+
+
+1 mil vs CurrentTurnExpectedValueStrategy
+python3 -u train_dqn.py \
+  --episodes 1000000 \
+  --eval-every 50000 \
+  --eval-games 500 \
+  --batch-size 64 \
+  --buffer-capacity 100000 \
+  --learning-rate 1e-4 \
+  --gamma 0.95 \
+  --hidden-size 128 \
+  --epsilon-start 1.0 \
+  --epsilon-end 0.05 \
+  --epsilon-decay-episodes 600000 \
+  --target-update-steps 1000 \
+  --warmup-steps 1000 \
+  --log-every 1000 \
+  --seed 1 \
+  --run-name vs_current_turn_ev_1mil
+
+========================================================================
+| Opponent                           |   Wins |  Losses | Draws | Win Rate % |
+------------------------------------------------------------------------------
+| RandomStrategy                     |   5366 |    3700 |   934 |      53.66 |
+| RandomStrategyWithKnockScore       |   7074 |    2525 |   401 |      70.74 |
+| DiscardIncreaseStrategy            |   1953 |    7796 |   251 |      19.53 |
+| CurrentTurnExpectedValueStrategy   |   1851 |    7884 |   265 |      18.51 |
+| ConservativeExpectedValueStrategy  |   1880 |    7841 |   279 |      18.80 |
+------------------------------------------------------------------------------
+| Average Win %                      |        |         |       |      36.25 | (Probably not finished)  (outdated)
+========================================================================

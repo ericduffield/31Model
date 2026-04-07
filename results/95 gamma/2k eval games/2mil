@@ -1,0 +1,29 @@
+python3 -u train_dqn.py \
+    --episodes 2000000 \
+    --eval-every 50000 \
+    --eval-games 2000 \
+    --batch-size 64 \
+    --buffer-capacity 100000 \
+    --learning-rate 1e-4 \
+    --gamma 0.95 \
+    --hidden-size 128 \
+    --epsilon-start 1.0 \
+    --epsilon-end 0.05 \
+    --epsilon-decay-episodes 1200000 \
+    --target-update-steps 1000 \
+    --warmup-steps 1000 \
+    --log-every 1000 \
+    --seed 1 \
+    --run-name just_discard_increase_2mil_v1
+
+==============================================================================
+| Opponent                           |   Wins |  Losses | Draws | Win Rate % |
+------------------------------------------------------------------------------
+| RandomStrategy                     |   6086 |    3118 |   796 |      60.86 |
+| RandomStrategyWithKnockScore       |   8092 |    1695 |   213 |      80.92 |
+| DiscardIncreaseStrategy            |   2856 |    6866 |   278 |      28.56 |
+| CurrentTurnExpectedValueStrategy   |   2766 |    6948 |   286 |      27.66 |
+| ConservativeExpectedValueStrategy  |   2801 |    6874 |   325 |      28.01 |
+------------------------------------------------------------------------------
+| Average Win %                      |        |         |       |      45.20 | (NOT FINISHED)
+==============================================================================

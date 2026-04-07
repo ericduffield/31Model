@@ -1,0 +1,126 @@
+python3 -u train_dqn.py \
+  --episodes 20000 \
+  --eval-every 250 \
+  --eval-games 5000 \
+  --batch-size 64 \
+  --buffer-capacity 100000 \
+  --learning-rate 3e-4 \
+  --gamma 0.95 \
+  --hidden-size 128 \
+  --epsilon-start 1.0 \
+  --epsilon-end 0.02 \
+  --epsilon-decay-episodes 8000 \
+  --target-update-steps 500 \
+  --warmup-steps 1000 \
+  --log-every 500 \
+  --seed 1 \
+  --run-name di_20k_fast_exploit_lr3e4
+
+best vs DiscardIncreaseStrategy              11.04% not 250
+
+  python3 -u train_dqn.py \
+  --episodes 20000 \
+  --eval-every 250 \
+  --eval-games 5000 \
+  --batch-size 64 \
+  --buffer-capacity 100000 \
+  --learning-rate 1e-4 \
+  --gamma 0.95 \
+  --hidden-size 128 \
+  --epsilon-start 1.0 \
+  --epsilon-end 0.02 \
+  --epsilon-decay-episodes 8000 \
+  --target-update-steps 500 \
+  --warmup-steps 1000 \
+  --log-every 500 \
+  --seed 1 \
+  --run-name di_20k_fast_exploit_lr1e4
+
+best vs DiscardIncreaseStrategy              16.30% not 250
+
+python3 -u train_dqn.py \
+  --episodes 20000 \
+  --eval-every 250 \
+  --eval-games 5000 \
+  --batch-size 64 \
+  --buffer-capacity 100000 \
+  --learning-rate 1e-4 \
+  --gamma 0.98 \
+  --hidden-size 128 \
+  --epsilon-start 1.0 \
+  --epsilon-end 0.02 \
+  --epsilon-decay-episodes 10000 \
+  --target-update-steps 500 \
+  --warmup-steps 1000 \
+  --log-every 500 \
+  --seed 1 \
+  --run-name di_20k_gamma98
+
+best vs DiscardIncreaseStrategy              18.22%
+
+python3 evaluate_dqn.py --model-path checkpoints/di_20k_gamma98/dqn_best.pt --games 10000 --seed 2
+==============================================================================
+| Opponent                           |   Wins |  Losses | Draws | Win Rate % |
+------------------------------------------------------------------------------
+| RandomStrategy                     |   5312 |    3812 |   876 |      53.12 |
+| RandomStrategyWithKnockScore       |   6527 |    3055 |   418 |      65.27 |
+| DiscardIncreaseStrategy            |   1791 |    7951 |   258 |      17.91 |
+| CurrentTurnExpectedValueStrategy   |   1764 |    7986 |   250 |      17.64 |
+| ConservativeExpectedValueStrategy  |   1760 |    7995 |   245 |      17.60 |
+------------------------------------------------------------------------------
+| Average Win %                      |        |         |       |      34.31 |
+==============================================================================
+
+python3 -u train_dqn.py \
+  --episodes 20000 \
+  --eval-every 250 \
+  --eval-games 5000 \
+  --batch-size 64 \
+  --buffer-capacity 100000 \
+  --learning-rate 1e-4 \
+  --gamma 0.98 \
+  --hidden-size 256 \
+  --epsilon-start 1.0 \
+  --epsilon-end 0.02 \
+  --epsilon-decay-episodes 10000 \
+  --target-update-steps 500 \
+  --warmup-steps 1000 \
+  --log-every 500 \
+  --seed 1 \
+  --run-name di_20k_gamma98_256_hidden_size
+
+best vs DiscardIncreaseStrategy              15.20%           
+
+ORIGINAL
+python3 -u train_dqn.py \
+  --episodes 20000 \
+  --eval-every 250 \
+  --eval-games 5000 \
+  --batch-size 64 \
+  --buffer-capacity 100000 \
+  --learning-rate 1e-4 \
+  --gamma 0.95 \
+  --hidden-size 128 \
+  --epsilon-start 1.0 \
+  --epsilon-end 0.05 \
+  --epsilon-decay-episodes 12000 \
+  --target-update-steps 500 \
+  --warmup-steps 100 \
+  --log-every 100 \
+  --seed 1 \
+  --run-name just_discard_increase_20k_episodes_5k_eval_games
+
+best vs DiscardIncreaseStrategy              16.86%
+
+==============================================================================
+| Opponent                           |   Wins |  Losses | Draws | Win Rate % |
+------------------------------------------------------------------------------
+| RandomStrategy                     |   5411 |    3705 |   884 |      54.11 |
+| RandomStrategyWithKnockScore       |   5669 |    3866 |   465 |      56.69 |
+| DiscardIncreaseStrategy            |   1618 |    8167 |   215 |      16.18 |
+| CurrentTurnExpectedValueStrategy   |   1625 |    8135 |   240 |      16.25 |
+| ConservativeExpectedValueStrategy  |   1564 |    8219 |   217 |      15.64 |
+------------------------------------------------------------------------------
+| Average Win %                      |        |         |       |      31.77 |
+==============================================================================
+
