@@ -330,9 +330,6 @@ def main():
         CurrentTurnExpectedValueStrategy,  # 1
         DiscardIncreaseStrategy,  # 3
         ScoreAdaptiveExpectedValueStrategy,  # Base: no negative, slope=0.08, cap=1.0
-        ScoreAdaptiveV2_SmallPositiveStart,  # V2: small positive start (0.02), slope=0.08, cap=1.0
-        ScoreAdaptiveV3_SteeperGrowth,  # V3: steeper slope (0.09), reaches cap at 11.1
-        ScoreAdaptiveV4_HigherCap,  # V4: higher cap (1.05), slope=0.08
     ]
 
     # Module constants

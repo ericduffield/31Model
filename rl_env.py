@@ -30,10 +30,10 @@ NUM_ACTIONS = 9
 def _card_value(card: Card) -> float:
     """
     Return face value of a card (used for score estimation).
-    
+
     Args:
         card: Tuple of (rank, suit)
-        
+
     Returns:
         Float value: Ace=11, Face cards=10, Numbers=face value
     """
@@ -116,7 +116,9 @@ class ThirtyOneEnv:
         """Reset the environment and return initial observation/info."""
         self.agent = RLControlledStrategy()
         self.opponent = self.opponent_factory()
-        self.game = Game(strategies=[self.agent, self.opponent], debug=False, rng=self.rng)
+        self.game = Game(
+            strategies=[self.agent, self.opponent], debug=False, rng=self.rng
+        )
         self.game._deal_initial()
 
         self.seen_cards.clear()
@@ -347,7 +349,7 @@ class ThirtyOneEnv:
             ],
             dtype=np.float32,
         )
-        
+
         # Opponent score estimates (normalized to 0-1 scale)
         opponent_scores = np.array(
             [
@@ -358,30 +360,32 @@ class ThirtyOneEnv:
             dtype=np.float32,
         )
 
-        return np.concatenate([hand_vec, top_vec, seen_vec, context, opponent_scores], dtype=np.float32)
-    
+        return np.concatenate(
+            [hand_vec, top_vec, seen_vec, context, opponent_scores], dtype=np.float32
+        )
+
     def _estimate_opponent_score(self) -> Tuple[float, float, float]:
         """
         Estimate opponent's hand score using known and unknown cards.
-        
+
         Returns:
             Tuple of (min_score, max_score, expected_score), or (0, 0, 0) if no opponent.
         """
         if self.opponent is None:
             return 0.0, 0.0, 0.0
-        
+
         # Cards we know opponent has
         known = sorted(self.opponent_known_cards, key=_card_sort_key)
         known_score = score_hand(known) if known else 0.0
-        
+
         # Cards we don't know about (unseen from agent perspective)
         all_cards = set((r, s) for r in RANKS for s in SUITS)
         known_cards = set(known) | self.seen_cards
         unknown_cards = sorted(all_cards - known_cards, key=_card_sort_key)
-        
+
         # Opponent needs 3 cards total; calculate min/max from unknown cards
         needs_count = max(0, 3 - len(known))
-        
+
         if needs_count == 0:
             # We know all opponent cards
             min_score = max_score = expected_score = known_score
@@ -394,19 +398,21 @@ class ThirtyOneEnv:
             )
             best_unknown = sorted_unknown[:needs_count]
             max_score = score_hand(known + best_unknown)
-            
+
             # Worst possible: add worst unknown cards
             worst_unknown = sorted_unknown[-needs_count:]
             min_score = score_hand(known + worst_unknown)
-            
+
             # Expected: average of all possible cards
-            avg_card_value = sum(_card_value(c) for c in unknown_cards) / len(unknown_cards)
+            avg_card_value = sum(_card_value(c) for c in unknown_cards) / len(
+                unknown_cards
+            )
             expected_addition = avg_card_value * needs_count
             expected_score = known_score + expected_addition
         else:
             # No unknown cards available (shouldn't happen in normal play)
             min_score = max_score = expected_score = known_score
-        
+
         return min_score, max_score, expected_score
 
     def _terminal_reward(self) -> float:

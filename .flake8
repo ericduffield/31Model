@@ -7,4 +7,5 @@
 ignore = E203, E501, E126, W503
 # Match Black's default line length
 max-line-length = 88
+exclude = .venv,venv,__pycache__,.git
 

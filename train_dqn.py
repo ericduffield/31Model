@@ -22,11 +22,8 @@ import torch
 
 from computer import (
     ComputerStrategy,
-    ConservativeExpectedValueStrategy,
     DiscardIncreaseStrategy,
     RandomStrategy,
-    RandomStrategyWithKnockScore,
-    CurrentTurnExpectedValueStrategy
 )
 from dqn_agent import DQNAgent
 from rl_env import NUM_ACTIONS, ThirtyOneEnv
@@ -49,7 +46,6 @@ def set_global_seed(seed: int) -> None:
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
     torch.use_deterministic_algorithms(True, warn_only=True)
-
 
 
 def write_logs_to_file(logs: List[Dict], run_checkpoint_dir: str) -> None:
@@ -119,15 +115,13 @@ def evaluate_agent(
         total = wins + losses + draws
         win_rate = (wins / total * 100.0) if total > 0 else 0.0
         decisive_total = wins + losses
-        decisive_win_rate = (
-            wins / decisive_total * 100.0 if decisive_total > 0 else 0.0
-        )
+        decisive_win_rate = wins / decisive_total * 100.0 if decisive_total > 0 else 0.0
         per_opponent.append((opp_cls.__name__, win_rate))
         per_opponent_decisive.append((opp_cls.__name__, decisive_win_rate))
 
     aggregate = sum(wr for _, wr in per_opponent) / len(per_opponent)
-    aggregate_decisive = (
-        sum(wr for _, wr in per_opponent_decisive) / len(per_opponent_decisive)
+    aggregate_decisive = sum(wr for _, wr in per_opponent_decisive) / len(
+        per_opponent_decisive
     )
     return aggregate, aggregate_decisive, per_opponent, per_opponent_decisive
 
@@ -320,7 +314,7 @@ def main() -> None:
             moving_outcomes.pop(0)
 
         agent_end_score = score_hand(env.game.hands[env.agent])
-        agent_knocked = (env.game.knocked_by == env.agent)
+        agent_knocked = env.game.knocked_by == env.agent
         moving_end_scores.append(agent_end_score)
         if len(moving_end_scores) > 200:
             moving_end_scores.pop(0)
@@ -339,7 +333,9 @@ def main() -> None:
             draws_200 = sum(1 for outcome in moving_outcomes if outcome == 0)
             total_200 = len(moving_outcomes)
             avg_win_rate_200 = (wins_200 / total_200 * 100.0) if total_200 > 0 else 0.0
-            avg_draw_rate_200 = (draws_200 / total_200 * 100.0) if total_200 > 0 else 0.0
+            avg_draw_rate_200 = (
+                (draws_200 / total_200 * 100.0) if total_200 > 0 else 0.0
+            )
             decisive_games_200 = wins_200 + losses_200
             avg_decisive_win_rate_200 = (
                 wins_200 / decisive_games_200 * 100.0 if decisive_games_200 > 0 else 0.0
@@ -370,7 +366,7 @@ def main() -> None:
                 mean_abs_q = float("nan")
             else:
                 mean_max_q, mean_abs_q = q_diag
-            
+
             log_entry = {
                 "episode": episode,
                 "epsilon": epsilon,
@@ -388,7 +384,7 @@ def main() -> None:
             }
             logs.append(log_entry)
             write_logs_to_file(logs, run_checkpoint_dir)
-            
+
             print(
                 f"Episode {episode:>6}/{args.episodes} | epsilon={epsilon:.3f} | "
                 f"avg_reward(200)={avg_reward:.3f} | "
@@ -410,7 +406,7 @@ def main() -> None:
                 best_logged_avg_reward = current_avg_reward
                 reward_peak_eval = True
 
-        periodic_eval = (episode % args.eval_every == 0)
+        periodic_eval = episode % args.eval_every == 0
         if periodic_eval or reward_peak_eval:
             eval_reason: List[str] = []
             if periodic_eval:
@@ -451,7 +447,9 @@ def main() -> None:
                 "episode": episode,
                 "eval_win_rate": avg_wr,
                 "eval_decisive_win_rate": avg_decisive_wr,
-                "eval_by_opponent": [{"opponent": name, "win_rate": wr} for name, wr in by_opp],
+                "eval_by_opponent": [
+                    {"opponent": name, "win_rate": wr} for name, wr in by_opp
+                ],
                 "eval_decisive_by_opponent": [
                     {"opponent": name, "decisive_win_rate": wr}
                     for name, wr in by_opp_decisive
@@ -512,7 +510,9 @@ def main() -> None:
                     best_eval_episode = int(top_checkpoints[0]["episode"])
                     best_eval_by_opp = list(top_checkpoints[0]["by_opp"])
                     if best_eval_episode != previous_best_episode:
-                        best_path = os.path.join(run_checkpoint_dir, TOP_CHECKPOINT_FILENAMES[0])
+                        best_path = os.path.join(
+                            run_checkpoint_dir, TOP_CHECKPOINT_FILENAMES[0]
+                        )
                         print(
                             f"  New best aggregate win rate: {best_eval_wr:.2f}% -> saved {best_path}",
                             flush=True,
@@ -538,7 +538,7 @@ def main() -> None:
             "No evaluation was run, so no best eval win rate is available.",
             flush=True,
         )
-    
+
     # Save logs to JSON file (already written periodically, but ensure final save)
     write_logs_to_file(logs, run_checkpoint_dir)
     print("Training logs saved periodically to training_logs.json", flush=True)

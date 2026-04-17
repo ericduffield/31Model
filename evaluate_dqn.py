@@ -37,7 +37,9 @@ OPPONENT_LABELS = {
 }
 
 
-def _format_table(title: str, columns: List[tuple[str, str]], rows: List[Dict[str, Any]]) -> None:
+def _format_table(
+    title: str, columns: List[tuple[str, str]], rows: List[Dict[str, Any]]
+) -> None:
     """Print a markdown-compatible table from column specs and rows."""
     header_cells = [label for label, _ in columns]
     body_rows: List[List[str]] = []
@@ -121,7 +123,7 @@ def evaluate(
             opp_score = score_hand(env.game.hands[env.opponent])
             total_agent_score += agent_score
             total_opp_score += opp_score
-            total_score_margin += (agent_score - opp_score)
+            total_score_margin += agent_score - opp_score
 
             if result.reward > 0:
                 wins += 1
@@ -146,7 +148,9 @@ def evaluate(
         rows.append(
             {
                 "opponent": opp_cls.__name__,
-                "opponent_short": OPPONENT_LABELS.get(opp_cls.__name__, opp_cls.__name__),
+                "opponent_short": OPPONENT_LABELS.get(
+                    opp_cls.__name__, opp_cls.__name__
+                ),
                 "wins": wins,
                 "losses": losses,
                 "draws": draws,
@@ -160,9 +164,15 @@ def evaluate(
                 "avg_win_score": (total_win_score / wins) if wins > 0 else 0.0,
                 "avg_loss_score": (total_loss_score / losses) if losses > 0 else 0.0,
                 "knock_rate": (knock_count / total * 100.0) if total > 0 else 0.0,
-                "avg_knock_score": (total_knock_score / knock_count) if knock_count > 0 else 0.0,
-                "knock_win_rate": (knock_win_count / knock_count * 100.0) if knock_count > 0 else 0.0,
-                "knock_loss_rate": (knock_loss_count / knock_count * 100.0) if knock_count > 0 else 0.0,
+                "avg_knock_score": (
+                    (total_knock_score / knock_count) if knock_count > 0 else 0.0
+                ),
+                "knock_win_rate": (
+                    (knock_win_count / knock_count * 100.0) if knock_count > 0 else 0.0
+                ),
+                "knock_loss_rate": (
+                    (knock_loss_count / knock_count * 100.0) if knock_count > 0 else 0.0
+                ),
                 "action_knock_rate": (
                     action_knock_count / total_agent_turns * 100.0
                     if total_agent_turns > 0
