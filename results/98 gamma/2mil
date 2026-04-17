@@ -14,7 +14,7 @@ python3 -u train_dqn.py
   --warmup-steps 1000
   --log-every 1000
   --seed 1
-  --run-name di_2mil_gamma98
+  --run-name di_2mil_gamma98_v3
 
 
 python3 evaluate_dqn.py --model-path ".\checkpoints\di_2mil_gamma98\dqn_best.pt" --games 10000 --seed 2
@@ -59,6 +59,48 @@ Action Distribution
 | ConservativeEV  | 6.46           | 63.64                | 29.90             |
 | Average         | 6.78           | 66.03                | 27.19             |
 
-python3 evaluate_dqn.py --model-path ".\checkpoints\di_2mil_gamma98\dqn_second_best.pt" --games 10000 --seed 2
 
 
+
+
+python3 evaluate_dqn.py --model-path ".\checkpoints\di_2mil_gamma98_v2\dqn_best.pt" --games 10000 --seed 2
+
+Outcome Counts
+| Opponent        | Wins    | Losses  | Draws  | Win % | Decisive Win % |
+|-----------------|---------|---------|--------|-------|----------------|
+| Random          | 6112    | 3117    | 771    | 61.12 | 66.23          |
+| Random+Knock27  | 8083    | 1593    | 324    | 80.83 | 83.54          |
+| DiscardIncrease | 3032    | 6502    | 466    | 30.32 | 31.80          |
+| CurrentTurnEV   | 2866    | 6704    | 430    | 28.66 | 29.95          |
+| ConservativeEV  | 2839    | 6704    | 457    | 28.39 | 29.75          |
+| Average         | 4586.40 | 4924.00 | 489.60 | 45.86 | 48.25          |
+
+Score Metrics
+| Opponent        | Avg Agent | Avg Opp | Avg Margin | Avg Win | Avg Loss |
+|-----------------|-----------|---------|------------|---------|----------|
+| Random          | 15.40     | 12.91   | 2.49       | 17.83   | 11.46    |
+| Random+Knock27  | 19.96     | 13.85   | 6.11       | 21.33   | 13.90    |
+| DiscardIncrease | 17.07     | 23.56   | -6.49      | 21.26   | 14.90    |
+| CurrentTurnEV   | 17.09     | 23.93   | -6.84      | 21.80   | 14.87    |
+| ConservativeEV  | 17.11     | 23.87   | -6.76      | 21.53   | 15.00    |
+| Average         | 17.33     | 19.62   | -2.30      | 20.75   | 14.03    |
+
+Knock Metrics
+| Opponent        | Knock % | Avg Knock | Knock Win % | Knock Loss % |
+|-----------------|---------|-----------|-------------|--------------|
+| Random          | 21.69   | 18.51     | 89.12       | 7.88         |
+| Random+Knock27  | 89.52   | 20.63     | 88.78       | 7.85         |
+| DiscardIncrease | 51.62   | 19.85     | 57.57       | 34.23        |
+| CurrentTurnEV   | 50.20   | 20.09     | 55.56       | 36.29        |
+| ConservativeEV  | 51.03   | 20.00     | 54.26       | 37.29        |
+| Average         | 52.81   | 19.82     | 69.06       | 24.71        |
+
+Action Distribution
+| Opponent        | Action Knock % | Action DrawDiscard % | Action DrawDeck % |
+|-----------------|----------------|----------------------|-------------------|
+| Random          | 11.87          | 71.27                | 16.86             |
+| Random+Knock27  | 7.74           | 77.74                | 14.52             |
+| DiscardIncrease | 9.72           | 62.75                | 27.53             |
+| CurrentTurnEV   | 9.31           | 62.65                | 28.04             |
+| ConservativeEV  | 9.48           | 62.31                | 28.21             |
+| Average         | 9.63           | 67.34                | 23.03             |
