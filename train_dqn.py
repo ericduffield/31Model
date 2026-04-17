@@ -67,7 +67,7 @@ def evaluate_agent(
     opponents: Sequence[OpponentClass],
     games_per_opponent: int,
     seed: int,
-) -> Tuple[float, List[Tuple[str, float]]]:
+) -> Tuple[float, float, List[Tuple[str, float]], List[Tuple[str, float]]]:
     """
     Evaluate the agent against multiple baseline strategies.
 
@@ -81,10 +81,12 @@ def evaluate_agent(
         seed (int): Random seed for reproducibility.
 
     Returns:
-        Tuple[float, List[Tuple[str, float]]]: Aggregate win rate (%) and
-            list of (opponent_name, win_rate_%) tuples.
+        Tuple[float, float, List[Tuple[str, float]], List[Tuple[str, float]]]:
+            Aggregate win rate (%), aggregate decisive win rate (%),
+            per-opponent win rate tuples, and per-opponent decisive win rate tuples.
     """
     per_opponent: List[Tuple[str, float]] = []
+    per_opponent_decisive: List[Tuple[str, float]] = []
 
     for idx, opp_cls in enumerate(opponents):
         print(
@@ -116,10 +118,18 @@ def evaluate_agent(
 
         total = wins + losses + draws
         win_rate = (wins / total * 100.0) if total > 0 else 0.0
+        decisive_total = wins + losses
+        decisive_win_rate = (
+            wins / decisive_total * 100.0 if decisive_total > 0 else 0.0
+        )
         per_opponent.append((opp_cls.__name__, win_rate))
+        per_opponent_decisive.append((opp_cls.__name__, decisive_win_rate))
 
     aggregate = sum(wr for _, wr in per_opponent) / len(per_opponent)
-    return aggregate, per_opponent
+    aggregate_decisive = (
+        sum(wr for _, wr in per_opponent_decisive) / len(per_opponent_decisive)
+    )
+    return aggregate, aggregate_decisive, per_opponent, per_opponent_decisive
 
 
 def parse_args() -> argparse.Namespace:
@@ -413,7 +423,7 @@ def main() -> None:
                 f"({len(train_opponents)} opponents x {args.eval_games} games)",
                 flush=True,
             )
-            avg_wr, by_opp = evaluate_agent(
+            avg_wr, avg_decisive_wr, by_opp, by_opp_decisive = evaluate_agent(
                 agent=agent,
                 opponents=train_opponents,
                 games_per_opponent=args.eval_games,
@@ -425,17 +435,27 @@ def main() -> None:
                     episode:>6} | epsilon={
                     epsilon:.3f} | avg_reward(200)={
                     avg_reward:.3f} " f"| eval_win_rate={
-                    avg_wr:.2f}%",
+                    avg_wr:.2f}% | eval_decisive_win_rate={avg_decisive_wr:.2f}%",
                 flush=True,
             )
+            decisive_map = {name: wr for name, wr in by_opp_decisive}
             for name, wr in by_opp:
-                print(f"  vs {name:<35} {wr:>6.2f}%", flush=True)
+                dwr = decisive_map.get(name, float("nan"))
+                print(
+                    f"  vs {name:<35} win={wr:>6.2f}% | decisive={dwr:>6.2f}%",
+                    flush=True,
+                )
 
             # Log evaluation results
             eval_log = {
                 "episode": episode,
                 "eval_win_rate": avg_wr,
+                "eval_decisive_win_rate": avg_decisive_wr,
                 "eval_by_opponent": [{"opponent": name, "win_rate": wr} for name, wr in by_opp],
+                "eval_decisive_by_opponent": [
+                    {"opponent": name, "decisive_win_rate": wr}
+                    for name, wr in by_opp_decisive
+                ],
             }
             if logs and logs[-1]["episode"] == episode:
                 logs[-1].update(eval_log)

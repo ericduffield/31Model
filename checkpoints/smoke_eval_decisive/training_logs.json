@@ -1,0 +1,104 @@
+[
+  {
+    "episode": 1,
+    "epsilon": 0.6733333333333333,
+    "avg_reward": -1.0,
+    "avg_win_rate_200": 0.0,
+    "avg_draw_rate_200": 0.0,
+    "avg_decisive_win_rate_200": 0.0,
+    "knock_rate_200": 100.0,
+    "avg_knock_score_200": 10.0,
+    "avg_end_hand_score_200": 10.0,
+    "avg_loss": NaN,
+    "mean_max_q": 0.1468520313501358,
+    "mean_abs_q": 0.10625672340393066,
+    "replay_size": 3,
+    "eval_win_rate": 12.5,
+    "eval_decisive_win_rate": 12.5,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 12.5
+      }
+    ],
+    "eval_decisive_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "decisive_win_rate": 12.5
+      }
+    ]
+  },
+  {
+    "episode": 2,
+    "epsilon": 0.3466666666666667,
+    "avg_reward": -1.0,
+    "avg_win_rate_200": 0.0,
+    "avg_draw_rate_200": 0.0,
+    "avg_decisive_win_rate_200": 0.0,
+    "knock_rate_200": 50.0,
+    "avg_knock_score_200": 10.0,
+    "avg_end_hand_score_200": 9.0,
+    "avg_loss": 0.056346048787236216,
+    "mean_max_q": 0.1657726764678955,
+    "mean_abs_q": 0.11008356511592865,
+    "replay_size": 12,
+    "eval_win_rate": 0.0,
+    "eval_decisive_win_rate": 0.0,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 0.0
+      }
+    ],
+    "eval_decisive_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "decisive_win_rate": 0.0
+      }
+    ]
+  },
+  {
+    "episode": 3,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -1.0,
+    "avg_win_rate_200": 0.0,
+    "avg_draw_rate_200": 0.0,
+    "avg_decisive_win_rate_200": 0.0,
+    "knock_rate_200": 33.33333333333333,
+    "avg_knock_score_200": 10.0,
+    "avg_end_hand_score_200": 9.333333333333334,
+    "avg_loss": 0.06039189363681627,
+    "mean_max_q": 0.15241914987564087,
+    "mean_abs_q": 0.1079518124461174,
+    "replay_size": 29
+  },
+  {
+    "episode": 4,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -1.0,
+    "avg_win_rate_200": 0.0,
+    "avg_draw_rate_200": 0.0,
+    "avg_decisive_win_rate_200": 0.0,
+    "knock_rate_200": 50.0,
+    "avg_knock_score_200": 17.0,
+    "avg_end_hand_score_200": 13.0,
+    "avg_loss": 0.055132385664337286,
+    "mean_max_q": 0.13924503326416016,
+    "mean_abs_q": 0.10516878962516785,
+    "replay_size": 40,
+    "eval_win_rate": 50.0,
+    "eval_decisive_win_rate": 50.0,
+    "eval_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 50.0
+      }
+    ],
+    "eval_decisive_by_opponent": [
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "decisive_win_rate": 50.0
+      }
+    ]
+  }
+]
