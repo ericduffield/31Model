@@ -124,3 +124,70 @@ best vs DiscardIncreaseStrategy              16.86%
 | Average Win %                      |        |         |       |      31.77 |
 ==============================================================================
 
+
+
+
+COmparisions vs all and not all
+
+python3 -u train_dqn.py
+  --episodes 20000
+  --eval-every 250
+  --eval-games 5000
+  --batch-size 64
+  --buffer-capacity 100000
+  --learning-rate 1e-4
+  --gamma 0.98
+  --hidden-size 128
+  --epsilon-start 1.0
+  --epsilon-end 0.02
+  --epsilon-decay-episodes 10000
+  --target-update-steps 500
+  --warmup-steps 1000
+  --log-every 500
+  --seed 1
+  --run-name di_20k_gamma98
+
+python3 evaluate_dqn.py --model-path ".\checkpoints\di_20k_gamma98\dqn_best.pt" --games 10000 --seed 2
+
+
+Outcome Counts
+| Opponent        | Wins    | Losses  | Draws  | Win % | Decisive Win % |
+|-----------------|---------|---------|--------|-------|----------------|
+| Random          | 5080    | 3999    | 921    | 50.80 | 55.95          |
+| Random+Knock27  | 6202    | 3255    | 543    | 62.02 | 65.58          |
+| DiscardIncrease | 1749    | 8005    | 246    | 17.49 | 17.93          |
+| CurrentTurnEV   | 1747    | 8009    | 244    | 17.47 | 17.91          |
+| ConservativeEV  | 1736    | 8021    | 243    | 17.36 | 17.79          |
+| Average         | 3302.80 | 6257.80 | 439.40 | 33.03 | 35.03          |
+
+
+
+python3 -u train_dqn.py
+  --episodes 20000
+  --eval-every 250
+  --eval-games 5000
+  --batch-size 64
+  --buffer-capacity 100000
+  --learning-rate 1e-4
+  --gamma 0.98
+  --hidden-size 128
+  --epsilon-start 1.0
+  --epsilon-end 0.02
+  --epsilon-decay-episodes 10000
+  --target-update-steps 500
+  --warmup-steps 1000
+  --log-every 500
+  --seed 1
+  --run-name all_strategies_20k_gamma98
+
+python3 evaluate_dqn.py --model-path ".\checkpoints\all_strategies_5k_gamma98\dqn_best.pt" --games 10000 --seed 2
+
+
+| Opponent        | Wins    | Losses  | Draws  | Win % | Decisive Win % |
+|-----------------|---------|---------|--------|-------|----------------|
+| Random          | 5060    | 4034    | 906    | 50.60 | 55.64          |
+| Random+Knock27  | 6039    | 3477    | 484    | 60.39 | 63.46          |
+| DiscardIncrease | 1025    | 8831    | 144    | 10.25 | 10.40          |
+| CurrentTurnEV   | 923     | 8913    | 164    | 9.23  | 9.38           |
+| ConservativeEV  | 952     | 8898    | 150    | 9.52  | 9.66           |
+| Average         | 2799.80 | 6830.60 | 369.60 | 28.00 | 29.71          |

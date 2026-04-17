@@ -1,0 +1,352 @@
+[
+  {
+    "episode": 500,
+    "epsilon": 0.755,
+    "avg_reward": -0.545,
+    "avg_win_rate_200": 20.5,
+    "avg_draw_rate_200": 4.5,
+    "avg_decisive_win_rate_200": 21.465968586387437,
+    "avg_loss": 0.03475550244376063,
+    "mean_max_q": 0.29284146428108215,
+    "mean_abs_q": 0.30635252594947815,
+    "replay_size": 2948,
+    "eval_win_rate": 22.7,
+    "eval_by_opponent": [
+      {
+        "opponent": "RandomStrategy",
+        "win_rate": 47.46
+      },
+      {
+        "opponent": "RandomStrategyWithKnockScore",
+        "win_rate": 52.42
+      },
+      {
+        "opponent": "ConservativeExpectedValueStrategy",
+        "win_rate": 4.26
+      },
+      {
+        "opponent": "CurrentTurnExpectedValueStrategy",
+        "win_rate": 3.9800000000000004
+      },
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 5.38
+      }
+    ]
+  },
+  {
+    "episode": 1000,
+    "epsilon": 0.51,
+    "avg_reward": -0.47,
+    "avg_win_rate_200": 24.5,
+    "avg_draw_rate_200": 4.0,
+    "avg_decisive_win_rate_200": 25.520833333333332,
+    "avg_loss": 0.04302459958195686,
+    "mean_max_q": 0.5908361673355103,
+    "mean_abs_q": 0.6090809106826782,
+    "replay_size": 6176,
+    "eval_win_rate": 23.076,
+    "eval_by_opponent": [
+      {
+        "opponent": "RandomStrategy",
+        "win_rate": 48.26
+      },
+      {
+        "opponent": "RandomStrategyWithKnockScore",
+        "win_rate": 53.98
+      },
+      {
+        "opponent": "ConservativeExpectedValueStrategy",
+        "win_rate": 4.52
+      },
+      {
+        "opponent": "CurrentTurnExpectedValueStrategy",
+        "win_rate": 4.18
+      },
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 4.44
+      }
+    ]
+  },
+  {
+    "episode": 1500,
+    "epsilon": 0.265,
+    "avg_reward": -0.44,
+    "avg_win_rate_200": 26.5,
+    "avg_draw_rate_200": 3.0,
+    "avg_decisive_win_rate_200": 27.31958762886598,
+    "avg_loss": 0.044937738314270975,
+    "mean_max_q": 0.702770471572876,
+    "mean_abs_q": 0.6669369339942932,
+    "replay_size": 10022,
+    "eval_win_rate": 22.823999999999998,
+    "eval_by_opponent": [
+      {
+        "opponent": "RandomStrategy",
+        "win_rate": 48.32
+      },
+      {
+        "opponent": "RandomStrategyWithKnockScore",
+        "win_rate": 51.35999999999999
+      },
+      {
+        "opponent": "ConservativeExpectedValueStrategy",
+        "win_rate": 4.88
+      },
+      {
+        "opponent": "CurrentTurnExpectedValueStrategy",
+        "win_rate": 4.92
+      },
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 4.64
+      }
+    ]
+  },
+  {
+    "episode": 2000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.505,
+    "avg_win_rate_200": 22.5,
+    "avg_draw_rate_200": 4.5,
+    "avg_decisive_win_rate_200": 23.56020942408377,
+    "avg_loss": 0.04376809852570295,
+    "mean_max_q": 0.6617474555969238,
+    "mean_abs_q": 0.7537314891815186,
+    "replay_size": 15437,
+    "eval_win_rate": 23.064,
+    "eval_by_opponent": [
+      {
+        "opponent": "RandomStrategy",
+        "win_rate": 48.24
+      },
+      {
+        "opponent": "RandomStrategyWithKnockScore",
+        "win_rate": 50.239999999999995
+      },
+      {
+        "opponent": "ConservativeExpectedValueStrategy",
+        "win_rate": 5.46
+      },
+      {
+        "opponent": "CurrentTurnExpectedValueStrategy",
+        "win_rate": 5.9799999999999995
+      },
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 5.4
+      }
+    ]
+  },
+  {
+    "episode": 2500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.595,
+    "avg_win_rate_200": 20.0,
+    "avg_draw_rate_200": 0.5,
+    "avg_decisive_win_rate_200": 20.100502512562816,
+    "avg_loss": 0.04788439274206758,
+    "mean_max_q": 0.9027858972549438,
+    "mean_abs_q": 0.8932643532752991,
+    "replay_size": 22806,
+    "eval_win_rate": 22.416,
+    "eval_by_opponent": [
+      {
+        "opponent": "RandomStrategy",
+        "win_rate": 49.38
+      },
+      {
+        "opponent": "RandomStrategyWithKnockScore",
+        "win_rate": 47.339999999999996
+      },
+      {
+        "opponent": "ConservativeExpectedValueStrategy",
+        "win_rate": 4.9799999999999995
+      },
+      {
+        "opponent": "CurrentTurnExpectedValueStrategy",
+        "win_rate": 4.9799999999999995
+      },
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 5.4
+      }
+    ]
+  },
+  {
+    "episode": 3000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.505,
+    "avg_win_rate_200": 22.0,
+    "avg_draw_rate_200": 5.5,
+    "avg_decisive_win_rate_200": 23.28042328042328,
+    "avg_loss": 0.04539038632065058,
+    "mean_max_q": 0.9145399332046509,
+    "mean_abs_q": 0.8897261023521423,
+    "replay_size": 29837,
+    "eval_win_rate": 23.46,
+    "eval_by_opponent": [
+      {
+        "opponent": "RandomStrategy",
+        "win_rate": 50.06
+      },
+      {
+        "opponent": "RandomStrategyWithKnockScore",
+        "win_rate": 48.82
+      },
+      {
+        "opponent": "ConservativeExpectedValueStrategy",
+        "win_rate": 6.08
+      },
+      {
+        "opponent": "CurrentTurnExpectedValueStrategy",
+        "win_rate": 5.94
+      },
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 6.4
+      }
+    ]
+  },
+  {
+    "episode": 3500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.44,
+    "avg_win_rate_200": 26.5,
+    "avg_draw_rate_200": 3.0,
+    "avg_decisive_win_rate_200": 27.31958762886598,
+    "avg_loss": 0.03782252858951688,
+    "mean_max_q": 0.6579521894454956,
+    "mean_abs_q": 0.6815525889396667,
+    "replay_size": 36536,
+    "eval_win_rate": 26.631999999999998,
+    "eval_by_opponent": [
+      {
+        "opponent": "RandomStrategy",
+        "win_rate": 51.019999999999996
+      },
+      {
+        "opponent": "RandomStrategyWithKnockScore",
+        "win_rate": 55.76
+      },
+      {
+        "opponent": "ConservativeExpectedValueStrategy",
+        "win_rate": 9.26
+      },
+      {
+        "opponent": "CurrentTurnExpectedValueStrategy",
+        "win_rate": 8.42
+      },
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 8.7
+      }
+    ]
+  },
+  {
+    "episode": 4000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.365,
+    "avg_win_rate_200": 29.5,
+    "avg_draw_rate_200": 4.5,
+    "avg_decisive_win_rate_200": 30.89005235602094,
+    "avg_loss": 0.03682887159101665,
+    "mean_max_q": 0.7392122149467468,
+    "mean_abs_q": 0.7484452724456787,
+    "replay_size": 42689,
+    "eval_win_rate": 28.060000000000002,
+    "eval_by_opponent": [
+      {
+        "opponent": "RandomStrategy",
+        "win_rate": 51.4
+      },
+      {
+        "opponent": "RandomStrategyWithKnockScore",
+        "win_rate": 61.68
+      },
+      {
+        "opponent": "ConservativeExpectedValueStrategy",
+        "win_rate": 8.52
+      },
+      {
+        "opponent": "CurrentTurnExpectedValueStrategy",
+        "win_rate": 9.08
+      },
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 9.62
+      }
+    ]
+  },
+  {
+    "episode": 4500,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.405,
+    "avg_win_rate_200": 28.000000000000004,
+    "avg_draw_rate_200": 3.5000000000000004,
+    "avg_decisive_win_rate_200": 29.015544041450774,
+    "avg_loss": 0.036249843388795853,
+    "mean_max_q": 0.6128519773483276,
+    "mean_abs_q": 0.7184803485870361,
+    "replay_size": 49946,
+    "eval_win_rate": 24.816,
+    "eval_by_opponent": [
+      {
+        "opponent": "RandomStrategy",
+        "win_rate": 49.519999999999996
+      },
+      {
+        "opponent": "RandomStrategyWithKnockScore",
+        "win_rate": 51.92
+      },
+      {
+        "opponent": "ConservativeExpectedValueStrategy",
+        "win_rate": 8.0
+      },
+      {
+        "opponent": "CurrentTurnExpectedValueStrategy",
+        "win_rate": 7.04
+      },
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 7.6
+      }
+    ]
+  },
+  {
+    "episode": 5000,
+    "epsilon": 0.020000000000000018,
+    "avg_reward": -0.375,
+    "avg_win_rate_200": 30.5,
+    "avg_draw_rate_200": 1.5,
+    "avg_decisive_win_rate_200": 30.96446700507614,
+    "avg_loss": 0.037846769811585544,
+    "mean_max_q": 0.46863308548927307,
+    "mean_abs_q": 0.5652416944503784,
+    "replay_size": 55156,
+    "eval_win_rate": 26.208,
+    "eval_by_opponent": [
+      {
+        "opponent": "RandomStrategy",
+        "win_rate": 49.82
+      },
+      {
+        "opponent": "RandomStrategyWithKnockScore",
+        "win_rate": 54.279999999999994
+      },
+      {
+        "opponent": "ConservativeExpectedValueStrategy",
+        "win_rate": 8.7
+      },
+      {
+        "opponent": "CurrentTurnExpectedValueStrategy",
+        "win_rate": 9.08
+      },
+      {
+        "opponent": "DiscardIncreaseStrategy",
+        "win_rate": 9.16
+      }
+    ]
+  }
+]

@@ -17,4 +17,56 @@ python3 -u train_dqn.py \
   --run-name di_2mil_gamma98
 
 
-  python3 evaluate_dqn.py --model-path checkpoints/di_1mil_gamma98/dqn_best.pt --games 10000 --seed 2
+python3 evaluate_dqn.py --model-path ".\checkpoints\di_2mil_gamma98\dqn_best.pt" --games 10000 --seed 2
+
+Outcome Counts
+--------------------------------------------------------------------
+| Opponent        | Wins    | Losses  | Draws  | Win % | Dec Win % |
+--------------------------------------------------------------------
+| Random          | 5471    | 3605    | 924    | 54.71 | 60.28     |
+| Random+Knock27  | 8174    | 1627    | 199    | 81.74 | 83.40     |
+| DiscardIncrease | 2778    | 6933    | 289    | 27.78 | 28.61     |
+| CurrentTurnEV   | 2631    | 7061    | 308    | 26.31 | 27.15     |
+| ConservativeEV  | 2740    | 6964    | 296    | 27.40 | 28.24     |
+| Average         | 4358.80 | 5238.00 | 403.20 | 43.59 | 45.53     |
+--------------------------------------------------------------------
+
+Outcome Quality
+------------------------------------------------------
+| Opponent        | Draw % | Non-loss % | Avg Margin |
+------------------------------------------------------
+| Random          | 9.24   | 63.95      | 1.87       |
+| Random+Knock27  | 1.99   | 83.73      | 6.89       |
+| DiscardIncrease | 2.89   | 30.67      | -8.09      |
+| CurrentTurnEV   | 3.08   | 29.39      | -8.36      |
+| ConservativeEV  | 2.96   | 30.36      | -8.11      |
+| Average         | 4.03   | 47.62      | -3.16      |
+------------------------------------------------------
+
+Score Metrics
+--------------------------------------------------------------
+| Opponent        | Avg Agent | Avg Opp | Avg Win | Avg Loss |
+--------------------------------------------------------------
+| Random          | 14.85     | 12.97   | 18.04   | 10.83    |
+| Random+Knock27  | 21.22     | 14.32   | 22.64   | 14.45    |
+| DiscardIncrease | 16.84     | 24.93   | 22.79   | 14.24    |
+| CurrentTurnEV   | 16.82     | 25.19   | 23.13   | 14.26    |
+| ConservativeEV  | 16.86     | 24.97   | 22.75   | 14.31    |
+| Average         | 17.32     | 20.48   | 21.87   | 13.62    |
+--------------------------------------------------------------
+
+Knock Metrics
+----------------------------------------------------------------------
+| Opponent        | Knock % | Avg Knock | Knock Win % | Knock Loss % |
+----------------------------------------------------------------------
+| Random          | 16.37   | 20.15     | 92.73       | 4.64         |
+| Random+Knock27  | 88.86   | 22.11     | 91.59       | 6.41         |
+| DiscardIncrease | 40.08   | 21.80     | 67.39       | 26.05        |
+| CurrentTurnEV   | 38.75   | 21.99     | 65.81       | 26.84        |
+| ConservativeEV  | 40.20   | 21.75     | 66.72       | 26.82        |
+| Average         | 44.85   | 21.56     | 76.85       | 18.15        |
+----------------------------------------------------------------------
+
+python3 evaluate_dqn.py --model-path ".\checkpoints\di_2mil_gamma98\dqn_second_best.pt" --games 10000 --seed 2
+
+

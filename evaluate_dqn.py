@@ -1,16 +1,17 @@
-"""Evaluate a trained DQN agent against all baseline opponent strategies.
+"""Evaluate a trained DQN agent against baseline opponent strategies.
 
-Loads a saved checkpoint and runs offline evaluation: plays multiple games
-against each of 5 baseline strategies and reports win rates, average scores,
-knock frequencies, and knock-win percentages.
+Prints outcome metrics (win/loss/draw, decisive win rate, non-loss rate) and
+quality metrics (scores, margins, knock behavior).
 """
+
+from __future__ import annotations
 
 import argparse
 import random
+from typing import Any, Dict, List, Sequence, Type
 
 import numpy as np
 import torch
-from typing import Dict, List, Sequence, Type
 
 from computer import (
     ComputerStrategy,
@@ -25,7 +26,47 @@ from rl_env import NUM_ACTIONS, ThirtyOneEnv
 from rules import score_hand
 
 OpponentClass = Type[ComputerStrategy]
-"""Type alias for ComputerStrategy subclasses."""
+
+OPPONENT_LABELS = {
+    "RandomStrategy": "Random",
+    "RandomStrategyWithKnockScore": "Random+Knock27",
+    "DiscardIncreaseStrategy": "DiscardIncrease",
+    "CurrentTurnExpectedValueStrategy": "CurrentTurnEV",
+    "ConservativeExpectedValueStrategy": "ConservativeEV",
+    "Average": "Average",
+}
+
+
+def _format_table(title: str, columns: List[tuple[str, str]], rows: List[Dict[str, Any]]) -> None:
+    """Print a markdown-compatible table from column specs and rows."""
+    header_cells = [label for label, _ in columns]
+    body_rows: List[List[str]] = []
+
+    for row in rows:
+        formatted: List[str] = []
+        for _, key in columns:
+            value = row[key]
+            if isinstance(value, float):
+                formatted.append(f"{value:.2f}")
+            else:
+                formatted.append(str(value))
+        body_rows.append(formatted)
+
+    widths = [len(cell) for cell in header_cells]
+    for row in body_rows:
+        for i, cell in enumerate(row):
+            widths[i] = max(widths[i], len(cell))
+
+    def render_line(cells: List[str]) -> str:
+        padded = [cells[i].ljust(widths[i]) for i in range(len(cells))]
+        return "| " + " | ".join(padded) + " |"
+
+    separator = "|" + "|".join("-" * (w + 2) for w in widths) + "|"
+    print(f"\n{title}")
+    print(render_line(header_cells))
+    print(separator)
+    for row in body_rows:
+        print(render_line(row))
 
 
 def evaluate(
@@ -33,52 +74,30 @@ def evaluate(
     opponents: Sequence[OpponentClass],
     games_per_opponent: int,
     seed: int,
-    include_extra_stats: bool,
-) -> List[Dict[str, float]]:
-    """Run agent against multiple opponent strategies and collect stats.
-
-    Args:
-        agent (DQNAgent): Trained agent to evaluate (epsilon=0, greedy).
-        opponents (Sequence[OpponentClass]): List of opponent classes to test.
-        games_per_opponent (int): Number of games per opponent.
-        seed (int): Reproducibility seed.
-        include_extra_stats (bool): If True, also compute avg scores, knock%,
-            knock-win%, etc. If False, only win/loss/draw.
-
-    Returns:
-        List[Dict[str, object]]: List of result dicts (one per opponent) with keys:
-            - "opponent": str, class name
-            - "wins", "losses", "draws": int counts
-            - "win_rate": float percentage
-            - "avg_score", "knock_rate", "avg_knock_score", "knock_win_rate": float
-              (only if include_extra_stats=True)
-
-    Example:
-        >>> agent = DQNAgent(obs_dim=165, num_actions=9)
-        >>> agent.load('checkpoints/dqn.pt')
-        >>> results = evaluate(
-        ...     agent,
-        ...     [RandomStrategy, DiscardIncreaseStrategy],
-        ...     games_per_opponent=100,
-        ...     seed=42,
-        ...     include_extra_stats=True
-        ... )
-        >>> results[0]['opponent']
-        'RandomStrategy'
-        >>> results[0]['win_rate']
-        75.5
-    """
-    rows: List[Dict[str, float]] = []
+) -> List[Dict[str, Any]]:
+    """Run greedy evaluation against multiple opponents and collect metrics."""
+    rows: List[Dict[str, Any]] = []
 
     for idx, opp_cls in enumerate(opponents):
         env = ThirtyOneEnv(opponent_factory=opp_cls, seed=seed + idx)
         wins = 0
         losses = 0
         draws = 0
-        total_score = 0.0
+
+        total_agent_score = 0.0
+        total_opp_score = 0.0
+        total_score_margin = 0.0
+        total_win_score = 0.0
+        total_loss_score = 0.0
+
         knock_count = 0
         knock_win_count = 0
+        knock_loss_count = 0
         total_knock_score = 0.0
+        action_knock_count = 0
+        action_draw_discard_count = 0
+        action_draw_deck_count = 0
+        total_agent_turns = 0
 
         for game_idx in range(games_per_opponent):
             obs, info = env.reset(start_player=game_idx % 2)
@@ -86,105 +105,118 @@ def evaluate(
 
             while not done:
                 action = agent.select_action(obs, info["action_mask"], epsilon=0.0)
+                total_agent_turns += 1
+                if action == 0:
+                    action_knock_count += 1
+                elif 1 <= action <= 4:
+                    action_draw_discard_count += 1
+                elif 5 <= action <= 8:
+                    action_draw_deck_count += 1
                 result = env.step(action)
                 obs = result.observation
                 info = result.info
                 done = result.terminated or result.truncated
 
+            agent_score = score_hand(env.game.hands[env.agent])
+            opp_score = score_hand(env.game.hands[env.opponent])
+            total_agent_score += agent_score
+            total_opp_score += opp_score
+            total_score_margin += (agent_score - opp_score)
+
             if result.reward > 0:
                 wins += 1
+                total_win_score += agent_score
             elif result.reward < 0:
                 losses += 1
+                total_loss_score += agent_score
             else:
                 draws += 1
 
-            if include_extra_stats:
-                agent_score = score_hand(env.game.hands[env.agent])
-                total_score += agent_score
-
-                if env.game.knocked_by == env.agent:
-                    knock_count += 1
-                    total_knock_score += agent_score
-                    if result.reward > 0:
-                        knock_win_count += 1
+            if env.game.knocked_by == env.agent:
+                knock_count += 1
+                total_knock_score += agent_score
+                if result.reward > 0:
+                    knock_win_count += 1
+                elif result.reward < 0:
+                    knock_loss_count += 1
 
         total = wins + losses + draws
-        win_rate = (wins / total * 100.0) if total > 0 else 0.0
-        avg_score = (total_score / total) if include_extra_stats and total > 0 else 0.0
-        knock_rate = (
-            (knock_count / total * 100.0) if include_extra_stats and total > 0 else 0.0
-        )
-        avg_knock_score = (
-            (total_knock_score / knock_count)
-            if include_extra_stats and knock_count > 0
-            else 0.0
-        )
-        knock_win_rate = (
-            (knock_win_count / knock_count * 100.0)
-            if include_extra_stats and knock_count > 0
-            else 0.0
-        )
+        decisive = wins + losses
 
         rows.append(
             {
                 "opponent": opp_cls.__name__,
+                "opponent_short": OPPONENT_LABELS.get(opp_cls.__name__, opp_cls.__name__),
                 "wins": wins,
                 "losses": losses,
                 "draws": draws,
-                "win_rate": win_rate,
-                "avg_score": avg_score,
-                "knock_rate": knock_rate,
-                "avg_knock_score": avg_knock_score,
-                "knock_win_rate": knock_win_rate,
+                "win_rate": (wins / total * 100.0) if total > 0 else 0.0,
+                "draw_rate": (draws / total * 100.0) if total > 0 else 0.0,
+                "non_loss_rate": ((wins + draws) / total * 100.0) if total > 0 else 0.0,
+                "decisive_win_rate": (wins / decisive * 100.0) if decisive > 0 else 0.0,
+                "avg_agent_score": (total_agent_score / total) if total > 0 else 0.0,
+                "avg_opp_score": (total_opp_score / total) if total > 0 else 0.0,
+                "avg_margin": (total_score_margin / total) if total > 0 else 0.0,
+                "avg_win_score": (total_win_score / wins) if wins > 0 else 0.0,
+                "avg_loss_score": (total_loss_score / losses) if losses > 0 else 0.0,
+                "knock_rate": (knock_count / total * 100.0) if total > 0 else 0.0,
+                "avg_knock_score": (total_knock_score / knock_count) if knock_count > 0 else 0.0,
+                "knock_win_rate": (knock_win_count / knock_count * 100.0) if knock_count > 0 else 0.0,
+                "knock_loss_rate": (knock_loss_count / knock_count * 100.0) if knock_count > 0 else 0.0,
+                "action_knock_rate": (
+                    action_knock_count / total_agent_turns * 100.0
+                    if total_agent_turns > 0
+                    else 0.0
+                ),
+                "action_draw_discard_rate": (
+                    action_draw_discard_count / total_agent_turns * 100.0
+                    if total_agent_turns > 0
+                    else 0.0
+                ),
+                "action_draw_deck_rate": (
+                    action_draw_deck_count / total_agent_turns * 100.0
+                    if total_agent_turns > 0
+                    else 0.0
+                ),
             }
         )
 
     return rows
 
 
+def _add_average_row(rows: List[Dict[str, Any]], label: str) -> List[Dict[str, Any]]:
+    """Append a macro-average row across opponents for numeric fields."""
+    if not rows:
+        return rows
+
+    numeric_keys = [
+        key
+        for key, value in rows[0].items()
+        if key != "opponent" and isinstance(value, (int, float))
+    ]
+    avg_row: Dict[str, Any] = {
+        "opponent": label,
+        "opponent_short": OPPONENT_LABELS.get(label, label),
+    }
+    for key in numeric_keys:
+        avg_row[key] = sum(float(row[key]) for row in rows) / len(rows)
+
+    return [*rows, avg_row]
+
+
 def parse_args() -> argparse.Namespace:
-    """Parse command-line arguments for evaluation script.
-
-    Returns:
-        argparse.Namespace: Parsed args with attributes:
-            - model_path (str): Path to saved agent checkpoint
-            - games (int): Games per opponent
-            - seed (int): Random seed
-            - include_extra_stats (bool): Compute extra metrics
-
-    Example:
-        >>> args = parse_args()  # Reads sys.argv
-        >>> args.model_path
-        'checkpoints/dqn_best.pt'
-    """
+    """Parse command-line arguments for the evaluation script."""
     parser = argparse.ArgumentParser(description="Evaluate DQN for 31.")
     parser.add_argument("--model-path", type=str, default="checkpoints/dqn_best.pt")
     parser.add_argument("--games", type=int, default=5_000)
     parser.add_argument("--seed", type=int, default=1234)
-    parser.add_argument(
-        "--include-extra-stats",
-        action="store_true",
-        help="Include avg score and knock-related metrics in the output table.",
-    )
     return parser.parse_args()
 
 
 def main() -> None:
-    """Load agent, run evaluation against all baselines, and print results table.
-
-    Reads command-line args (--model-path, --games, --seed, --include-extra-stats),
-    loads the DQN agent from checkpoint, and runs evaluate() against all 5 baseline
-    opponent classes. Prints results in a formatted ASCII table.
-
-    Example:
-        >>> # From command line:
-        >>> # $ python evaluate_dqn.py --model-path checkpoints/dqn_best.pt \
-        >>> #     --games 5000 --include-extra-stats
-        >>> # Prints: | RandomStrategy | 1234 | 765 | ... | 61.72 | ...
-    """
+    """Load a checkpoint, evaluate against baseline opponents, and print tables."""
     args = parse_args()
 
-    # Set global seeds for reproducibility
     random.seed(args.seed)
     np.random.seed(args.seed)
     torch.manual_seed(args.seed)
@@ -202,92 +234,61 @@ def main() -> None:
     agent.load(args.model_path)
 
     rows = evaluate(
-        agent,
-        opponents,
+        agent=agent,
+        opponents=opponents,
         games_per_opponent=args.games,
         seed=args.seed,
-        include_extra_stats=args.include_extra_stats,
+    )
+    rows_with_avg = _add_average_row(rows, label="Average")
+
+    _format_table(
+        title="Outcome Counts",
+        columns=[
+            ("Opponent", "opponent_short"),
+            ("Wins", "wins"),
+            ("Losses", "losses"),
+            ("Draws", "draws"),
+            ("Win %", "win_rate"),
+            ("Decisive Win %", "decisive_win_rate"),
+        ],
+        rows=rows_with_avg,
     )
 
-    if args.include_extra_stats:
-        header = f"| {
-                'Opponent':<34} | {
-                'Wins':>6} | {
-                'Losses':>7} | {
-                    'Draws':>5} | " f"{
-                        'Win Rate %':>10} | {
-                            'Avg Score':>9} | {
-                                'Knock %':>7} | {
-                                    'Avg Knock Score':>15} | {
-                                        'Knock Win %':>10} |"
-    else:
-        header = f"| {
-                'Opponent':<34} | {
-                'Wins':>6} | {
-                'Losses':>7} | {
-                    'Draws':>5} | {
-                        'Win Rate %':>10} |"
+    _format_table(
+        title="Score Metrics",
+        columns=[
+            ("Opponent", "opponent_short"),
+            ("Avg Agent", "avg_agent_score"),
+            ("Avg Opp", "avg_opp_score"),
+            ("Avg Margin", "avg_margin"),
+            ("Avg Win", "avg_win_score"),
+            ("Avg Loss", "avg_loss_score"),
+        ],
+        rows=rows_with_avg,
+    )
 
-    rule = "-" * len(header)
-    border = "=" * len(header)
-    print(border)
-    print(header)
-    print(rule)
+    _format_table(
+        title="Knock Metrics",
+        columns=[
+            ("Opponent", "opponent_short"),
+            ("Knock %", "knock_rate"),
+            ("Avg Knock", "avg_knock_score"),
+            ("Knock Win %", "knock_win_rate"),
+            ("Knock Loss %", "knock_loss_rate"),
+        ],
+        rows=rows_with_avg,
+    )
 
-    total_wr = 0.0
-    total_avg_score = 0.0
-    total_knock_rate = 0.0
-    total_avg_knock_score = 0.0
-    total_knock_win_rate = 0.0
-
-    for row in rows:
-        total_wr += row["win_rate"]
-        if args.include_extra_stats:
-            total_avg_score += row["avg_score"]
-            total_knock_rate += row["knock_rate"]
-            total_avg_knock_score += row["avg_knock_score"]
-            total_knock_win_rate += row["knock_win_rate"]
-
-            print(
-                f"| {row['opponent']:<34} | {int(row['wins']):>6} | {int(row['losses']):>7} | {int(row['draws']):>5} | "
-                f"{row['win_rate']:>10.2f} | {row['avg_score']:>9.2f} | {row['knock_rate']:>7.2f} | "
-                f"{row['avg_knock_score']:>15.2f} | {row['knock_win_rate']:>10.2f} |"
-            )
-        else:
-            print(
-                f"| {row['opponent']:<34} | {int(row['wins']):>6} | {int(row['losses']):>7} | {int(row['draws']):>5} | "
-                f"{row['win_rate']:>10.2f} |"
-            )
-
-    count = max(1, len(rows))
-    average_win_pct = total_wr / count
-    if args.include_extra_stats:
-        average_score = total_avg_score / count
-        average_knock_pct = total_knock_rate / count
-        average_knock_score = total_avg_knock_score / count
-        average_knock_win_pct = total_knock_win_rate / count
-
-        print(rule)
-        print(f"| {
-                'Average Win %':<34} | {
-                '':>6} | {
-                '':>7} | {
-                    '':>5} | " f"{
-                        average_win_pct:>10.2f} | {
-                            average_score:>9.2f} | {
-                                average_knock_pct:>7.2f} | " f"{
-                                    average_knock_score:>15.2f} | {
-                                        average_knock_win_pct:>10.2f} |")
-    else:
-        print(rule)
-        print(f"| {
-                'Average Win %':<34} | {
-                '':>6} | {
-                '':>7} | {
-                    '':>5} | {
-                        average_win_pct:>10.2f} |")
-
-    print(border)
+    _format_table(
+        title="Action Distribution",
+        columns=[
+            ("Opponent", "opponent_short"),
+            ("Action Knock %", "action_knock_rate"),
+            ("Action DrawDiscard %", "action_draw_discard_rate"),
+            ("Action DrawDeck %", "action_draw_deck_rate"),
+        ],
+        rows=rows_with_avg,
+    )
 
 
 if __name__ == "__main__":

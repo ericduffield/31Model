@@ -1,8 +1,8 @@
 {
-  "timestamp_utc": "2026-04-06T20:33:09.477312+00:00",
-  "cwd": "/workspaces/31Model",
-  "python_executable": "/home/codespace/.python/current/bin/python3",
-  "command": "/home/codespace/.python/current/bin/python3 train_dqn.py --episodes 5000 --eval-every 500 --eval-games 5000 --batch-size 64 --buffer-capacity 100000 --learning-rate 1e-4 --gamma 0.98 --hidden-size 128 --epsilon-start 1.0 --epsilon-end 0.02 --epsilon-decay-episodes 2000 --target-update-steps 500 --warmup-steps 1000 --log-every 500 --seed 1 --run-name di_5k_gamma98",
+  "timestamp_utc": "2026-04-17T01:39:08.101038+00:00",
+  "cwd": "C:\\Users\\EricDuffield\\Files\\Github\\School\\31Model",
+  "python_executable": "C:\\Users\\EricDuffield\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+  "command": "C:\\Users\\EricDuffield\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe train_dqn.py --episodes 5000 --eval-every 500 --eval-games 5000 --batch-size 64 --buffer-capacity 100000 --learning-rate 1e-4 --gamma 0.98 --hidden-size 128 --epsilon-start 1.0 --epsilon-end 0.02 --epsilon-decay-episodes 2000 --target-update-steps 500 --warmup-steps 1000 --log-every 500 --seed 1 --run-name di_5k_gamma98",
   "argv": [
     "train_dqn.py",
     "--episodes",

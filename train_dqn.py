@@ -25,10 +25,12 @@ from computer import (
     ConservativeExpectedValueStrategy,
     DiscardIncreaseStrategy,
     RandomStrategy,
+    RandomStrategyWithKnockScore,
     CurrentTurnExpectedValueStrategy
 )
 from dqn_agent import DQNAgent
 from rl_env import NUM_ACTIONS, ThirtyOneEnv
+from rules import score_hand
 
 OpponentClass = Type[ComputerStrategy]
 CHECKPOINT_DIR = "checkpoints"
@@ -223,7 +225,6 @@ def main() -> None:
         # ConservativeExpectedValueStrategy,
         # CurrentTurnExpectedValueStrategy,
         DiscardIncreaseStrategy,
-        # CurrentTurnExpectedValueStrategy
     ]
 
     probe_env = ThirtyOneEnv(opponent_factory=RandomStrategy, seed=args.seed)
@@ -248,6 +249,9 @@ def main() -> None:
     moving_rewards: List[float] = []
     moving_outcomes: List[float] = []
     moving_losses: List[float] = []
+    moving_knock_flags: List[float] = []
+    moving_knock_scores: List[float] = []
+    moving_end_scores: List[float] = []
     logs: List[Dict] = []  # Accumulate logs for JSON export
 
     for episode in range(1, args.episodes + 1):
@@ -305,6 +309,19 @@ def main() -> None:
         if len(moving_outcomes) > 200:
             moving_outcomes.pop(0)
 
+        agent_end_score = score_hand(env.game.hands[env.agent])
+        agent_knocked = (env.game.knocked_by == env.agent)
+        moving_end_scores.append(agent_end_score)
+        if len(moving_end_scores) > 200:
+            moving_end_scores.pop(0)
+        moving_knock_flags.append(1.0 if agent_knocked else 0.0)
+        if len(moving_knock_flags) > 200:
+            moving_knock_flags.pop(0)
+        if agent_knocked:
+            moving_knock_scores.append(agent_end_score)
+            if len(moving_knock_scores) > 200:
+                moving_knock_scores.pop(0)
+
         if episode % args.log_every == 0:
             avg_reward = sum(moving_rewards) / len(moving_rewards)
             wins_200 = sum(1 for outcome in moving_outcomes if outcome > 0)
@@ -316,6 +333,21 @@ def main() -> None:
             decisive_games_200 = wins_200 + losses_200
             avg_decisive_win_rate_200 = (
                 wins_200 / decisive_games_200 * 100.0 if decisive_games_200 > 0 else 0.0
+            )
+            knock_rate_200 = (
+                sum(moving_knock_flags) / len(moving_knock_flags) * 100.0
+                if moving_knock_flags
+                else 0.0
+            )
+            avg_knock_score_200 = (
+                sum(moving_knock_scores) / len(moving_knock_scores)
+                if moving_knock_scores
+                else float("nan")
+            )
+            avg_end_score_200 = (
+                sum(moving_end_scores) / len(moving_end_scores)
+                if moving_end_scores
+                else float("nan")
             )
             avg_loss = (
                 (sum(moving_losses) / len(moving_losses))
@@ -336,6 +368,9 @@ def main() -> None:
                 "avg_win_rate_200": avg_win_rate_200,
                 "avg_draw_rate_200": avg_draw_rate_200,
                 "avg_decisive_win_rate_200": avg_decisive_win_rate_200,
+                "knock_rate_200": knock_rate_200,
+                "avg_knock_score_200": avg_knock_score_200,
+                "avg_end_hand_score_200": avg_end_score_200,
                 "avg_loss": avg_loss,
                 "mean_max_q": mean_max_q,
                 "mean_abs_q": mean_abs_q,
@@ -349,6 +384,9 @@ def main() -> None:
                 f"avg_reward(200)={avg_reward:.3f} | "
                 f"win%(200)={avg_win_rate_200:.2f} | draw%(200)={avg_draw_rate_200:.2f} | "
                 f"decisive_win%(200)={avg_decisive_win_rate_200:.2f} | "
+                f"knock%(200)={knock_rate_200:.2f} | "
+                f"avg_knock_score(200)={avg_knock_score_200:.2f} | "
+                f"avg_end_score(200)={avg_end_score_200:.2f} | "
                 f"avg_loss(500)={avg_loss:.4f} | "
                 f"mean_max_q={mean_max_q:.3f} | mean_abs_q={mean_abs_q:.3f} | "
                 f"replay={len(agent.replay)}",

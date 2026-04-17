@@ -57,3 +57,79 @@ python3 -u train_dqn.py \
 --run-name di_5k_gamma98
 
 best vs DiscardIncreaseStrategy              17.06%
+
+
+vs ALl strategies
+
+python3 -u train_dqn.py
+    --episodes 5000
+    --eval-every 500
+    --eval-games 5000
+    --batch-size 64
+    --buffer-capacity 100000
+    --learning-rate 1e-4
+    --gamma 0.98
+    --hidden-size 128
+    --epsilon-start 1.0
+    --epsilon-end 0.02
+    --epsilon-decay-episodes 2000
+    --target-update-steps 500
+    --warmup-steps 1000
+    --log-every 500
+    --seed 1
+    --run-name all_strategies_5k_gamma98
+
+
+Best eval average win rate: 28.06% at episode 4000
+  best vs RandomStrategy                       51.40%
+  best vs RandomStrategyWithKnockScore         61.68%
+  best vs ConservativeExpectedValueStrategy     8.52%
+  best vs CurrentTurnExpectedValueStrategy      9.08%
+  best vs DiscardIncreaseStrategy               9.62%
+
+python3 evaluate_dqn.py --model-path ".\checkpoints\all_strategies_5k_gamma98\dqn_best.pt" --games 10000 --seed 2
+
+--------------------------------------------------------------------
+| Opponent        | Wins    | Losses  | Draws  | Win % | Dec Win % |
+--------------------------------------------------------------------
+| Random          | 5060    | 4034    | 906    | 50.60 | 55.64     |
+| Random+Knock27  | 6039    | 3477    | 484    | 60.39 | 63.46     |
+| DiscardIncrease | 1025    | 8831    | 144    | 10.25 | 10.40     |
+| CurrentTurnEV   | 923     | 8913    | 164    | 9.23  | 9.38      |
+| ConservativeEV  | 952     | 8898    | 150    | 9.52  | 9.66      |
+| Average         | 2799.80 | 6830.60 | 369.60 | 28.00 | 29.71     |
+--------------------------------------------------------------------
+
+python3 -u train_dqn.py
+    --episodes 5000
+    --eval-every 500
+    --eval-games 5000
+    --batch-size 64
+    --buffer-capacity 100000
+    --learning-rate 1e-4
+    --gamma 0.98
+    --hidden-size 128
+    --epsilon-start 1.0
+    --epsilon-end 0.02
+    --epsilon-decay-episodes 2000
+    --target-update-steps 500
+    --warmup-steps 1000
+    --log-every 500
+    --seed 1
+    --run-name di_5k_gamma98
+
+Best eval average win rate: 18.60% at episode 5000
+  best vs DiscardIncreaseStrategy              18.60%
+
+python3 evaluate_dqn.py --model-path ".\checkpoints\di_5k_gamma98\dqn_best.pt" --games 10000 --seed 2
+
+--------------------------------------------------------------------
+| Opponent        | Wins    | Losses  | Draws  | Win % | Dec Win % |
+--------------------------------------------------------------------
+| Random          | 5601    | 3534    | 865    | 56.01 | 61.31     |
+| Random+Knock27  | 7004    | 2571    | 425    | 70.04 | 73.15     |
+| DiscardIncrease | 1904    | 7835    | 261    | 19.04 | 19.55     |
+| CurrentTurnEV   | 1864    | 7857    | 279    | 18.64 | 19.17     |
+| ConservativeEV  | 1921    | 7803    | 276    | 19.21 | 19.76     |
+| Average         | 3658.80 | 5920.00 | 421.20 | 36.59 | 38.59     |
+--------------------------------------------------------------------
