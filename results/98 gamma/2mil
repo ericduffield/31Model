@@ -104,3 +104,6 @@ Action Distribution
 | CurrentTurnEV   | 9.31           | 62.65                | 28.04             |
 | ConservativeEV  | 9.48           | 62.31                | 28.21             |
 | Average         | 9.63           | 67.34                | 23.03             |
+
+
+python3 evaluate_dqn.py --model-path ".\checkpoints\di_2mil_gamma98_v3\dqn_best.pt" --games 10000 --seed 2
